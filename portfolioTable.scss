@@ -1,0 +1,159 @@
+@import "compass/css3";
+
+/* Prototype styles */
+
+$zebraColor: #eee;
+$statusGood: hsl(79,49,95);
+$statusMarginal: hsl(56,90,89);
+$statusAwful: hsl(0,100,90);
+$zebraAdjustment: -5;
+
+body {
+  background-image: url('http://dannocket.com/sandbox/satinweave.png');
+  font: .85em arial, sans-serif;
+  padding: 10px;
+}
+
+h2 {
+  color: rgb(51, 51, 51);
+  margin-bottom: 5px;
+  font-size: 2em;
+  cursor: pointer;
+}
+
+a {
+  color: #0882cb;
+  text-decoration: none;
+}
+.numbers a {
+  font-weight: bold;
+}
+
+table, td, th {
+  border: 1px solid #ccc;
+}
+
+table {
+  background-color: rgb(253, 253, 253);
+  box-shadow: 0 2px 2px #ccc;
+  width: 100%;
+}
+
+td, th {
+  padding: 10px 5px;
+}
+
+th {
+  cursor: pointer;
+}
+
+/*.header,.summary {
+  background-color: #aaa;
+  color: #fff;
+}
+
+td { text-align: right; }
+th, td:nth-child(1) { text-align: left; }
+.money, .percent { text-align: center; }
+
+tr:not(.header,.summary):nth-child(even) {
+  background-color: $zebraColor;
+}
+
+tr.summary, .percent {
+  font-weight: bold;
+}
+
+/* Statuses */
+.good {
+  background-color: $statusGood;
+}
+tr.good:nth-child(even) {
+  background-color: adjust-lightness($statusGood, $zebraAdjustment);
+}
+
+.marginal {
+  background-color: $statusMarginal;
+}
+tr.marginal:nth-child(even) {
+  background-color: adjust-lightness($statusMarginal, $zebraAdjustment);
+}
+
+.awful {
+  background-color: $statusAwful;
+}
+tr.awful:nth-child(even) {
+  background-color: adjust-lightness($statusAwful, $zebraAdjustment);
+}
+.awful-highlight {
+  color: #FF0000;
+}
+
+/* Details */
+.row-details {
+  display: none;
+  height: 200px;
+}
+
+.row-details td {
+  text-align: center;
+}
+
+.publisher14 {
+  cursor: pointer;
+}
+
+/* Sort table */
+.headerSortDown, .headerSortUp {
+  background-color: #ddd;
+}
+
+/* Icon fonts */
+@font-face {
+  font-family: 'fontello';
+  src: url("http://dannocket.com/sandbox/font/fontello.eot");
+  src: url("http://dannocket.com/sandbox/font/fontello.eot?#iefix") format('embedded-opentype'), url("http://dannocket.com/sandbox/font/fontello.woff") format('woff'), url("http://dannocket.com/sandbox/font/fontello.ttf") format('truetype'), url("http://dannocket.com/sandbox/font/fontello.svg#fontello") format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: 'fontello';
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: 0.2em;
+  text-align: center;
+  opacity: 0.8;
+/* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+/* Animation center compensation - magrins should be symmetric */
+/* remove if not needed */
+  margin-left: 0.2em;
+/* you can be more comfortable with increased icons size */
+/* font-size: 120%; */
+/* Uncomment for 3D effect */
+/* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.icon-plus:before { content: '\2b'; } /* '+' */
+.icon-minus:before { content: '\2d'; } /* '-' */
+.icon-star:before { content: '\2605'; } /* '★' */
+.icon-star-empty:before { content: '\2606'; } /* '☆' */
+.icon-heart-empty:before { content: '\2661'; } /* '♡' */
+.icon-heart:before { content: '\2665'; } /* '♥' */
+.icon-check:before { content: '\2713'; } /* '✓' */
+.icon-cancel:before { content: '\2715'; } /* '✕' */
+.icon-plus-circle:before { content: '\2795'; } /* '➕' */
+.icon-minus-circle:before { content: '\2796'; } /* '➖' */
+.icon-left-bold:before { content: '\e4ad'; } /* '' */
+.icon-right-bold:before { content: '\e4ae'; } /* '' */
+.icon-up-bold:before { content: '\e4af'; } /* '' */
+.icon-down-bold:before { content: '\e4b0'; } /* '' */
+.icon-arrow-combo:before { content: '\e74f'; } /* '' */
+
+/* jqPlot */
+.jqplot-target{position:relative;color:#666;font-family:"Trebuchet MS",Arial,Helvetica,sans-serif;font-size:1em;}.jqplot-axis{font-size:.75em;}.jqplot-xaxis{margin-top:10px;}.jqplot-x2axis{margin-bottom:10px;}.jqplot-yaxis{margin-right:10px;}.jqplot-y2axis,.jqplot-y3axis,.jqplot-y4axis,.jqplot-y5axis,.jqplot-y6axis,.jqplot-y7axis,.jqplot-y8axis,.jqplot-y9axis,.jqplot-yMidAxis{margin-left:10px;margin-right:10px;}.jqplot-axis-tick,.jqplot-xaxis-tick,.jqplot-yaxis-tick,.jqplot-x2axis-tick,.jqplot-y2axis-tick,.jqplot-y3axis-tick,.jqplot-y4axis-tick,.jqplot-y5axis-tick,.jqplot-y6axis-tick,.jqplot-y7axis-tick,.jqplot-y8axis-tick,.jqplot-y9axis-tick,.jqplot-yMidAxis-tick{position:absolute;white-space:pre;}.jqplot-xaxis-tick{top:0;left:15px;vertical-align:top;}.jqplot-x2axis-tick{bottom:0;left:15px;vertical-align:bottom;}.jqplot-yaxis-tick{right:0;top:15px;text-align:right;}.jqplot-yaxis-tick.jqplot-breakTick{right:-20px;margin-right:0;padding:1px 5px 1px 5px;z-index:2;font-size:1.5em;}.jqplot-y2axis-tick,.jqplot-y3axis-tick,.jqplot-y4axis-tick,.jqplot-y5axis-tick,.jqplot-y6axis-tick,.jqplot-y7axis-tick,.jqplot-y8axis-tick,.jqplot-y9axis-tick{left:0;top:15px;text-align:left;}.jqplot-yMidAxis-tick{text-align:center;white-space:nowrap;}.jqplot-xaxis-label{margin-top:10px;font-size:11pt;position:absolute;}.jqplot-x2axis-label{margin-bottom:10px;font-size:11pt;position:absolute;}.jqplot-yaxis-label{margin-right:10px;font-size:11pt;position:absolute;}.jqplot-yMidAxis-label{font-size:11pt;position:absolute;}.jqplot-y2axis-label,.jqplot-y3axis-label,.jqplot-y4axis-label,.jqplot-y5axis-label,.jqplot-y6axis-label,.jqplot-y7axis-label,.jqplot-y8axis-label,.jqplot-y9axis-label{font-size:11pt;margin-left:10px;position:absolute;}.jqplot-meterGauge-tick{font-size:.75em;color:#999;}.jqplot-meterGauge-label{font-size:1em;color:#999;}table.jqplot-table-legend{margin-top:12px;margin-bottom:12px;margin-left:12px;margin-right:12px;}table.jqplot-table-legend,table.jqplot-cursor-legend{background-color:rgba(255,255,255,0.6);border:1px solid #ccc;position:absolute;font-size:.75em;}td.jqplot-table-legend{vertical-align:middle;}td.jqplot-seriesToggle:hover,td.jqplot-seriesToggle:active{cursor:pointer;}.jqplot-table-legend .jqplot-series-hidden{text-decoration:line-through;}div.jqplot-table-legend-swatch-outline{border:1px solid #ccc;padding:1px;}div.jqplot-table-legend-swatch{width:0;height:0;border-top-width:5px;border-bottom-width:5px;border-left-width:6px;border-right-width:6px;border-top-style:solid;border-bottom-style:solid;border-left-style:solid;border-right-style:solid;}.jqplot-title{top:0;left:0;padding-bottom:.5em;font-size:1.2em;}table.jqplot-cursor-tooltip{border:1px solid #ccc;font-size:.75em;}.jqplot-cursor-tooltip{border:1px solid #ccc;font-size:.75em;white-space:nowrap;background:rgba(208,208,208,0.5);padding:1px;}.jqplot-highlighter-tooltip,.jqplot-canvasOverlay-tooltip{border:1px solid #ccc;font-size:.75em;white-space:nowrap;background:rgba(208,208,208,0.5);padding:1px;}.jqplot-point-label{font-size:.75em;z-index:2;}td.jqplot-cursor-legend-swatch{vertical-align:middle;text-align:center;}div.jqplot-cursor-legend-swatch{width:1.2em;height:.7em;}.jqplot-error{text-align:center;}.jqplot-error-message{position:relative;top:46%;display:inline-block;}div.jqplot-bubble-label{font-size:.8em;padding-left:2px;padding-right:2px;color:rgb(20%,20%,20%);}div.jqplot-bubble-label.jqplot-bubble-label-highlight{background:rgba(90%,90%,90%,0.7);}div.jqplot-noData-container{text-align:center;background-color:rgba(96%,96%,96%,0.3);}
