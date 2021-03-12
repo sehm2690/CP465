@@ -4,6 +4,8 @@
 ?>
 
     <main>
+    <link rel="stylesheet" href="style.css">
+
 
     <div class="container text-center">
             <div class="row">

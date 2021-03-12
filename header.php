@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Stock Simulator</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
 </head>
 <body data-spy="scroll" data-target="#navbarResponsive">
     <header>
@@ -23,10 +22,10 @@
                               <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
                             </li>
                            <li class="nav-item">
-                                <a class="nav-link" href="portfolio.php">My Portfolio</a>
+                                <a class="nav-link" href="portfolioTable.php">My Portfolio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Watchlists</a>
+                                <a class="nav-link" href="watchlist.php">Watchlists</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">News</a>
