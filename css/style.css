@@ -110,6 +110,7 @@ html, body{
   .container .col-md-7 h6{
       padding: 1vmin;
       letter-spacing: 4px;
+      color: rgb(255, 255, 255);
   }
 
   .container .col-md-7 h1{
@@ -127,12 +128,14 @@ html, body{
       font-weight: bold;
   }
 
+  
+
   .col-12 h2{
     padding-top: 2vmin;
   }
 
   footer{
-    background-color: #5A3300;
+    background-color: rgb(151, 151, 151);
     color: white;
   }
 

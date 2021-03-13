@@ -21,9 +21,10 @@ include_once'header.php'
       color: white;
     }
     </style>
+    <!-- <link rel="stylesheet" href="style.css"> -->
 
-
-<link rel='stylesheet' href='portfolioTable.scss' />
+<link rel='stylesheet' href='css/portfolioTable.scss' />
+<link rel='stylesheet' href='css/style.css' />
 
 
 <h2>My Portfolio <i class="icon-minus"></i></h2>
@@ -225,7 +226,7 @@ include_once'header.php'
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://dannocket.com/sandbox/IvtpK.js"></script>
-<script src="portfolioTable.js"></script>
+<script src="js/portfolioTable.js"></script>
   </main>
 <?php
     include_once'footer.php'
