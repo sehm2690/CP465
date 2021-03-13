@@ -3,7 +3,7 @@
     include_once'header.php'
 ?>
     <main>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="css/style.css">
 
         <!-- Middle portion of webpage -->
         <div class="container text-center">
