@@ -21,7 +21,7 @@ include_once'header.php'
       color: white;
     }
     </style>
-
+    <!-- <link rel="stylesheet" href="style.css"> -->
 
 <link rel='stylesheet' href='portfolioTable.scss' />
 
