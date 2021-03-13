@@ -7,7 +7,10 @@
         <!-- Middle portion of webpage -->
         <div class="container text-center">
             <div class="row">
+            
+
                 <table border=1 id="stock-portfolio-table" class="table1 bdr1">
+        
                     <thead>
                         <tr>
                             <th colspan="2" class="header"></th>
