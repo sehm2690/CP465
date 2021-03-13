@@ -64,19 +64,24 @@ html, body{
       color: #00aced;
       height: 50px;
       width: 50px;
-      visibility: 0;
   }
 
   .fa-google-plus-g{
-    color: #ff1e00;
+      color: #ff1e00;
+      height: 50px;
+      width: 50px;
   }
 
   .fa-reddit{
       color: #FF4301;
+      height: 50px;
+      width: 50px;
   }
 
   .fa-instagram{
-    color: #ff0090;
+      color: #ff0090;
+      height: 50px;
+      width: 50px;
   }
 
   .fa-twitter:hover{
