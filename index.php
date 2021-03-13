@@ -4,12 +4,12 @@
 ?>
 
     <main>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <!-- <div style="background-image: url('stock_back.jpg');"> -->
     <style>
     body {
-      background-image: url('stock_back.jpg');
+      background-image: url('img/stock_back.jpg');
       background-repeat: no-repeat;
       background-attachment: fixed;
       background-size: cover;

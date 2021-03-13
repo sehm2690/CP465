@@ -4,8 +4,10 @@
 
 <main>
 <link rel='stylesheet' href='watchlist.scss' /> 
+<link rel='stylesheet' href='css/style.css' />
+
 <head>
-<!-- 
+
 <script src=
 ;(function($) { 
         $.fn.fixMe = function() {
@@ -47,7 +49,7 @@
         }, 2000);
     });
     });
-></script> -->
+></script>
 
  
 </head>
@@ -283,12 +285,10 @@
 </table>
 <!-- <h1 class="up scrollMore">&uarr; UP &uarr;</h1> -->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<!-- <script src="js/watchlist.js"></script> -->
        
 </main>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="watchlist.js"></script>
 
 <?php
     include_once'footer.php'
