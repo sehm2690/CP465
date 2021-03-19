@@ -11,8 +11,6 @@
     //$sql = "Insert into users(Username,Password) values ('$suName', '$sPassword');";
     $sql = "Select * from users where username = '$suName';";
 
-     
-
     //database information
     $servername = "localhost";
     $username = "root";
@@ -29,12 +27,12 @@
     if (strcmp($row[1], $sPassword) === 0) {
 
         echo"<script>loginAccess()</script>";
-        // header("Location: http://localhost/CP465/index.php");
-        // exit();
+        //echo'<a href=index.php></a>';
+        //header("Location: http://localhost/CP465/index.php");
+        //exit();
 
-        
     } else {
-    echo "Error conferming ID: " . $conn->error;
+    echo "Error confirming ID: " . $conn->error;
     }
     $conn->close();
 ?>
