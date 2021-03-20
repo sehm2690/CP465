@@ -1,0 +1,46 @@
+{
+    database
+    tables
+        users
+            userid 
+            password 
+            first name
+            last name 
+            email
+        
+        portfolio 
+            userid
+            see website
+        watchlist
+            userid
+            see website
+            
+        wallet
+            userid
+            total amount //i.e $1000
+            current amount //i.e $10
+
+
+
+To do list
+        1. login and create account (Wilson)
+
+        2. portfolio (R/P/L)
+
+        3. watchlist (R/P/L)
+
+        - clean up
+
+        4. news (Wilson )
+
+        5. beautify
+
+
+Monday - 3PM
+Wednesday - VARIES
+Friday - 3PM
+
+
+DUE APRIL 12TH 
+    3 Weeks
+}
