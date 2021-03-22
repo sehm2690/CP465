@@ -227,6 +227,7 @@ include_once'header.php'
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://dannocket.com/sandbox/IvtpK.js"></script>
 <script src="js/portfolioTable.js"></script>
+<script src="js/parseJson.js"></script>
   </main>
 <?php
     include_once'footer.php'
