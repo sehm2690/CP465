@@ -3,7 +3,7 @@
 ?>
 
 <main>
-<link rel='stylesheet' href='watchlist.scss' /> 
+<link rel='stylesheet' href='css/watchlist.scss' /> 
 <link rel='stylesheet' href='css/style.css' />
 
 <head>
@@ -286,7 +286,7 @@
 <!-- <h1 class="up scrollMore">&uarr; UP &uarr;</h1> -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<!-- <script src="js/watchlist.js"></script> -->
+<script src="js/watchlist.js"></script>
        
 </main>
 
