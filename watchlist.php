@@ -54,7 +54,13 @@
  
 </head>
 
-    
+
+<form id="form"> 
+  <input type="search" id="query" name="q" placeholder="Search...">
+  <button>Add</button>
+</form>
+
+
 <!-- <h1>&darr; SCROLL &darr;</h1> -->
 <table class="blue">
   <thead>

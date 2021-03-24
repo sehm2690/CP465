@@ -1,3 +1,8 @@
+<?php
+    session_start();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +11,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Stock Simulator</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+
 </head>
 <body data-spy="scroll" data-target="#navbarResponsive">
     <header>
@@ -30,6 +38,37 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#">News</a>
                             </li>
+                            <li class = "nav-item dropdown">
+
+                            <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Sign In
+                            </a>
+                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="logout.inc.php">""Sign Out</a>
+                            </div>
+                                <a class="nav-link"> -->
+                            <!--if user is logged in, it will have the following other  -->
+                            <!-- <div class="nav-link dropdown-toggle"> -->
+                            <button class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Dropdown
+                            </button>
+                            <!-- <button class="nav-link dropdown-toggle">Dropdown</button> -->
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Sign Out</a>
+                                <a class="dropdown-item" href="#">Link 2</a>
+                                <a class="dropdown-item" href="#">Link 3</a>
+                            </div>
+                                <?php
+                                    if(isset($_SESSION["email"])) {
+                                        echo " <a href = 'include/logout.inc.php'> Log out </a> ";
+                                        $x = $_SESSION["email"];
+                                        echo $x;
+                                    }
+        
+                                ?>
+                            </li>
+
+                            
                         </ul>
                         <form class="form-inline my-2 my-lg-0">
                             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
