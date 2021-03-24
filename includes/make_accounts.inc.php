@@ -3,33 +3,39 @@
     if(isset($_POST["submit"])){
         $Firstname = $_POST["Fname"];
         $Lastname = $_POST["Lname"];
-        $pmail = $_POST["email"];
-        $password = $_POST["pwd"];
+        $email = $_POST["email"];
+        $password = $_POST["pas"];
         $passwordRepeat = $_POST["pwdrepeat"];
+        // echo "Fname : $Firstname";
+        // echo "Lname : $Lastname";
+        // echo "email : $email";
+        echo "password  : $password";
+        echo "passwordRepeat: $passwordRepeat";
+
 
         require_once 'connection.php';
         require_once 'functions.inc.php';
 
-        if (emptyInputSignup($Firstname,$Lastname,$email,$password, $passwordRepeat) !== False){
-            header("location: ../creatacc.php?error=emptyinput");
-            exit();
 
+        //if there is empty --> TRUE else pass onto other test
+       if (emptyInputSignup($Firstname,$Lastname,$email, $password, $passwordRepeat) != false){
+           //header("location: ../creatacc.php?error=emptyinput");
+           exit();
         }
-
         //invalid email
-        if (invalidEmail($email) !== False){
-            header("location: ../creatacc.php?error=invalidemail");
-            exit();
+        // if (invalidEmail($email) == false){
+        //     header("location: ../creatacc.php?error=invalidemail");
+        //     exit();
 
-        }
+        // }
         //pwdMatch
-        if (pwdMatch($password,$passwordRepeat) !== False){
-            header("location: ../creatacc.php?error=pwdError");
+        if (pwdMatch($password, $passwordRepeat) != false){
+            //header("location: ../creatacc.php?error=pwdError");
             exit();
 
         }
         //userin database
-        // if (invalidUid($conn, $email) !== False){
+        // if (emailExists($conn, $email) !== false){
         //     header("location: ../creatacc.php?error=takenUser");
         //     exit();
         // } 
@@ -38,9 +44,7 @@
 
 
 
-    }
-    else {
-        header("location: ../login.html");
+
     }
 
    
