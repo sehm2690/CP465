@@ -101,19 +101,15 @@
     function loginUser ($conn, $email, $pwd){
         $emailExists = emailExists($conn,$email);
         if ($emailExists == false){
-            header("location: ../login.php?error=wronglogin1");
+            header("location: ../login.php?error=wronglogin");
         }
         //checks password against  user types in  password (can use this function cause its assoc. array) 
         $pwdHashed = $emailExists["password"];
-        $hash = password_hash($pwd,PASSWORD_DEFAULT );
-
         $checkPwd = password_verify($pwd,$pwdHashed);
-        var_dump($pwdHashed);
-        var_dump($hash);
 
         if($checkPwd == false){          
 
-            //header("location: ../login.php?error=wronglogin2");
+            header("location: ../login.php?error=wronglogin");
 
             exit();
         }
@@ -121,8 +117,11 @@
             session_start();
             //make users info Accessible
             $_SESSION["email"] = $emailExists["email"];
+            $_SESSION["fname"] = $emailExists["firstname"];
+            
             $_SESSION["UserID"] = $emailExists["UID"];
             $_SESSION["cash"] = $emailExists["cash"];
+
             header("location: .. /index.php");
         }
     }

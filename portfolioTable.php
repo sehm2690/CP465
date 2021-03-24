@@ -9,6 +9,7 @@ include_once'header.php'
       width: 100%;
     }
 
+  
     th, td {
       text-align: left;
       padding: 8px;
