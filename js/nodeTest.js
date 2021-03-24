@@ -1,8 +1,6 @@
-
 ////////////////////////////////////////
 ////PRICE INFORAMTION CODE?
 
-function  lookupOneTicker(ticket){
 
 	const http = require("https");
 
@@ -10,7 +8,7 @@ function  lookupOneTicker(ticket){
 		"method": "GET",
 		"hostname": "apidojo-yahoo-finance-v1.p.rapidapi.com",
 		"port": null,
-		"path": "/market/v2/get-quotes?region=US&symbols=",ticket,
+		"path": "/market/v2/get-quotes?region=US&symbols=SFDSDFDS",
 		"headers": {
 			"x-rapidapi-key": "1351fd3e73mshf9c79221e8acff1p127f35jsn6272bcbd7b09",
 			"x-rapidapi-host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
@@ -27,33 +25,13 @@ function  lookupOneTicker(ticket){
 
 		res.on("end", function () {
 			const body = Buffer.concat(chunks);
-			
 			console.log(body.toString());
 		});
 	});
+
+    console.log("AMD")
+
 	req.end();
-	
- 	var return_val = {"ticker": "","name": ""}
-
-	try {
-		const stockInfo = JSON.parse(body)
-
-		if (stockInfo.quoteResponse.result.length == 0){
-			return null;
-		}
-
-		return_val["ticker"] = stockInfo.quoteResponse.result[0].symbol
-		return_val["name"] = stockInfo.quoteResponse.result[0].longName
-		
-		return_val
-
-	} catch(err) {
-		console.log('Error parsing JSON string:', err);
-
-	}
-	
-}
-
 
 // const http = require("https");
 
