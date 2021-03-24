@@ -1,9 +1,9 @@
 <?php
     
     
-    function emptyInputSignup($Firstname,$Lastname,$email,$password, $passwordRepeat){
+    function emptyInputSignup($Firstname,$Lastname,$email,$password1, $passwordRepeat){
         $result;
-        if ( empty($Firstname)|| empty($Lastname) || empty($email)|| empty($password)|| empty($passwordRepeat)) {
+        if ( empty($Firstname)|| empty($Lastname) || empty($email)|| empty($password1)|| empty($passwordRepeat)) {
             $result = true;
 
         } else {
@@ -22,9 +22,9 @@
         return $result;
     }
     
-    function pwdMatch($password,$passwordRepeat){
+    function pwdMatch($password1,$passwordRepeat){
         $result;
-        if ($password !== $passwordRepeat){
+        if ($password1 !== $passwordRepeat){
             $result = true;
         } else {
             $result = false;
@@ -45,7 +45,7 @@
     // }
 
 
-    function uIDexists($conn, $email){
+    function emailExists($conn, $email){
         $sql = "SELECT * FROM users WHERE email = ?;";
         $stmt = mysqli_stmt_init($conn);
 
@@ -54,7 +54,7 @@
             exit();
 
         }
-        mysqli_stmt_bind_param($stmt,"s","$email");
+        mysqli_stmt_bind_param($stmt,"s",$email);
         mysqli_stmt_execute($stmt);
 
         $resultData = mysqli_stmt_get_result($stmt);
@@ -70,7 +70,7 @@
     }
 
     //creating the user
-    function createUser($conn,$Firstname,$Lastname,$email,$password){
+    function createUser($conn,$Firstname,$Lastname,$email,$password1){
         $sql = "INSERT INTO users (firstname,lastname,email,password) VALUES (?,?,?,?);";
         $stmt = mysqli_stmt_init($conn);
 
@@ -80,11 +80,49 @@
 
         }
 
-        $hashedPwd = password_hash($password,PASSWORD_DEFAULT);
+        $hashedPwd = password_hash($password1,PASSWORD_DEFAULT);
         mysqli_stmt_bind_param($stmt,"ssss",$Firstname,$Lastname,$email,$hashedPwd);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
-        header("location: ../signup.php?error=none");
+        header("location: ../createacc.php?error=none");
         exit();
 
+    }
+    function emptyInputLogin($email,$pwd){
+        $result;
+        if ( empty($email)|| empty($pwd)) {
+            $result = true;
+
+        } else {
+            $result = false; 
+        }
+        return $result;
+    }
+    function loginUser ($conn, $email, $pwd){
+        $emailExists = emailExists($conn,$email);
+        if ($emailExists == false){
+            header("location: ../login.php?error=wronglogin1");
+        }
+        //checks password against  user types in  password (can use this function cause its assoc. array) 
+        $pwdHashed = $emailExists["password"];
+        $hash = password_hash($pwd,PASSWORD_DEFAULT );
+
+        $checkPwd = password_verify($pwd,$pwdHashed);
+        var_dump($pwdHashed);
+        var_dump($hash);
+
+        if($checkPwd == false){          
+
+            //header("location: ../login.php?error=wronglogin2");
+
+            exit();
+        }
+        else if ($checkPwd == true){
+            session_start();
+            //make users info Accessible
+            $_SESSION["email"] = $emailExists["email"];
+            $_SESSION["UserID"] = $emailExists["UID"];
+            $_SESSION["cash"] = $emailExists["cash"];
+            header("location: .. /index.php");
+        }
     }

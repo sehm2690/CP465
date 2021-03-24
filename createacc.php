@@ -51,12 +51,36 @@
             <!--<button id="btn-login" onclick = "createacc()">Create Account</button><br><br> -->
         
         <input type="submit" name = "submit" value="Create Account" >
+        
 
         </form>
+        <?php 
+        if (isset($_GET["error"])) {
+            if($_GET["error"] == "emptyinput"){
+                echo "<p> Please fill in all fields! </p>";
+            }
+            else if($_GET["error"] == "invalidemail"){
+                echo "<p> Please enter a valid email </p>";
+            }
+            elseif($_GET["error"] == "pwdError"){
+                echo "<p> Password does not match! </p>";
+            }
+            else if($_GET["error"] == "usertaken"){
+                echo "<p> The email has been taken, please enter a new email </p>";
+            }
+            else if($_GET["error"] == "none"){
+                echo "<p> Successful Sign-up </p>";
+                header("Location: http://localhost/cp476/cp465/login.php");
+            }
+        }
+        ?>
+       
         <div id="divStatus"> </div>
+        
         
        
     </div>
+    
     </div>
 
     <!-- <script src="auth.js"></script>

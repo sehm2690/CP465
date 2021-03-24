@@ -9,47 +9,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style-2.css">
 
-    <script>
-        function sendRequest() {
-            var oForm = document.forms[0];
-            var sBody = getRequestBody(oForm);
-            var xhttp = new XMLHttpRequest();
-            xhttp.open("post", oForm.action, true);
-            xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhttp.onreadystatechange = function () {
-                if (xhttp.readyState == 4) {
-                    if (xhttp.status == 200) {
-                        saveResult(xhttp.responseText);
-                    } else {
-                        saveResult("An error occurred: " + xhttp.statusText);
-                    }
-                }
-            };
-        xhttp.send(sBody);
-        }
-
-        function getRequestBody(oForm) {
-            var aParams = new Array();
-            for (var i = 0; i < oForm.elements.length; i++) {
-                var sParam = encodeURIComponent(oForm.elements[i].name);
-                sParam += "=";
-                sParam += encodeURIComponent(oForm.elements[i].value);
-                aParams.push(sParam);
-            }
-            return aParams.join("&");
-        }
-
-        function saveResult(sMessage) {
-            var divStatus = document.getElementById("divStatus");
-            divStatus.innerHTML = "Request completed: " + sMessage;
-        }
-        function loginAccess(){
-        window.location.href = "http://localhost/CP465/index.php";
-        }
-
-
-
-    </script>
     
 </head>
 <body data-spy="scroll" data-target="#navbarSupportedContent">
@@ -73,21 +32,20 @@
     </header>
     <div class="loginbox">
     <div class="form">
-        <form method="post" action="includes/login.inc.php" onsubmit="sendRequest(); return false">
-        <script>var login = false;</script>
+    <form method="post" action="includes/login.inc.php" >
         
         <!-- <img src="avatar.png" class="avatar"> -->
         <h1>Login</h1>
             
-            <p>Username:</p>
-            <input  type="text" name = "uName" placeholder="Enter Username">
+            <p>Email:</p>
+            <input  type="text" name = "email" placeholder="Enter Email">
             
             
             <p>Password:</p>
             <input type="password" name = "pw" placeholder="Enter Password">
             
            
-        <input type="submit" value="Login" >
+            <input type="submit" name = "submit" value="Login" >
 
         
 
@@ -96,7 +54,18 @@
 
         
         </form>
-        <button onclick="window.location.href='createacc.html'">Create Account</button>
+        <?php 
+        if (isset($_GET["error"])) {
+            if($_GET["error"] == "emptyinput"){
+                echo "<p> Please fill in all fields! </p>";
+            }
+           
+            else if($_GET["error"] == "wronglogin"){
+                echo "<p> Incorrect login information </p>";
+            }
+        }
+        ?>
+        <button onclick="window.location.href='createacc.php'">Create Account</button>
         <div id="divStatus"> </div> 
         
        

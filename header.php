@@ -1,3 +1,8 @@
+<?php
+    session_start();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +35,16 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#">News</a>
                             </li>
+                            <?php
+                                $x = $_SESSION["email"];
+                                if(isset($_SESSION["email"])){
+                                    echo "<p> login is working </p>";
+                                    echo "<p> $x </p>";
+                                }
+                                else{
+                                    echo "<p> login is not working </p>";
+                                }
+                                ?>
                             
                         </ul>
                         <form class="form-inline my-2 my-lg-0">
