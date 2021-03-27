@@ -58,7 +58,7 @@
                                     echo "$uname";
                                     echo "</a>";
                                     echo "<div class='dropdown-menu' aria-labelledby='navbarDropdown'>";
-                                    echo "<a class='dropdown-item' href='profile.php'>Profile</a>";
+                                    echo "<a class='dropdown-item' href='profilePage.php'>Profile</a>";
                                     echo "<a class='dropdown-item' href='includes/logout.inc.php'>Sign Out</a>";
                                     echo "</div>";
                                     echo "</li>";

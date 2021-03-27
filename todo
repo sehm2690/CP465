@@ -37,6 +37,8 @@ To do list
 
 later FLEX:
     more watch list 
+    Watchlist vardump unknown tickers 
+    colour code %change and change
 
 
 Monday - 3PM
@@ -47,6 +49,11 @@ Friday - 3PM
 DUE APRIL 12TH 
     3 Weeks
 
+
+ALTER TABLE watchlist
+ADD price FLOAT
+ADD change FLOAT
+ADD percent_change FLOAT
 
 
 CREATE DATABASE stonkstrader;

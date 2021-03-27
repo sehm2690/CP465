@@ -1,6 +1,6 @@
 
 <?php
-include_once'header.php'
+  include_once'header.php';
 ?>
 <main >
     <style>
@@ -28,6 +28,47 @@ include_once'header.php'
 <link rel='stylesheet' href='css/style.css' />
 
 
+<form method="post" action="includes/portfolioTable.inc.php"> 
+  <label for="watchlistTables">Select an option:</label>
+
+  <select name="buySell" id="buySell">
+        <option value="0">Buy</option> 
+        <option value="1">Sell</option>
+  </select>
+
+  <input type="search" id="query" name="query" placeholder="Ticker Symbol...">
+
+  <!-- <input type="search" id="quantity" name="quantity" placeholder="Quantity... "> -->
+  <input name="quantity" id=quantity placeholder="Quantity" type=number min=1 max=100000>
+  <script>
+   function increment() {
+      document.getElementById('quantity').stepUp();
+   }
+   function decrement() {
+      document.getElementById('quantity').stepDown();
+   }
+  </script>
+  <p id="test" name = "demo"></p>
+  <script src='js/confirmPurchase.js'></script>
+  <input type="submit" name = "submit" value="Submit" >
+
+  <!-- <p style = "visibility: hidden;" id="test" name = "demo">hello</p> -->
+
+
+
+
+<!-- 
+  <p>THE STOCK PRICE X(*) QTY = TOTAL PRICE</p>
+  <button>YES</button>
+  <button>NO</button> -->
+  
+</form>
+
+<?php
+  $cash =  $_SESSION["cash"];
+  echo "<h4>Current Cash: $$cash</h4>";
+?>
+
 <h2>My Portfolio <i class="icon-minus"></i></h2>
 <table class="numbers table2">
   <thead>
@@ -35,13 +76,12 @@ include_once'header.php'
     <th class="txt header">Symbol</th>
     <th class="txt header">Description</th>
     <th class="num header">Qty</th>
-    <th class="num header">Purchase Price</th>
+    <th class="num header">Avrage Price</th>
     <th class="num header">Current Price</th>
     <th class="num header">Total Value</th>
     <th class="num header">Today's Change</th>
     <th class="num header">Total Gain/Loss</th>
     <th class="num header">Percent % </th>
-
   </tr>
   </thead>
   <tbody>
@@ -231,5 +271,5 @@ include_once'header.php'
 <script src="js/parseJson.js"></script>
   </main>
 <?php
-    include_once'footer.php'
+    include_once'footer.php';
 ?>

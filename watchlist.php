@@ -14,12 +14,23 @@
   <label for="watchlistTables">Choose a Watchlist:</label>
 
   <select name="watchlists" id="watchlists">
-        <option value="blue">First Watchlist</option> 
-        <option value="purple">Second Watchlist</option>      
+        <option value="0">First Watchlist</option> 
+        <option value="1">Second Watchlist</option>      
   </select>
 
   <input type="search" id="query" name="query" placeholder="Search Symbol...">
   <input type="submit" name = "submit" value="Add" >
+</form>
+
+<?php
+  if(array_key_exists('updateBtn',$_POST)){
+    updateDatabase($conn, $_SESSION["UserID"]);
+  }
+?>
+
+
+<form method = "post">
+  <input type="submit"  name= "updateBtn" class = "button" value = "Get Current Price"/>
 </form>
 
 
@@ -28,127 +39,46 @@
   <thead>
     <tr>
       
+      <th>Stock Ticker</th>
       <th>Stock Name</th>
-      <th>Last Price</th>
-      <th>Change</th>
-      <th>% Change</th>
+      <th>Current Price</th>
+      <th>Price Change</th>
+      <th>Percent Change </th>
+
+      <!-- <th>% Change</th> -->
 
     </tr>
   </thead>
   <tbody>
+  <?php 
+    $watchlistData = getFromDatabase($conn, $_SESSION['UserID']);
+    // var_dump($watchlistData);
+    for ($i=0; $i <count($watchlistData) ; $i++) {
+      $symbol = $watchlistData[$i]["symbol"];
+      $name = $watchlistData[$i]["name"];
+      $price = $watchlistData[$i]["price"];
+      $change = $watchlistData[$i]["price_change"];
+      $perChange = $watchlistData[$i]["percent_change"];
+
+      
+      echo"<tr>";
+        echo"<td>$symbol</td>";
+        echo"<td>$name</td>";
+        echo"<td>$ $price</td>";
+        echo"<td>$ $change</td>";
+        echo"<td>$perChange%</td>";
+      echo"</tr>";
+
+    }
+
+
+?>
    
-<!--     <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
 
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr> -->
     
   </tbody>
 </table>
-<?php 
- 
-  getFromDatabase($conn, $_SESSION['UserID']);
 
-  ?>
 
 <!-- <h1 class="scrollMore">&darr; SCROLL MORE &darr;</h1> -->
 <table class="purple">
