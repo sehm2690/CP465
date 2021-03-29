@@ -40,17 +40,22 @@
 
   <!-- <input type="search" id="quantity" name="quantity" placeholder="Quantity... "> -->
   <input name="quantity" id=quantity placeholder="Quantity" type=number min=1 max=100000>
+  
+  
+ 
   <script>
-   function increment() {
+    function increment() {
       document.getElementById('quantity').stepUp();
-   }
-   function decrement() {
+    }
+    function decrement() {
       document.getElementById('quantity').stepDown();
-   }
+    }
   </script>
-  <p id="test" name = "demo"></p>
+  <!-- <p id="test" name = "test"></p> -->
   <script src='js/confirmPurchase.js'></script>
-  <input type="submit" name = "submit" value="Submit" >
+  <input type="submit" name = "submit" value="Submit">
+
+  <!-- <input type="submit" name = "submit" value="Submit" onclick="purchasePopup1()"> -->
 
   <!-- <p style = "visibility: hidden;" id="test" name = "demo">hello</p> -->
 

@@ -14,19 +14,11 @@
 
         
 
-        //$price = calculateCurrentPrice($query, $qty);
-        echo "<script src='js/confirmPurchase.js'></script>";
-        echo "<scripttype='text/javascript'>purchasePopup()</script>";
-    //     echo '<script >',
-    //     'purchasePopup();',
-    //     '</script>'
-    // ;
-        //$connf = $_POST["demo"];
-        //var_dump($connf);
+        $price = calculateCurrentPrice($query, $qty);
+      
         $UID = $_SESSION["UserID"];
     
-        //addtoDatabase($conn,$UID,$watchlist,$toADD["symbol"],$toADD["name"], NULL,$toADD["price"],$toADD["price_change"], $toADD["percent_change"]);
-
+        addToPortfolio($conn,$UID,$watchlist,$toADD["symbol"],$toADD["name"], NULL,$toADD["price"],$toADD["price_change"], $toADD["percent_change"]);
 
         echo"<p>IN the IF </p>";
         //header('location: ../portfolioTable.php');
