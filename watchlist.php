@@ -1,178 +1,84 @@
 <?php
-    include_once'header.php'
+    include_once 'header.php';
+    include_once 'includes/api.inc.php';
+    include_once 'includes/connection.php';
+    //session_start();
 ?>
 
 <main>
 <link rel='stylesheet' href='css/watchlist.scss' /> 
 <link rel='stylesheet' href='css/style.css' />
 
-<head>
-<!-- 
-<script src=
-;(function($) { 
-        $.fn.fixMe = function() {
-        return this.each(function() {
-            var $this = $(this),
-                $t_fixed;
-            function init() {
-                $this.wrap('<div class="container" />');
-                $t_fixed = $this.clone();
-                $t_fixed.find("tbody").remove().end().addClass("fixed").insertBefore($this);
-                resizeFixed();
-            }
-            function resizeFixed() {
-                $t_fixed.find("th").each(function(index) {
-                    $(this).css("width",$this.find("th").eq(index).outerWidth()+"px");
-                });
-            }
-            function scrollFixed() {
-                var offset = $(this).scrollTop(),
-                tableOffsetTop = $this.offset().top,
-                tableOffsetBottom = tableOffsetTop + $this.height() - $this.find("thead").height();
-                if(offset < tableOffsetTop || offset > tableOffsetBottom)
-                    $t_fixed.hide();
-                else if(offset >= tableOffsetTop && offset <= tableOffsetBottom && $t_fixed.is(":hidden"))
-                    $t_fixed.show();
-            }
-            $(window).resize(resizeFixed);
-            $(window).scroll(scrollFixed);
-            init();
-        });
-        };
-    })(jQuery);
-    
-    $(document).ready(function(){
-        $("table").fixMe();
-        $(".up").click(function() {
-        $('html, body').animate({
-        scrollTop: 0
-        }, 2000);
-    });
-    });
-></script> -->
 
- 
-</head>
+<form method="post" action="includes/watchlist.inc.php"> 
+  <label for="watchlistTables">Choose a Watchlist:</label>
 
-    
+  <select name="watchlists" id="watchlists">
+        <option value="0">First Watchlist</option> 
+        <option value="1">Second Watchlist</option>      
+  </select>
+
+  <input type="search" id="query" name="query" placeholder="Search Symbol...">
+  <input type="submit" name = "submit" value="Add" >
+</form>
+
+<?php
+  if(array_key_exists('updateBtn',$_POST)){
+    updateDatabase($conn, $_SESSION["UserID"]);
+  }
+?>
+
+
+<form method = "post">
+  <input type="submit"  name= "updateBtn" class = "button" value = "Get Current Price"/>
+</form>
+
+
 <!-- <h1>&darr; SCROLL &darr;</h1> -->
 <table class="blue">
   <thead>
     <tr>
+      
+      <th>Stock Ticker</th>
       <th>Stock Name</th>
-      <th>Last Price</th>
-      <th>Change</th>
-      <th>% Change</th>
+      <th>Current Price</th>
+      <th>Price Change</th>
+      <th>Percent Change </th>
+
+      <!-- <th>% Change</th> -->
+
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
+  <?php 
+    $watchlistData = getFromDatabase($conn, $_SESSION['UserID']);
+    // var_dump($watchlistData);
+    for ($i=0; $i <count($watchlistData) ; $i++) {
+      $symbol = $watchlistData[$i]["symbol"];
+      $name = $watchlistData[$i]["name"];
+      $price = $watchlistData[$i]["price"];
+      $change = $watchlistData[$i]["price_change"];
+      $perChange = $watchlistData[$i]["percent_change"];
 
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
+      
+      echo"<tr>";
+        echo"<td>$symbol</td>";
+        echo"<td>$name</td>";
+        echo"<td>$ $price</td>";
+        echo"<td>$ $change</td>";
+        echo"<td>$perChange%</td>";
+      echo"</tr>";
 
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
+    }
+
+
+?>
+   
+
     
   </tbody>
 </table>
+
 
 <!-- <h1 class="scrollMore">&darr; SCROLL MORE &darr;</h1> -->
 <table class="purple">
