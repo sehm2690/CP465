@@ -162,8 +162,87 @@ function apiCallfn($tickers){
 
 function calculateCurrentPrice($ticker, $qty){
     $apiReturn = oneTicker($ticker);
-    $price = ["price"=>$apiReturn["price"],"total"=>($qty * $price)];
+    $price = ["symbol"=> $apiReturn["symbol"],"name"=>$apiReturn["name"]   ,"price"=>$apiReturn["price"],"total"=>($qty * $price)];
     return $price;
+}
+
+
+
+function isInPortfolio($conn, $UID, $symbol){
+
+    $sql = "SELECT * FROM portfolio WHERE UID = $UID AND symbol = $symbol";
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt,$sql)){
+        header("location: ../createacc.php?error=stmtfailed");
+        exit();
+
+    }
+    mysqli_stmt_bind_param($stmt,"s",$email);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    
+    if ( $row = mysqli_fetch_assoc($resultData)){
+        return $row;
+
+    } else {
+        $result = false;
+        return $result;
+    }
+    mysqli_stmt_close($stmt);
+
+    
+}
+
+
+
+
+function addToPortfolio1($conn,$UID,$buySell,$symbol,$name,$qty, $price,$cur_price, $total){
+    $sql = "INSERT INTO portfolio (UID, symbol, name, qty_avg_price, current_price, total_val, todays_gain,total_gain) VALUES (?,?,?,?,?,?,?,?);";
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt,$sql)){
+        header("location: ../createacc.php?error=stmtfailed");
+        exit();
+    }
+    //WID	UID	type	symbol	name	description	price	price_change	percent_change
+    mysqli_stmt_bind_param($stmt,"ssssssss",$UID,$buySell,$symbol,$name,$qty, $price,$cur_price, $total);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    //echo "works";
+    //exit();
+    return "";
+
+}
+function updatePortfolio($conn, $sql){
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+        echo "error";
+        return False;
+    } 
+    else{
+        $conn->query($sql);
+        return True;
+    }
+}
+
+
+function addToTransac($conn, $UID, $transact, $symbol, $qty, $amount){
+    "INSERT INTO portfolio (UID, transact, symbol, qty, amount) VALUES (?,?,?,?,?);";
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt,$sql)){
+        header("location: ../createacc.php?error=stmtfailed");
+        exit();
+    }
+    //WID	UID	type	symbol	name	description	price	price_change	percent_change
+    mysqli_stmt_bind_param($stmt,"ssssssss",$UID,$buySell,$symbol,$name,$qty, $price,$cur_price, $total);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    //echo "works";
+    //exit();
+    return "";
 }
 
 

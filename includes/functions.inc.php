@@ -68,6 +68,11 @@
         }
         mysqli_stmt_close($stmt);
     }
+    //Returns the result row
+    // while ($row = mysqli_fetch_assoc($result)) {
+    //     printf("%s (%s)\n", $row["Name"], $row["CountryCode"]);
+    // }
+    
 
     //creating the user
     function createUser($conn,$Firstname,$Lastname,$email,$password1){
