@@ -16,6 +16,8 @@ function oneTicker($ticker){
         CURLOPT_HTTPHEADER => [
             "x-rapidapi-host: apidojo-yahoo-finance-v1.p.rapidapi.com",
             "x-rapidapi-key: 1351fd3e73mshf9c79221e8acff1p127f35jsn6272bcbd7b09"
+            // "x-rapidapi-key: 7ffd8f2d08mshe7e8d337ccc22a7p19538cjsn5f66d598fcec"
+        
         ],
     ]);
 
@@ -27,12 +29,31 @@ function oneTicker($ticker){
 
     if ($err ) {
         echo "cURL Error #:" . $err;
+        echo "<p> Error 1 </p>";
         return null;
     } else {
-        $parse = json_decode($response);
         
-        $return_val = ["symbol" => $parse->quoteResponse->result[0]->symbol,"name" => $parse->quoteResponse->result[0]->longName, "price"=> $parse->quoteResponse->result[0]->regularMarketPrice, "price_change"=> $parse->quoteResponse->result[0]->regularMarketChange, "percent_change"=> $parse->quoteResponse->result[0]->regularMarketChangePercent   ];
-        return $return_val;
+       // try{
+
+            if (strlen($response) == 0){
+                echo"<script>alert('Stock not found!');</script>";
+                // header('location: ../portfolioTable.php');
+
+            }else{
+                $parse = json_decode($respSonse);
+                var_dump($parse);
+                
+                $return_val = ["symbol" => $parse->quoteResponse->result[0]->symbol,"name" => $parse->quoteResponse->result[0]->longName, "price"=> $parse->quoteResponse->result[0]->regularMarketPrice, "price_change"=> $parse->quoteResponse->result[0]->regularMarketChange, "percent_change"=> $parse->quoteResponse->result[0]->regularMarketChangePercent   ];
+                return $return_val;
+            }
+        // }
+        // catch(Exception $e){
+            
+        //     $e->getMessage();
+
+            
+        // }
+
     }
 
 }
@@ -55,7 +76,7 @@ function addtoDatabase($conn,$UID,$type,$symbol,$name,$description, $price, $pri
 }
 
 
-function getFromDatabase($conn, $UID){
+function getFromWatchlist($conn, $UID){
 
     $query = $conn->query("SELECT symbol, name, price, price_change, percent_change FROM watchlist WHERE uid = $UID");
     $tickers = Array();
@@ -63,6 +84,19 @@ function getFromDatabase($conn, $UID){
         $tickers[] = $result;
     }
     return $tickers;
+}
+
+
+function getFromPortfolioTable($conn, $UID){
+    $query = $conn->query("SELECT symbol, name, qty, avg_price, current_price, total_val, todays_gain, total_gain, percent FROM portfolio WHERE uid = $UID");
+
+    $tickers = Array();
+    while($result = $query->fetch_assoc()){
+        $tickers[] = $result;
+    }
+    return $tickers;
+
+
 }
 
 
@@ -106,6 +140,57 @@ function updateDatabase($conn, $UID){
     return "";
 }
 
+
+
+
+
+
+function updateDatabasePortfolio($conn, $UID){
+    $query = $conn->query("SELECT symbol FROM watchlist WHERE uid = $UID");
+    $tickers = Array();
+    while($result = $query->fetch_assoc()){
+        $tickers[] = $result['symbol'];
+    }
+
+    $apiCall = apiCallfn($tickers);
+    
+    for ($i=0; $i <count($apiCall) ; $i++) {
+        $symbol = $apiCall[$i]['symbol'];
+        $price = $apiCall[$i]['price'];
+        $price_change = $apiCall[$i]["price_change"];
+        $percent_change = $apiCall[$i]["percent_change"];
+        
+        // echo "<p>$symbol</p>";
+        // echo "<p>$price</p>";
+        // echo "<p>$price_change</p>";
+        // echo "<p>$percent_change</p>";
+        // echo "<p>$UID</p>";
+
+        $sql = "UPDATE watchlist SET price = $price, price_change = $price_change, percent_change = $percent_change WHERE symbol = '$symbol' AND UID = '$UID'";
+
+        $stmt = mysqli_stmt_init($conn);
+
+        if(!mysqli_stmt_prepare($stmt,$sql)){
+            header("location: ../watchlist.php?error=stmtfailed");
+            exit();
+        }
+        //mysqli_stmt_bind_param($stmt,"ssssssss",$UID,$type,$symbol, $name,$description, $price, $price_change, $percent_change);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
+    echo("<meta http-equiv='refresh' content='1'>");
+    //header("Refresh:0");
+    //error_reporting(0);
+
+    return "";
+}
+
+
+
+
+
+
+
 function apiCallfn($tickers){
 
     $curl = curl_init();
@@ -133,6 +218,9 @@ function apiCallfn($tickers){
         CURLOPT_HTTPHEADER => [
             "x-rapidapi-host: apidojo-yahoo-finance-v1.p.rapidapi.com",
             "x-rapidapi-key: 1351fd3e73mshf9c79221e8acff1p127f35jsn6272bcbd7b09"
+            // "x-rapidapi-key: 7ffd8f2d08mshe7e8d337ccc22a7p19538cjsn5f66d598fcec"
+
+            
         ],
     ]);
 
@@ -162,7 +250,7 @@ function apiCallfn($tickers){
 
 function calculateCurrentPrice($ticker, $qty){
     $apiReturn = oneTicker($ticker);
-    $price = ["symbol"=> $apiReturn["symbol"],"name"=>$apiReturn["name"]   ,"price"=>$apiReturn["price"],"total"=>($qty * $price)];
+    $price = ["symbol"=> $apiReturn["symbol"],"name"=>$apiReturn["name"],"price"=>$apiReturn["price"],"total"=>($qty * $apiReturn["price"])];
     return $price;
 }
 
@@ -170,7 +258,7 @@ function calculateCurrentPrice($ticker, $qty){
 
 function isInPortfolio($conn, $UID, $symbol){
 
-    $sql = "SELECT * FROM portfolio WHERE UID = $UID AND symbol = $symbol";
+    $sql = "SELECT * FROM portfolio WHERE UID = ? AND symbol = ?;";
     $stmt = mysqli_stmt_init($conn);
 
     if(!mysqli_stmt_prepare($stmt,$sql)){
@@ -178,7 +266,7 @@ function isInPortfolio($conn, $UID, $symbol){
         exit();
 
     }
-    mysqli_stmt_bind_param($stmt,"s",$email);
+    mysqli_stmt_bind_param($stmt,"ss", $UID, $symbol);
     mysqli_stmt_execute($stmt);
 
     $resultData = mysqli_stmt_get_result($stmt);
@@ -190,62 +278,71 @@ function isInPortfolio($conn, $UID, $symbol){
         $result = false;
         return $result;
     }
-    mysqli_stmt_close($stmt);
-
-    
+    mysqli_stmt_close($stmt);   
 }
 
-
-
-
-function addToPortfolio1($conn,$UID,$buySell,$symbol,$name,$qty, $price,$cur_price, $total){
-    $sql = "INSERT INTO portfolio (UID, symbol, name, qty_avg_price, current_price, total_val, todays_gain,total_gain) VALUES (?,?,?,?,?,?,?,?);";
+function addToPortfolio1($conn,$UID,$symbol,$name,$qty, $avg_price, $cur_price, $total, $todays_gain, $total_gain){
+    $sql = "INSERT INTO portfolio (UID, symbol, name, qty, avg_price, current_price, total_val, todays_gain, total_gain) VALUES (?,?,?,?,?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
 
     if(!mysqli_stmt_prepare($stmt,$sql)){
-        header("location: ../createacc.php?error=stmtfailed");
+        header("location: ../createacc.php?error=stmtfailed1421212121");
         exit();
     }
     //WID	UID	type	symbol	name	description	price	price_change	percent_change
-    mysqli_stmt_bind_param($stmt,"ssssssss",$UID,$buySell,$symbol,$name,$qty, $price,$cur_price, $total);
+    mysqli_stmt_bind_param($stmt,"sssssssss", $UID, $symbol, $name, $qty,$avg_price, $cur_price, $total, $todays_gain, $total_gain);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     //echo "works";
     //exit();
     return "";
-
 }
-function updatePortfolio($conn, $sql){
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-        echo "error";
-        return False;
-    } 
-    else{
-        $conn->query($sql);
-        return True;
+
+
+function updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol){
+    if ($newQty == 0){
+        $sql = "DELETE FROM portfolio WHERE symbol = '$symbol' AND UID = '$UID';";
+    }else{
+        $sql = "UPDATE portfolio SET avg_price = $avg_price, qty = $newQty, total_val = $newTotal_val WHERE symbol = '$symbol' AND UID = '$UID';";
     }
+    $stmt = mysqli_stmt_init($conn);
+    if(!mysqli_stmt_prepare($stmt,$sql)){
+        header("location: ../portfolioTable.php?error=stmtfailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
 }
 
 
 function addToTransac($conn, $UID, $transact, $symbol, $qty, $amount){
-    "INSERT INTO portfolio (UID, transact, symbol, qty, amount) VALUES (?,?,?,?,?);";
+    $sql = "INSERT INTO transactions (UID, transact, symbol, qty, amount) VALUES (?,?,?,?,?);"; 
     $stmt = mysqli_stmt_init($conn);
 
     if(!mysqli_stmt_prepare($stmt,$sql)){
-        header("location: ../createacc.php?error=stmtfailed");
+        header("location: ../createacc.php?error=stmtfailedinsertIntoTransact");
         exit();
     }
     //WID	UID	type	symbol	name	description	price	price_change	percent_change
-    mysqli_stmt_bind_param($stmt,"ssssssss",$UID,$buySell,$symbol,$name,$qty, $price,$cur_price, $total);
+    mysqli_stmt_bind_param($stmt,"sssss", $UID, $transact, $symbol, $qty, $amount);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     //echo "works";
     //exit();
+    
+    $curr_cash = $_SESSION["cash"] + $amount;
+    $sql = "UPDATE users SET cash =  $curr_cash WHERE users.UID = '$UID';";
+
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt,$sql)){
+        header("location: ../portfolioTable.php?error=stmtfailedToUpdatingCash");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    $_SESSION["cash"] = $curr_cash;
     return "";
 }
-
-
-
 
 ?>

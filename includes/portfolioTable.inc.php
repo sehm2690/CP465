@@ -8,78 +8,83 @@
         $buySell = $_POST["buySell"]; 
         $query = $_POST["query"];
         $qty = $_POST["quantity"];
-        var_dump($qty);
+        // var_dump($qty);
+        // var_dump($buySell);
         require_once "connection.php";
         require_once "api.inc.php";
 
         
-
         $price = calculateCurrentPrice($query, $qty);
-      
+        
+        var_dump($price);
         $UID = $_SESSION["UserID"];
         $portResult =  isInPortfolio($conn, $UID, $price["symbol"]);
-                    
-        if($portResult == false){  
-                  
+        var_dump($portResult);
         $symbol = $price['symbol'];
         $name =  $price['name'];
         $cur_price = $price['price'];
         $total = $price['total'];
-        
-        $sql = "INSERT INTO portfolio (UID, symbol, name, qty, avg_price, current_price, total_val, todays_gain,total_gain) 
-                    VALUES ($UID, $symbol, $name, $qty, $cur_price,$cur_price, $total, 0, 0);";
 
-        updatePortfolio($conn, sql);
-        // addToPortfolio($conn,$UID,$buySell,$price["symbol"],$price["name"],$qty, $price["price"],$price["price"], $price["total"]);
+        $cash = $_SESSION["cash"];
+        if($buySell == -1){
+            if($cash > $total){               
+                if($portResult == false){  
+                    addToPortfolio1($conn,$UID, $price["symbol"],$price["name"],$qty, $price["price"],$price["price"], $price["total"], 0, 0);
+                }else{
+                    $avg_price =( $qty  * $price["price"]+$portResult["avg_price"]*$portResult["qty"])/($qty+$portResult["qty"]);
+                    $newQty = $qty + $portResult["qty"];
+                    $newTotal_val = $qty * $price["price"] + $portResult["total_val"];
+                    updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol);
+                }
+                
+                $amount = $price["total"] * -1;
+                
+                addtoTransac($conn, $UID, $buySell, $price["symbol"], $qty, $amount);
+                //header('location: ../portfolioTable.php');
 
+            }else{
+                header('location: ../portfolioTable.php?contenoughcash');
+
+            }
         }else{
+            //implement sell
 
-            $avg_price =( $qty * $price["price"]+$portResult["avg_price"]*$portResult["qty"])/($qty+$portResult["qty"]);
-            $newQty = $qty + $portResult["qty"];
-            $newTotal_val = $qty * $price["price"] + $portResult["total_val"];
-            $sql = "
-            UPDATE portfolio 
-            SET avg_price = $avg_price
-            SET qty = $newQty,
-            SET total_val = $newTotal_val
-            WHERE
-            UID = $UID AND
-            symbol = $symbol
-            ";
-            updatePortfolio($conn, sql);
+            if($portResult == false){  
+                echo "Error can't sell";
+                header('location: ../portfolioTable.php?dontOwnthestock');
+
+
+            }else{
+                if ($qty <= $portResult["qty"]){
+                    $avg_price =( $portResult["avg_price"]*$portResult["qty"])-($qty  * $price["price"])/($qty+$portResult["qty"]);
+                    $newQty =  $portResult["qty"] - $qty;
+                    $newTotal_val = $portResult["total_val"] - ($qty * $price["price"]);
+                    $percent = 
+                    
+                    updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol);
+                    $amount = $price["total"];
+                    addtoTransac($conn, $UID, $buySell, $price["symbol"], $qty, $amount);
+                    // header('location: ../portfolioTable.php');
+
+                } 
+
+            else{
+                header('location: ../portfolioTable.php?Erroruselessqyt');
+                }
+            }
+            
+            // $amount = $price["total"];
+            // addtoTransac($conn, $UID, $buySell, $price["symbol"], $qty, $amount);
+            
         }
-        addtoTransac($conn, $UID, $buySell, $price["symbol"], $qty,$price["total"] );
 
-    }
-
-
-
-
-
-
-
-
-
-
-        //header('location: ../portfolioTable.php');
-
-        //error handling again
-        // if(emptyInputLogin($email,$pwd) != false) {
-        //     //header("location: ../login.php?error=emptyinput");
-        //     exit();
-        // }
-        
-        // loginUser($conn,$email,$pwd);
-        // header("location: ../index.php");
-     else {
-        //header('location: ../watchlist.php');
-        
+    }else {   
         echo "<p> ERROR </p>";
-        //exit();
+        exit();
     }
-    //header('Location: ../index.php');
 
 
     
 ?>
 
+ 

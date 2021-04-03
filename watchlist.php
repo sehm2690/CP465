@@ -51,7 +51,7 @@
   </thead>
   <tbody>
   <?php 
-    $watchlistData = getFromDatabase($conn, $_SESSION['UserID']);
+    $watchlistData = getFromWatchlist($conn, $_SESSION['UserID']);
     // var_dump($watchlistData);
     for ($i=0; $i <count($watchlistData) ; $i++) {
       $symbol = $watchlistData[$i]["symbol"];
@@ -70,7 +70,6 @@
       echo"</tr>";
 
     }
-
 
 ?>
    

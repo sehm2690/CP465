@@ -1,6 +1,8 @@
 
 <?php
-  include_once'header.php';
+  include_once 'header.php';
+  include_once 'includes/api.inc.php';
+  include_once 'includes/connection.php';
 ?>
 <main >
     <style>
@@ -32,7 +34,7 @@
   <label for="watchlistTables">Select an option:</label>
 
   <select name="buySell" id="buySell">
-        <option value="0">Buy</option> 
+        <option value="-1">Buy</option> 
         <option value="1">Sell</option>
   </select>
 
@@ -60,13 +62,20 @@
   <!-- <p style = "visibility: hidden;" id="test" name = "demo">hello</p> -->
 
 
-
-
-<!-- 
-  <p>THE STOCK PRICE X(*) QTY = TOTAL PRICE</p>
-  <button>YES</button>
-  <button>NO</button> -->
   
+
+
+  
+</form>
+<?php
+  if(array_key_exists('updateBtn',$_POST)){
+    updateDatabasePortfolio($conn, $_SESSION["UserID"]);
+  }
+?>
+
+
+<form method = "post">
+  <input type="submit"  name= "updatePostBtn" class = "button" value = "Get Current Price"/>
 </form>
 
 <?php
@@ -91,31 +100,69 @@
   </thead>
   <tbody>
 <?php
-    $row1 = array("MPC","MARATHON PETROLEUM CORP", 10,17.99,58.13, 581.80, 22.60, 401.90,20);
-    $row2 = array("FSR", "FISKER INC", 20, 11.75, 24.44, 235.80, 20.04,209.08, 60);
-    $row3 = array('AAPL', 'APPLE INC', 12, 59.09, 119.98, 1439.76, 60.50 ,730.68, 70);
-    $rows = array($row1,$row2,$row3);
-    $i = 0;
-    $total_rows = 3; 
-    while ($i < $total_rows){
-        echo "<tr>";
-        
-        echo "<td>". $rows[$i][0] ."</td>" ;
-        echo "<td>". $rows[$i][1] ."</td>" ;
-        echo '<td class="num">'. $rows[$i][2] ."</td>" ;
-        echo '<td class="num">'. $rows[$i][3] ."</td>" ;
-        echo '<td class="num">'. $rows[$i][4] ."</td>" ;
-        echo '<td class="num">'. $rows[$i][5] ."</td>" ;
-        echo '<td class="num">'. $rows[$i][6] ."</td>" ;
-        echo '<td class="num">'. $rows[$i][7] ."</td>" ;
-        echo '<td class="percent">'. $rows[$i][8] ."</td>" ;
-    
 
-        echo"</tr>";
-        
-        $i++;
+
+$PortfolioData = getFromPortfolioTable($conn, $_SESSION['UserID']);
+    // var_dump($watchlistData);
+    for ($i=0; $i <count($PortfolioData) ; $i++) {
+      $symbol = $PortfolioData[$i]["symbol"];
+      $name = $PortfolioData[$i]["name"];
+      $qty = $PortfolioData[$i]["qty"];
+      $avg_price = $PortfolioData[$i]["avg_price"];
+      $current_price = $PortfolioData[$i]["current_price"];
+      $total_val = $PortfolioData[$i]["total_val"];
+      $todays_gain = $PortfolioData[$i]["todays_gain"];
+      $total_gain = $PortfolioData[$i]["total_gain"];
+      $percent = $PortfolioData[$i]["percent"];
+
+
+      echo"<tr>";
+        echo"<td>$symbol</td>";
+        echo"<td>$name</td>";
+        echo"<td class = 'num'>$ $qty</td>";
+        echo"<td class = 'num'>$ $avg_price</td>";
+        echo"<td class = 'num'>$current_price%</td>";
+        echo"<td class = 'num'>$total_val</td>";
+        echo"<td class = 'num'>$todays_gain</td>";
+        echo"<td class = 'num'>$ $total_gain</td>";
+        echo"<td class='percent'>$percent %</td>";
+
+      echo"</tr>";
 
     }
+
+
+
+
+
+
+
+
+    // $row1 = array("MPC","MARATHON PETROLEUM CORP", 10,17.99,58.13, 581.80, 22.60, 401.90,20);
+    // $row2 = array("FSR", "FISKER INC", 20, 11.75, 24.44, 235.80, 20.04,209.08, 60);
+    // $row3 = array('AAPL', 'APPLE INC', 12, 59.09, 119.98, 1439.76, 60.50 ,730.68, 70);
+    // $rows = array($row1,$row2,$row3);
+    // $i = 0;
+    // $total_rows = 3; 
+    // while ($i < $total_rows){
+    //     echo "<tr>";
+        
+    //     echo "<td>". $rows[$i][0] ."</td>" ;
+    //     echo "<td>". $rows[$i][1] ."</td>" ;
+    //     echo '<td class="num">'. $rows[$i][2] ."</td>" ;
+    //     echo '<td class="num">'. $rows[$i][3] ."</td>" ;
+    //     echo '<td class="num">'. $rows[$i][4] ."</td>" ;
+    //     echo '<td class="num">'. $rows[$i][5] ."</td>" ;
+    //     echo '<td class="num">'. $rows[$i][6] ."</td>" ;
+    //     echo '<td class="num">'. $rows[$i][7] ."</td>" ;
+    //     echo '<td class="percent">'. $rows[$i][8] ."</td>" ;
+    
+
+    //     echo"</tr>";
+        
+    //     $i++;
+
+    // }
 ?>
 
 </tbody>
@@ -276,5 +323,8 @@
 <script src="js/parseJson.js"></script>
   </main>
 <?php
+
+
+
     include_once'footer.php';
 ?>
