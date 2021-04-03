@@ -18,6 +18,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <script src="js/confirmPurchase.js"></script>
     <!--  -->
 
     <link rel="stylesheet" href="css/style.css">
@@ -71,10 +72,27 @@
 
                             
                         </ul>
-                        <form class="form-inline my-2 my-lg-0">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        <form class="form-inline my-2 my-lg-0" method = "post" action="header.inc.php">
+                            <input id="tickersearch" name ="tickersearch" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0"  name = "ttickerSearch"type="submit" >Search</button>
+                            
+                            <!-- "<script> 
+                        
+                            function getStockInfo() {
+                                var ticker = document.getElementByName("tickersearch")[0].value;
+                                console.log(ticker);
+
+                                var url = 'https://finance.yahoo.com/quote/' + ticker;
+
+                                window.open(url, '_blank');
+                                
+                            }
+                            </script> -->
                         </form>
+                        
+                        
+
+                        
                     </div>
                 </nav>
         </div>

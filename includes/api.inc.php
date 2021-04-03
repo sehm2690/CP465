@@ -1,8 +1,7 @@
 <?php
 
-function oneTicker($ticker){
-
-    $curl = curl_init();
+    function oneTicker($ticker){
+        $curl = curl_init();
 
     curl_setopt_array($curl, [
         CURLOPT_URL => "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes?region=US&symbols=$ticker",
@@ -16,44 +15,29 @@ function oneTicker($ticker){
         CURLOPT_HTTPHEADER => [
             "x-rapidapi-host: apidojo-yahoo-finance-v1.p.rapidapi.com",
             "x-rapidapi-key: 1351fd3e73mshf9c79221e8acff1p127f35jsn6272bcbd7b09"
-            // "x-rapidapi-key: 7ffd8f2d08mshe7e8d337ccc22a7p19538cjsn5f66d598fcec"
-        
         ],
     ]);
-
+    
     $response = curl_exec($curl);
     $err = curl_error($curl);
 
     curl_close($curl);
+   
 
-
-    if ($err ) {
+    if ($err) {
         echo "cURL Error #:" . $err;
-        echo "<p> Error 1 </p>";
-        return null;
     } else {
-        
-       // try{
-
-            if (strlen($response) == 0){
+        if (strlen($response) == 0){
                 echo"<script>alert('Stock not found!');</script>";
                 // header('location: ../portfolioTable.php');
 
-            }else{
-                $parse = json_decode($respSonse);
-                var_dump($parse);
-                
-                $return_val = ["symbol" => $parse->quoteResponse->result[0]->symbol,"name" => $parse->quoteResponse->result[0]->longName, "price"=> $parse->quoteResponse->result[0]->regularMarketPrice, "price_change"=> $parse->quoteResponse->result[0]->regularMarketChange, "percent_change"=> $parse->quoteResponse->result[0]->regularMarketChangePercent   ];
-                return $return_val;
-            }
-        // }
-        // catch(Exception $e){
+        }else{
+            $parse = json_decode($response);
+            // var_dump($parse);
             
-        //     $e->getMessage();
-
-            
-        // }
-
+            $return_val = ["symbol" => $parse->quoteResponse->result[0]->symbol,"name" => $parse->quoteResponse->result[0]->longName, "price"=> $parse->quoteResponse->result[0]->regularMarketPrice, "price_change"=> $parse->quoteResponse->result[0]->regularMarketChange, "percent_change"=> $parse->quoteResponse->result[0]->regularMarketChangePercent   ];
+            return $return_val;
+        }
     }
 
 }
@@ -95,8 +79,6 @@ function getFromPortfolioTable($conn, $UID){
         $tickers[] = $result;
     }
     return $tickers;
-
-
 }
 
 
@@ -106,7 +88,6 @@ function updateDatabase($conn, $UID){
     while($result = $query->fetch_assoc()){
         $tickers[] = $result['symbol'];
     }
-
     $apiCall = apiCallfn($tickers);
     
     for ($i=0; $i <count($apiCall) ; $i++) {
@@ -115,11 +96,6 @@ function updateDatabase($conn, $UID){
         $price_change = $apiCall[$i]["price_change"];
         $percent_change = $apiCall[$i]["percent_change"];
         
-        // echo "<p>$symbol</p>";
-        // echo "<p>$price</p>";
-        // echo "<p>$price_change</p>";
-        // echo "<p>$percent_change</p>";
-        // echo "<p>$UID</p>";
 
         $sql = "UPDATE watchlist SET price = $price, price_change = $price_change, percent_change = $percent_change WHERE symbol = '$symbol' AND UID = '$UID'";
 
@@ -139,17 +115,12 @@ function updateDatabase($conn, $UID){
 
     return "";
 }
-
-
-
-
-
 
 function updateDatabasePortfolio($conn, $UID){
-    $query = $conn->query("SELECT symbol FROM watchlist WHERE uid = $UID");
+    $query = $conn->query("SELECT symbol FROM portfolio WHERE uid = $UID");
     $tickers = Array();
     while($result = $query->fetch_assoc()){
-        $tickers[] = $result['symbol'];
+        $tickers[] = ["avg_price"=>$result["avg_price"],"qty"=>$result['qty'],"symbol"=>$result['symbol']];
     }
 
     $apiCall = apiCallfn($tickers);
@@ -158,15 +129,11 @@ function updateDatabasePortfolio($conn, $UID){
         $symbol = $apiCall[$i]['symbol'];
         $price = $apiCall[$i]['price'];
         $price_change = $apiCall[$i]["price_change"];
-        $percent_change = $apiCall[$i]["percent_change"];
-        
-        // echo "<p>$symbol</p>";
-        // echo "<p>$price</p>";
-        // echo "<p>$price_change</p>";
-        // echo "<p>$percent_change</p>";
-        // echo "<p>$UID</p>";
+        $total_gain = ($tickers[$i]["avg_price"] - $price) *$tickers[$i]["qty"];
+        $percent = (($tickers[$i]["avg_price"] - $price)/$tickers[$i]["avg_price"]) * 100;
+        $newTotal_val = $tickers[$i]["qty"]*$price;
 
-        $sql = "UPDATE watchlist SET price = $price, price_change = $price_change, percent_change = $percent_change WHERE symbol = '$symbol' AND UID = '$UID'";
+        $sql = "UPDATE portfolio SET current_price = $price, total_val = $newTotal_val, todays_gain = $price_change, total_gain = $total_gain, percent = $percent WHERE symbol = '$symbol' AND UID = '$UID'";
 
         $stmt = mysqli_stmt_init($conn);
 
@@ -184,11 +151,6 @@ function updateDatabasePortfolio($conn, $UID){
 
     return "";
 }
-
-
-
-
-
 
 
 function apiCallfn($tickers){
@@ -238,6 +200,7 @@ function apiCallfn($tickers){
         $returnVar = [];
         for ($i=0; $i < count($tickers) ; $i++) { 
             $returnVar[] = ["symbol"=>$parse->quoteResponse->result[$i]->symbol,"name"=>$parse->quoteResponse->result[$i]->longName, "price"=> $parse->quoteResponse->result[$i]->regularMarketPrice, "price_change"=> $parse->quoteResponse->result[$i]->regularMarketChange, "percent_change"=> $parse->quoteResponse->result[$i]->regularMarketChangePercent];
+
         }
         
         return $returnVar;
@@ -250,7 +213,10 @@ function apiCallfn($tickers){
 
 function calculateCurrentPrice($ticker, $qty){
     $apiReturn = oneTicker($ticker);
-    $price = ["symbol"=> $apiReturn["symbol"],"name"=>$apiReturn["name"],"price"=>$apiReturn["price"],"total"=>($qty * $apiReturn["price"])];
+    var_dump($apiReturn);
+    $price = ["symbol"=> $apiReturn["symbol"],"name"=>$apiReturn["name"],"price"=>$apiReturn["price"],"total"=>($qty * $apiReturn["price"]), "price_change"=>$apiReturn["price_change"]];
+    
+
     return $price;
 }
 
@@ -281,8 +247,8 @@ function isInPortfolio($conn, $UID, $symbol){
     mysqli_stmt_close($stmt);   
 }
 
-function addToPortfolio1($conn,$UID,$symbol,$name,$qty, $avg_price, $cur_price, $total, $todays_gain, $total_gain){
-    $sql = "INSERT INTO portfolio (UID, symbol, name, qty, avg_price, current_price, total_val, todays_gain, total_gain) VALUES (?,?,?,?,?,?,?,?,?);";
+function addToPortfolio($conn,$UID,$symbol,$name,$qty, $avg_price, $cur_price, $total, $todays_gain, $total_gain, $percent){
+    $sql = "INSERT INTO portfolio (UID, symbol, name, qty, avg_price, current_price, total_val, todays_gain, total_gain, percent) VALUES (?,?,?,?,?,?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
 
     if(!mysqli_stmt_prepare($stmt,$sql)){
@@ -290,7 +256,7 @@ function addToPortfolio1($conn,$UID,$symbol,$name,$qty, $avg_price, $cur_price, 
         exit();
     }
     //WID	UID	type	symbol	name	description	price	price_change	percent_change
-    mysqli_stmt_bind_param($stmt,"sssssssss", $UID, $symbol, $name, $qty,$avg_price, $cur_price, $total, $todays_gain, $total_gain);
+    mysqli_stmt_bind_param($stmt,"ssssssssss", $UID, $symbol, $name, $qty,$avg_price, $cur_price, $total, $todays_gain, $total_gain, $percent);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     //echo "works";
@@ -299,17 +265,19 @@ function addToPortfolio1($conn,$UID,$symbol,$name,$qty, $avg_price, $cur_price, 
 }
 
 
-function updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol){
+
+function updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol, $todays_change, $total_gain, $percent){
     if ($newQty == 0){
         $sql = "DELETE FROM portfolio WHERE symbol = '$symbol' AND UID = '$UID';";
     }else{
-        $sql = "UPDATE portfolio SET avg_price = $avg_price, qty = $newQty, total_val = $newTotal_val WHERE symbol = '$symbol' AND UID = '$UID';";
+        $sql = "UPDATE portfolio SET avg_price = $avg_price, qty = $newQty, total_val = $newTotal_val, todays_gain= $todays_change,total_gain = $total_gain,percent = $percent WHERE symbol = '$symbol' AND UID = '$UID';";
     }
     $stmt = mysqli_stmt_init($conn);
     if(!mysqli_stmt_prepare($stmt,$sql)){
         header("location: ../portfolioTable.php?error=stmtfailed");
         exit();
     }
+
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
