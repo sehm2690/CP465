@@ -117,13 +117,17 @@ function updateDatabase($conn, $UID){
 }
 
 function updateDatabasePortfolio($conn, $UID){
-    $query = $conn->query("SELECT symbol FROM portfolio WHERE uid = $UID");
+    $query = $conn->query("SELECT * FROM portfolio WHERE uid = $UID");
     $tickers = Array();
+    $ticker =  Array();
     while($result = $query->fetch_assoc()){
         $tickers[] = ["avg_price"=>$result["avg_price"],"qty"=>$result['qty'],"symbol"=>$result['symbol']];
+        $ticker[] =$result['symbol'];
     }
-
-    $apiCall = apiCallfn($tickers);
+    
+    // $apiCall = apiCallfn($tickers);
+    $apiCall = apiCallfn($ticker);
+    var_dump( $apiCall) ;
     
     for ($i=0; $i <count($apiCall) ; $i++) {
         $symbol = $apiCall[$i]['symbol'];
