@@ -216,7 +216,6 @@ function calculateCurrentPrice($ticker, $qty){
     var_dump($apiReturn);
     $price = ["symbol"=> $apiReturn["symbol"],"name"=>$apiReturn["name"],"price"=>$apiReturn["price"],"total"=>($qty * $apiReturn["price"]), "price_change"=>$apiReturn["price_change"]];
     
-
     return $price;
 }
 
@@ -265,23 +264,23 @@ function addToPortfolio($conn,$UID,$symbol,$name,$qty, $avg_price, $cur_price, $
 }
 
 
+#updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol, $todays_change, $total_gain, $percent);
 
-function updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol, $todays_change, $total_gain, $percent){
+
+function updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol, $todays_change, $total_gain, $percent, $curr_price){
     if ($newQty == 0){
         $sql = "DELETE FROM portfolio WHERE symbol = '$symbol' AND UID = '$UID';";
     }else{
-        $sql = "UPDATE portfolio SET avg_price = $avg_price, qty = $newQty, total_val = $newTotal_val, todays_gain= $todays_change,total_gain = $total_gain,percent = $percent WHERE symbol = '$symbol' AND UID = '$UID';";
+        $sql = "UPDATE portfolio SET avg_price = $avg_price, qty = $newQty, total_val = $newTotal_val, todays_gain= $todays_change,current_price = $curr_price, total_gain = $total_gain,percent = $percent WHERE symbol = '$symbol' AND UID = '$UID';";
     }
     $stmt = mysqli_stmt_init($conn);
     if(!mysqli_stmt_prepare($stmt,$sql)){
         header("location: ../portfolioTable.php?error=stmtfailed");
         exit();
     }
-
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
-
 
 function addToTransac($conn, $UID, $transact, $symbol, $qty, $amount){
     $sql = "INSERT INTO transactions (UID, transact, symbol, qty, amount) VALUES (?,?,?,?,?);"; 
