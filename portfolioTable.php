@@ -70,7 +70,7 @@
   
 </form>
 <?php
-  if(array_key_exists('updateBtn',$_POST)){
+  if(array_key_exists('updatePostBtn',$_POST)){
     updateDatabasePortfolio($conn, $_SESSION["UserID"]);
   }
 ?>
