@@ -95,8 +95,8 @@ function updateDatabase($conn, $UID){
         $price = $apiCall[$i]['price'];
         $price_change = $apiCall[$i]["price_change"];
         $percent_change = $apiCall[$i]["percent_change"];
-        
 
+        
         $sql = "UPDATE watchlist SET price = $price, price_change = $price_change, percent_change = $percent_change WHERE symbol = '$symbol' AND UID = '$UID'";
 
         $stmt = mysqli_stmt_init($conn);
@@ -123,7 +123,7 @@ function updateDatabasePortfolio($conn, $UID){
         $tickers[] = ["avg_price"=>$result["avg_price"],"qty"=>$result['qty'],"symbol"=>$result['symbol']];
     }
 
-    $apiCall = apiCallfn($tickers);
+    $apiCall = apiCallfn($tickers["symbol"]);
     
     for ($i=0; $i <count($apiCall) ; $i++) {
         $symbol = $apiCall[$i]['symbol'];
@@ -165,7 +165,6 @@ function apiCallfn($tickers){
 
         }
     }
-    
     
      
     curl_setopt_array($curl, [

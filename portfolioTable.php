@@ -67,10 +67,6 @@
 
   <!-- <p style = "visibility: hidden;" id="test" name = "demo">hello</p> -->
 
-
-  
-
-
   
 </form>
 <?php
@@ -101,9 +97,6 @@
     return"";
   }
 </script>
-
-
-
 
 
 <h2>My Portfolio <i class="icon-minus"></i></h2>
@@ -159,9 +152,6 @@ $PortfolioData = getFromPortfolioTable($conn, $_SESSION['UserID']);
         echo"<td class = 'num'>$ $total_gain</td>";
         echo"<td class='percent'>$percent %</td>";
       echo"</tr>";
-
-      
-
     }
     // //getElementsByTagName("h4").innerHTML;
     if($summary_total_value!=0){
