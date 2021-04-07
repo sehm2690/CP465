@@ -133,8 +133,8 @@ function updateDatabasePortfolio($conn, $UID){
         $symbol = $apiCall[$i]['symbol'];
         $price = $apiCall[$i]['price'];
         $price_change = $apiCall[$i]["price_change"];
-        $total_gain = ($tickers[$i]["avg_price"] - $price) *$tickers[$i]["qty"];
-        $percent = (($tickers[$i]["avg_price"] - $price)/$tickers[$i]["avg_price"]) * 100;
+        $total_gain = ($price - $tickers[$i]["avg_price"]) *$tickers[$i]["qty"];
+        $percent = (($price- $tickers[$i]["avg_price"])/$tickers[$i]["avg_price"]) * 100;
         $newTotal_val = $tickers[$i]["qty"]*$price;
 
         $sql = "UPDATE portfolio SET current_price = $price, total_val = $newTotal_val, todays_gain = $price_change, total_gain = $total_gain, percent = $percent WHERE symbol = '$symbol' AND UID = '$UID'";

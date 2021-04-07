@@ -108,10 +108,10 @@
     <th class="num header">Qty</th>
     <th class="num header">Average Price</th>
     <th class="num header">Current Price</th>
-    <th class="num header">Total Value</th>
+    <th class="num header">Current Value</th>
     <th class="num header">Today's Change</th>
-    <th class="num header">Total Gain/Loss</th>
-    <th class="num header">Percent % </th>
+    <th class="num header">Current Gain/Loss</th>
+    <th class="num header">Current % Gain/Loss </th>
   </tr>
   </thead>
   <tbody>
@@ -155,7 +155,7 @@ $PortfolioData = getFromPortfolioTable($conn, $_SESSION['UserID']);
     }
     // //getElementsByTagName("h4").innerHTML;
     if($summary_total_value!=0){
-      $summary_percent = ((($summary_total_value + $_SESSION["cash"]) - 100000)/$summary_total_value) * 100;
+      $summary_percent = ((($summary_total_value + $_SESSION["cash"]) - 100000)/100000) * 100;
     }
     $value = $summary_total_value + $_SESSION["cash"];
 
