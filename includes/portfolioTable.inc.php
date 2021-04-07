@@ -37,8 +37,8 @@
                     #$newTotal_val = $qty * $price["price"] + $portResult["total_val"];
                     $newTotal_val = $newqty * $price["price"];
                     $todays_change =  $price["price_change"];
-                    $total_gain = ($avg_price - $price['price']) *$newQty;
-                    $percent = (($avg_price - $price['price'])/$avg_price) * 100;
+                    $total_gain = ($price['price'] - $avg_price) *$newQty;
+                    $percent = (($price['price'] - $price['price'])/$avg_price) * 100;
 
                     updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol, $todays_change, $total_gain, $percent, $price["price"]);
                 }
@@ -69,8 +69,8 @@
                         $avg_price = (($portResult["avg_price"]*$portResult["qty"])-($qty  * $price["price"]))/$newQty;
                         $newTotal_val = $newqty * $price["price"];
                         $todays_change =  $price["price_change"];
-                        $total_gain = ($avg_price - $price['price']) *$newQty;
-                        $percent = (($avg_price - $price['price'])/$avg_price) * 100;
+                        $total_gain = ($price['price'] - $avg_price) *$newQty;
+                        $percent = (($price['price'] - $avg_price )/$avg_price) * 100;
                         
                         updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol, $todays_change, $total_gain, $percent, $price["price"]);
                     } 
