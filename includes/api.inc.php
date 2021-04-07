@@ -124,15 +124,10 @@ function updateDatabasePortfolio($conn, $UID){
         $tickers[] = ["avg_price"=>$result["avg_price"],"qty"=>$result['qty'],"symbol"=>$result['symbol']];
         $ticker[] =$result['symbol'];
     }
-<<<<<<< HEAD
-
-    $apiCall = apiCallfn($tickers["symbol"]);
-=======
     
     // $apiCall = apiCallfn($tickers);
     $apiCall = apiCallfn($ticker);
     var_dump( $apiCall) ;
->>>>>>> b4063e07441f3021625702397efca6967724abc8
     
     for ($i=0; $i <count($apiCall) ; $i++) {
         $symbol = $apiCall[$i]['symbol'];
