@@ -110,8 +110,8 @@
     <th class="num header">Current Price</th>
     <th class="num header">Current Value</th>
     <th class="num header">Today's Change</th>
-    <th class="num header">Current Gain/Loss</th>
-    <th class="num header">Current % Gain/Loss </th>
+    <th class="num header">Gain/Loss</th>
+    <th class="num header">% Gain/Loss </th>
   </tr>
   </thead>
   <tbody>
@@ -131,16 +131,15 @@ $PortfolioData = getFromPortfolioTable($conn, $_SESSION['UserID']);
       $avg_price = $PortfolioData[$i]["avg_price"];
       $current_price = $PortfolioData[$i]["current_price"];
       $total_val = $PortfolioData[$i]["total_val"];
-      $todays_gain = $PortfolioData[$i]["todays_gain"];
+      $todays_gain = $PortfolioData[$i]["todays_gain"] * $qty;
       $total_gain = $PortfolioData[$i]["total_gain"];
       $percent = $PortfolioData[$i]["percent"];
 
       $summary_total_value += $total_val;
       
-      $summary_todays_gain += $qty*$todays_gain;
+      $summary_todays_gain += $todays_gain;
       $summary_total_gain += $total_gain;
       
-
       echo"<tr>";
         echo"<td>$symbol</td>";
         echo"<td>$name</td>";
@@ -155,7 +154,8 @@ $PortfolioData = getFromPortfolioTable($conn, $_SESSION['UserID']);
     }
     // //getElementsByTagName("h4").innerHTML;
     if($summary_total_value!=0){
-      $summary_percent = ((($summary_total_value + $_SESSION["cash"]) - 100000)/100000) * 100;
+      $summary_percent_cacl = ((($summary_total_value + $_SESSION["cash"]) - 100000)/100000) * 100;
+      $summary_percent = round($summary_percent_cacl, 2);
     }
     $value = $summary_total_value + $_SESSION["cash"];
 
@@ -175,7 +175,7 @@ $PortfolioData = getFromPortfolioTable($conn, $_SESSION['UserID']);
           <td class='money'>$ $summary_total_value</td>
           <td class='money'>$ $summary_todays_gain</td>
           <td class='money'>$ $summary_total_gain</td>
-          <td class='percent'>$summary_percent</td>
+          <td class='percent'>$summary_percent %</td>
         </tr>
         </tfoot>
       </table>";
