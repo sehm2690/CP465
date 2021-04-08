@@ -70,8 +70,12 @@
             }
             else if($_GET["error"] == "none"){
                 echo "<p> Successful Sign-up </p>";
+<<<<<<< HEAD
                 //header("Location: http://localhost/CP465/login.php");
                 header("location: ../CP465/login.php");
+=======
+                header("Location: http://localhost/CP465/login.php");
+>>>>>>> ad98cd4e3f94e3d7ee6909fb53c7ca31dd6f4f27
             }
         }
         ?>
