@@ -106,3 +106,5 @@ CREATE TABLE transactions(
 
 
 
+ SQL Trigger:
+- Update cash everytime a transaction is made.
