@@ -161,3 +161,8 @@ html, body{
     margin: 1em 0; 
     padding: 0; 
   }
+
+  #updateButton{
+    font-size: 5pt;
+    margin-right: 0px;
+  }
