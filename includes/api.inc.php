@@ -60,8 +60,20 @@ function addtoDatabase($conn,$UID,$type,$symbol,$name,$description, $price, $pri
 }
 
 
-function getFromWatchlist($conn, $UID){
+function deleteFromWatchlist($conn, $UID, $symbol){
+    $sql = "DELETE FROM watchlist WHERE symbol = '$symbol' AND UID = '$UID';";
 
+    $stmt = mysqli_stmt_init($conn);
+    if(!mysqli_stmt_prepare($stmt,$sql)){
+        header("location: ../portfolioTable.php?error=stmtfailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
+
+function getFromWatchlist($conn, $UID){
     $query = $conn->query("SELECT symbol, name, price, price_change, percent_change FROM watchlist WHERE uid = $UID");
     $tickers = Array();
     while($result = $query->fetch_assoc()){

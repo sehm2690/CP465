@@ -11,15 +11,19 @@
 
 
 <form method="post" action="includes/watchlist.inc.php"> 
-  <label for="watchlistTables">Choose a Watchlist:</label>
+
+<!--  <label for="watchlistTables">Choose a Watchlist:</label>
 
   <select name="watchlists" id="watchlists">
         <option value="0">First Watchlist</option> 
         <option value="1">Second Watchlist</option>      
   </select>
 
+-->
   <input type="search" id="query" name="query" placeholder="Search Symbol...">
-  <input type="submit" name = "submit" value="Add" >
+  <input type="submit" name = "submit1" value="Add" >
+  <input type="submit" name = "submit2" value="Remove" >
+
 </form>
 
 <?php
@@ -80,114 +84,7 @@
 
 
 <!-- <h1 class="scrollMore">&darr; SCROLL MORE &darr;</h1> -->
-<table class="purple">
-  <thead>
-    <tr>
-      <th>Stock Name</th>
-      <th>Last Price</th>
-      <th>Change</th>
-      <th>% Change</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-  </tbody>
-</table>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://dannocket.com/sandbox/IvtpK.js"></script>

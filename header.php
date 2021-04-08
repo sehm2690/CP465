@@ -44,9 +44,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="watchlist.php">Watchlists</a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="#">News</a>
-                            </li>
+                            </li> -->
                             <?php
                                 if(isset($_SESSION["email"])){
                                     $x = $_SESSION["email"];
