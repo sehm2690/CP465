@@ -10,11 +10,15 @@
         $query = $_POST["query"];
         require_once "connection.php";
         require_once "api.inc.php";
-        $toADD = oneTicker($query);
         $UID = $_SESSION["UserID"];
 
-        addtoDatabase($conn,$UID,$watchlist,$toADD["symbol"],$toADD["name"], NULL,$toADD["price"],$toADD["price_change"], $toADD["percent_change"]);
-
+        if (isInWatchlist($conn, $UID, $query) == true){
+            echo "<script type='text/javascript'>alert('Already in watchlist');</script>";
+        }
+        else{
+            $toADD = oneTicker($query);
+            addtoDatabase($conn,$UID,$watchlist,$toADD["symbol"],$toADD["name"], NULL,$toADD["price"],$toADD["price_change"], $toADD["percent_change"]);
+        }
 
         echo"<p>IN the IF </p>";
         header('location: ../watchlist.php');
