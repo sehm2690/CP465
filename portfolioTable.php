@@ -70,7 +70,7 @@
 </form>
 <?php
   if(array_key_exists('updatePostBtn',$_POST)){
-    updateDatabasePortfolio($conn, $_SESSION["UserID"]);
+    updateDatabasePortfolio($conn, $_SESSION["UserID"], $_SESSION["cash"]);
   }
 ?>
 
@@ -81,13 +81,14 @@
 
 <?php
   $value = 0;
-  $cash =  $_SESSION["cash"];
+  $cash =  round($_SESSION["cash"], 2);
   echo "<h4>Current Cash: $$cash</h4>";
+  $value = getFromUsers($conn, $_SESSION["UserID"] )["cur_value"];
+  echo "<h4>Current Value:$$value</h4>";
   //echo"<h4> Test :$value </h4>";
 ?>
 
 
-<h4 id = "value2" name = "value">Current Value:$ </h4> 
 
 <script>
   function updateVal(val){
@@ -152,15 +153,23 @@ $PortfolioData = getFromPortfolioTable($conn, $_SESSION['UserID']);
       echo"</tr>";
     }
     // //getElementsByTagName("h4").innerHTML;
-    if($summary_total_value!=0){
-      $summary_percent_cacl = ((($summary_total_value + $_SESSION["cash"]) - 100000)/100000) * 100;
-      $summary_percent = round($summary_percent_cacl, 2);
-    }
-    $value = $summary_total_value + $_SESSION["cash"];
+    $value = getFromUsers($conn, $_SESSION["UserID"] )["cur_value"];
 
-    //var_dump($value);
+    if($summary_total_value!=0){
+     // $summary_percent_cacl = ((($summary_total_value + $_SESSION["cash"]) - 100000)/100000) * 100;
+     $summary_percent_cacl = (($value - 100000)/100000) * 100;
+     
+     $summary_percent = round($summary_percent_cacl, 2);
+    }
+    // $value = $summary_total_value + $_SESSION["cash"];
+
+    // //var_dump($value);
     
-    echo"<h5>Current Value: $$value </h5>";
+    // echo"<h5>Current Value: $$value </h5>";
+
+    // updateCurrentValue($conn, $_SESSION['UserID'], $value);
+
+    
     echo '<script type="text/javascript"> updateVal($value); </script>';
     
     echo"</tbody>
@@ -184,6 +193,8 @@ $PortfolioData = getFromPortfolioTable($conn, $_SESSION['UserID']);
 
 
 ?>
+
+<br></br>
 <!-- 
 </tbody>
   <tfoot>
