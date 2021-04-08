@@ -12,7 +12,6 @@
         // var_dump($buySell);
         require_once "connection.php";
         require_once "api.inc.php";
-
         
         $price = calculateCurrentPrice($query, $qty);
         
@@ -62,7 +61,7 @@
             }else{
                 if ($qty <= $portResult["qty"]){
                     if( $qty-$portResult["qty"]==0){
-                        updatePortfolio($conn, 0, 0, 0, $UID, $symbol, 0, 0,0);
+                        updatePortfolio($conn, 0, 0, 0, $UID, $symbol, 0, 0,0,0);
 
                     }else{
                         $newQty =  $portResult["qty"] - $qty;

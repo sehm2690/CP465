@@ -155,7 +155,7 @@ function updateDatabase($conn, $UID){
     return "";
 }
 
-function updateDatabasePortfolio($conn, $UID){
+function updateDatabasePortfolio($conn, $UID, $cash){
     $query = $conn->query("SELECT * FROM portfolio WHERE uid = $UID");
     $tickers = Array();
     $ticker =  Array();
@@ -163,11 +163,10 @@ function updateDatabasePortfolio($conn, $UID){
         $tickers[] = ["avg_price"=>$result["avg_price"],"qty"=>$result['qty'],"symbol"=>$result['symbol']];
         $ticker[] =$result['symbol'];
     }
-    
     // $apiCall = apiCallfn($tickers);
     $apiCall = apiCallfn($ticker);
-    var_dump( $apiCall) ;
-    
+    //var_dump( $apiCall) ;
+    $SUMtotal_val = 0;
     for ($i=0; $i <count($apiCall) ; $i++) {
         $symbol = $apiCall[$i]['symbol'];
         $price = $apiCall[$i]['price'];
@@ -175,6 +174,7 @@ function updateDatabasePortfolio($conn, $UID){
         $total_gain = ($price - $tickers[$i]["avg_price"]) *$tickers[$i]["qty"];
         $percent = (($price- $tickers[$i]["avg_price"])/$tickers[$i]["avg_price"]) * 100;
         $newTotal_val = $tickers[$i]["qty"]*$price;
+        $SUMtotal_val +=$newTotal_val;
 
         $sql = "UPDATE portfolio SET current_price = $price, total_val = $newTotal_val, todays_gain = $price_change, total_gain = $total_gain, percent = $percent WHERE symbol = '$symbol' AND UID = '$UID'";
 
@@ -188,11 +188,47 @@ function updateDatabasePortfolio($conn, $UID){
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     }
+    $value = $cash+ $SUMtotal_val;
+
+    $sql = "UPDATE users SET cur_value = $value WHERE UID = $UID";
+    $stmt = mysqli_stmt_init($conn);
+    if(!mysqli_stmt_prepare($stmt,$sql)){
+        header("location: ../portfolioTable.php?error=stmtfailed");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    
     echo("<meta http-equiv='refresh' content='1'>");
     //header("Refresh:0");
     //error_reporting(0);
 
     return "";
+}
+
+function getFromTransaction($conn ,$UID){
+
+
+    $query = $conn->query("SELECT * FROM transactions WHERE uid = $UID");
+    $tickers = Array();
+    while($result = $query->fetch_assoc()){
+        $tickers[] = ["TID"=>$result["TID"],"qty"=>$result['qty'],"symbol"=>$result['symbol'],"amount"=>$result['amount'],'transact'=>$result['transact']];
+    }
+    return $tickers;
+
+}
+
+function getFromUsers($conn ,$UID){
+
+    $query = $conn->query("SELECT * FROM users where UID = $UID");
+
+    $value = $query->fetch_assoc();
+    // while($result = $query->fetch_assoc()){
+    //      $value = $result["value"];
+    // }
+    // //return $tickers;
+    return $value;
 }
 
 
@@ -309,6 +345,7 @@ function addToPortfolio($conn,$UID,$symbol,$name,$qty, $avg_price, $cur_price, $
 #updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol, $todays_change, $total_gain, $percent);
 
 
+
 function updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol, $todays_change, $total_gain, $percent, $curr_price){
     if ($newQty == 0){
         $sql = "DELETE FROM portfolio WHERE symbol = '$symbol' AND UID = '$UID';";
@@ -323,6 +360,22 @@ function updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbo
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
+
+
+
+
+
+
+// function updateCurrentValue($conn, $UID, $value){
+//     $sql = "UPDATE users SET cur_value = $value WHERE UID = $UID";
+//     $stmt = mysqli_stmt_init($conn);
+//     if(!mysqli_stmt_prepare($stmt,$sql)){
+//         header("location: ../portfolioTable.php?error=stmtfailed");
+//         exit();
+//     }
+//     mysqli_stmt_execute($stmt);
+//     mysqli_stmt_close($stmt);
+// }
 
 function addToTransac($conn, $UID, $transact, $symbol, $qty, $amount){
     $sql = "INSERT INTO transactions (UID, transact, symbol, qty, amount) VALUES (?,?,?,?,?);"; 
