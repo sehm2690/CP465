@@ -1,6 +1,6 @@
 TODO
-- Get Current Price Button not calling watchlist.inc.php or portfolio.inc.php
-- Make tiles for stocks at top of portfolio page.
+- Make tiles for stocks at top of index page.
 - make boxes look nicer in portfolio page.
 - Fix watchlist css bullshit.
 - Images for buttons?
+- Stlye login page (style-2.css)

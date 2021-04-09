@@ -133,11 +133,11 @@ include_once 'includes/connection.php';
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-img">
-                        <img src="img/avatar.jpg" alt="" />
-                        <div class="file btn btn-lg btn-primary">
+                        <img src="img/profilepic.png" alt="" />
+                        <!-- <div class="file btn btn-lg btn-primary">
                             Change Photo
                             <input type="file" name="file" />
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="col-md-6">

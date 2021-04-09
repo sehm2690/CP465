@@ -50,7 +50,6 @@
         exit();
     }
     //header('Location: ../index.php');
-//    echo "<p> fuck </p>";
     exit();
 
 

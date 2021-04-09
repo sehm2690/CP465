@@ -19,20 +19,13 @@ include_once 'includes/connection.php';
       min-height: 100%;
     }
 
-    .box1 {
-      /* Stocks tiles banner */
-      float: top;
-      width: 100%;
-      height: 30%;
-      background-color: purple;
-    }
-
     .box2 {
       /*Third*/
       /*Portfolio */
       float: right;
       width: 80%;
       height: 80%;
+      padding-left: 2%;
       /* background-color: blue; */
     }
 
@@ -50,8 +43,10 @@ include_once 'includes/connection.php';
       /*Second*/
       /*Buy box*/
       float: left;
+      left: 0%;
       width: 20%;
       height: 70%;
+      position: relative;
       /* background-color: green; */
     }
 
@@ -120,23 +115,23 @@ include_once 'includes/connection.php';
       color: white;
     }
 
-    .dropdown {
-      position: relative;
-      display: inline-block;
+    .card {
+      /* Add shadows to create the "card" effect */
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+      width: 8%;
+      height: 20%;
     }
 
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f9f9f9;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-      padding: 12px 16px;
-      z-index: 1;
-    }
+    /* On mouse-over, add a deeper shadow
+    .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    } */
 
-    .dropdown:hover .dropdown-content {
-      display: block;
+    /* Add some padding inside the card container */
+    .container {
+      padding: 2px 16px;
+      text-align: left;
     }
 
     body {
@@ -152,14 +147,21 @@ include_once 'includes/connection.php';
   <!-- <link rel='stylesheet' href='css/style.css' />
   <link rel='stylesheet' type='text/css' href='/css/testcss.css' /> -->
 
-  <div class=box1>
-    <p>Yessir</p>
-  </div>
+  <!-- <div class=box1>
+    <div class=card>
+      <div class="container">
+        <h5><b>AAPL</b></h5>
+        <p>$127.4</p>
+        <p style="font-size: small; color:green;">+31.26(3.01%)</p>
+      </div>
+    </div>
+  </div> -->
 
+  <br></br>
 
-  <!-- <form method="post">
-      <input type="submit" id="gcpbtn" name="updatePostBtn" class="button" value="Get Current Price" />
-    </form> -->
+  <form method="post">
+    <input type="submit" id="gcpbtn" name="updatePostBtn" class="button" value="Get Current Price" />
+  </form>
 
 
   <?php
@@ -171,17 +173,16 @@ include_once 'includes/connection.php';
   $value = getFromUsers($conn, $_SESSION["UserID"])["cur_value"];
   echo "<div style='clear: both' class = box3>";
   echo "<h4 style='float: left' id='ptext' >Total Cash (CAD): </h4>
-        <h3 style='float: center' id='moneyVal' >$$cash</h3>
+        <h3 style='float: right' id='moneyVal' >$$cash</h3>
         <p> </p>
         <h5 style='float: left' id='ptext' >Current Value: </h5>
-        <h5 style='float: center' id = moneyVal>$$value</h5>
+        <h5 style='float: right' id = moneyVal>$$value</h5>
         ";
   //echo"<h4> Test :$value </h4>";
   echo "<hr />";
   echo "</div>";
   ?>
 
-  </form>
   <?php
   if (array_key_exists('updatePostBtn', $_POST)) {
     updateDatabasePortfolio($conn, $_SESSION["UserID"], $_SESSION["cash"]);
@@ -230,7 +231,7 @@ include_once 'includes/connection.php';
 
   <div class="box2">
     <h2 id="tableTitle">My Portfolio <i class="icon-minus"></i></h2>
-    <table class="numbers table2">
+    <table>
       <thead>
         <tr class="main_header">
           <th class="txt_header">Symbol</th>
@@ -321,6 +322,7 @@ include_once 'includes/connection.php';
   </div>
 
   <div class=box4>
+    <br></br>
     <form method="post" action="includes/portfolioTable.inc.php">
       <label id="ptext" for="watchlistTables">Select an option:</label>
 
@@ -331,7 +333,7 @@ include_once 'includes/connection.php';
 
       <input type="text" id="query" name="query" placeholder="Ticker Symbol...">
 
-      <input name="quantity" id=quantity placeholder="Quantity" type=number min=1 max=100000>
+      <input name="quantity" id=quantity placeholder="Quantity" type=number min=0 max=100000>
 
       <script>
         function increment() {
@@ -343,7 +345,8 @@ include_once 'includes/connection.php';
         }
       </script>
       <script src='js/confirmPurchase.js'></script>
-      <input type="submit" name="submit" value="Submit">
+      <p></p>
+      <input type="submit" name="submit" value="Place Order">
 
   </div>
 
