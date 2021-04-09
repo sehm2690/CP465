@@ -4,7 +4,7 @@
 ?>
 
     <main>
-    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
 
     <!-- <div style="background-image: url('stock_back.jpg');"> -->
     <style>

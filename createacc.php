@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style-2.css">
+    <!-- <link rel="stylesheet" href="css/style-2.css"> -->
 
     
     
@@ -70,12 +70,7 @@
             }
             else if($_GET["error"] == "none"){
                 echo "<p> Successful Sign-up </p>";
-<<<<<<< HEAD
-                //header("Location: http://localhost/CP465/login.php");
-                header("location: ../CP465/login.php");
-=======
                 header("Location: http://localhost/CP465/login.php");
->>>>>>> ad98cd4e3f94e3d7ee6909fb53c7ca31dd6f4f27
             }
         }
         ?>

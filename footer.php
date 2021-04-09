@@ -1,45 +1,35 @@
-    <footer>
-    <div class="container-fluid padding">
-            <div class="row text-center padding">
-                <div class="col-12">
-                    <h2>Connect</h2>
-                    <hr class="light">
-                </div>
-                <div class="col-12 social padding">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href='#'><i class="fab fa-google-plus-g"></i></a>
-                    <a href="#"><i class="fab fa-reddit"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .footer {
+            /* background-image: url(img/BlackMarble.png); */
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: whitesmoke;
+            color: black;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="footer">
+        <div class="row text-center">
+
+            <div class="col-md-4">
+                <!-- This makes the text centered. -->
+            </div>
+            <div class="col-md-4">
+                <hr class="light">
+                <p>000-000-0000</p>
+                <p>stocks@stocksimulator.com</p>
+                <p> 75 University Avenue</p>
             </div>
         </div>
-        <div class="container-fluid padding">
-            <div class="row text-center">
-                <div class="col-md-4">
-<!--                     <hr class="light">
-                    <h5>Customer Service Hours</h5>
-                    <hr class="light">
-                    <p>Mon-Fri: 9am - 9pm</p>
-                    <p>Saturday: 9am - 7pm</p>
-                    <p>Sunday: 9am - 5pm</p> -->
-                </div>
-                <div class="col-md-4">
-                    <hr class="light">
-                    <p>000-000-0000</p>
-                    <p>stocks@gmail.com</p>
-                    <p>75 University Avenue</p>
-                </div>
-                <div class="col-12">
-                    <hr class="light">
-                    <h5>&copy; Stock Simulator 2021</h5>
-                </div>
-
-
-            </div>
-        </div>       
-    </footer>
-    
-    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    </div>
 
 </body>
+
 </html>

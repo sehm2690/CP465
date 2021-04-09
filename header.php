@@ -1,10 +1,11 @@
 <?php
-    session_start();
+session_start();
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,62 +22,72 @@
     <script src="js/confirmPurchase.js"></script>
     <!--  -->
 
-    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            /* background: -webkit-linear-gradient(left, #3931af, #00c6ff); */
+            font-family: 'Lato', sans-serif;
+        }
+    </style>
 
 </head>
+
+
+
 <body data-spy="scroll" data-target="#navbarResponsive">
     <header>
         <div class="container-fluid p-0">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <a class="navbar-brand" href="#">Stock Simulator</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                          <span class="navbar-toggler-icon"></span>
-                    </button>
-                
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                              <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-                            </li>
-                           <li class="nav-item">
-                                <a class="nav-link" href="portfolioTable.php">My Portfolio</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="watchlist.php">Watchlists</a>
-                            </li>
-                            <!-- <li class="nav-item">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">Stock Simulator</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="portfolioTable.php">My Portfolio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="watchlist.php">Watchlists</a>
+                        </li>
+                        <!-- <li class="nav-item">
                                 <a class="nav-link" href="#">News</a>
                             </li> -->
-                            <?php
-                                if(isset($_SESSION["email"])){
-                                    $x = $_SESSION["email"];
-                                    $uname = $_SESSION["fname"];
-                                    $cash = $_SESSION["cash"];
-                                
-                                    
-                                    echo "<li class='nav-item dropdown'>";
-                                    echo "<a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>";
-                                    echo "$uname";
-                                    echo "</a>";
-                                    echo "<div class='dropdown-menu' aria-labelledby='navbarDropdown'>";
-                                    echo "<a class='dropdown-item' href='profilePage.php'>Profile</a>";
-                                    echo "<a class='dropdown-item' href='includes/logout.inc.php'>Sign Out</a>";
-                                    echo "</div>";
-                                    echo "</li>";
-                                }
-                                else{
-                                    echo " ";
-                                }
-                                ?>
-                            </li>
+                        <?php
+                        if (isset($_SESSION["email"])) {
+                            $x = $_SESSION["email"];
+                            $uname = $_SESSION["fname"];
+                            $cash = $_SESSION["cash"];
 
-                            
-                        </ul>
-                        <form class="form-inline my-2 my-lg-0" method = "post" action="header.inc.php">
-                            <input id="tickersearch" name ="tickersearch" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success my-2 my-sm-0"  name = "ttickerSearch"type="submit" >Search</button>
-                            
-                            <!-- "<script> 
+
+                            echo "<li class='nav-item dropdown'>";
+                            echo "<a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>";
+                            echo "$uname";
+                            echo "</a>";
+                            echo "<div class='dropdown-menu' aria-labelledby='navbarDropdown'>";
+                            echo "<a class='dropdown-item' href='profilePage.php'>Profile</a>";
+                            echo "<a class='dropdown-item' href='includes/logout.inc.php'>Sign Out</a>";
+                            echo "</div>";
+                            echo "</li>";
+                        } else {
+                            echo " ";
+                        }
+                        ?>
+                        </li>
+
+
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0" method="post" action="header.inc.php">
+                        <input id="tickersearch" name="tickersearch" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" name="ttickerSearch" type="submit">Search</button>
+
+                        <!-- "<script> 
                         
                             function getStockInfo() {
                                 var ticker = document.getElementByName("tickersearch")[0].value;
@@ -88,12 +99,12 @@
                                 
                             }
                             </script> -->
-                        </form>
-                        
-                        
+                    </form>
 
-                        
-                    </div>
-                </nav>
+
+
+
+                </div>
+            </nav>
         </div>
-        </header>
+    </header>
