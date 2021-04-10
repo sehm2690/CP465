@@ -15,7 +15,7 @@
             echo "<script type='text/javascript'>alert('Already in watchlist');</script>";
         }
         else{
-            $toADD = oneTicker($query);
+            $toADD = apiCallfn($query);
             addtoWatchlist($conn,$UID,$watchlist,$toADD["symbol"]);
             addtoStock($conn, $toADD);
         }
