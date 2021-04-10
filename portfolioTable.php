@@ -2,16 +2,9 @@
 include_once 'header.php';
 include_once 'includes/api.inc.php';
 include_once 'includes/connection.php';
-#include_once 'pieChartHoldings.php';
 ?>
 <main>
   <style>
-    /* body {
-      background-image: url('img/stock_back.jpg');
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-size: cover;header
-    } */
     html,
     body,
     .container {
@@ -36,6 +29,7 @@ include_once 'includes/connection.php';
       width: 20%;
       height: 30%;
       position: relative;
+      padding-left: 2%;
       /* background-color: whitesmoke; */
     }
 
@@ -46,6 +40,7 @@ include_once 'includes/connection.php';
       left: 0%;
       width: 20%;
       height: 70%;
+      padding-left: 2%;
       position: relative;
       /* background-color: green; */
     }
@@ -57,18 +52,20 @@ include_once 'includes/connection.php';
     #moneyVal {
       color: whitesmoke;
       font-weight: bold;
-      font-size: x-large;
+      font-size: larger;
     }
 
     #gcpbtn {
       position: absolute;
       right: 0%;
+      width: 1.5%;
+      height: 3%;
     }
 
     #ptext {
       color: whitesmoke;
-      /* font-family: "Lucida Console", "Courier New", monospace; */
       font-size: larger;
+      vertical-align: bottom
     }
 
     table {
@@ -94,10 +91,20 @@ include_once 'includes/connection.php';
 
     input[type=number] {
       margin: 8px 0;
-      width: 65%;
+      width: 40%;
       box-sizing: border-box;
       border: 1px solid #555;
       outline: none;
+    }
+
+    #orderBtn {
+      width: 8%;
+      height: 8%;
+      vertical-align: middle;
+      background: url('img/greencheck.png');
+      border: none;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
     }
 
     th,
@@ -115,24 +122,17 @@ include_once 'includes/connection.php';
       color: white;
     }
 
-    .card {
-      /* Add shadows to create the "card" effect */
+    /* .card {
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
       transition: 0.3s;
       width: 8%;
       height: 20%;
     }
 
-    /* On mouse-over, add a deeper shadow
-    .card:hover {
-      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    } */
-
-    /* Add some padding inside the card container */
     .container {
       padding: 2px 16px;
       text-align: left;
-    }
+    } */
 
     body {
       background-image: url('img/stock_back.jpg');
@@ -141,44 +141,35 @@ include_once 'includes/connection.php';
       background-size: cover;
     }
   </style>
-  <!-- <link rel="stylesheet" href="style.css"> -->
 
   <link rel='stylesheet' href='css/portfolioTable.scss' />
-  <!-- <link rel='stylesheet' href='css/style.css' />
-  <link rel='stylesheet' type='text/css' href='/css/testcss.css' /> -->
-
-  <!-- <div class=box1>
-    <div class=card>
-      <div class="container">
-        <h5><b>AAPL</b></h5>
-        <p>$127.4</p>
-        <p style="font-size: small; color:green;">+31.26(3.01%)</p>
-      </div>
-    </div>
-  </div> -->
 
   <br></br>
 
   <form method="post">
-    <input type="submit" id="gcpbtn" name="updatePostBtn" class="button" value="Get Current Price" />
+    <input type="image" src="img/refreshbutton.png" id="gcpbtn" name="updatePostBtn" class="button" />
   </form>
 
 
   <?php
-  #echo "<div class = box1>";
-  #echo "<p>Yessir</p>";
-  #echo "</div>";
   $value = 0;
   $cash =  round($_SESSION["cash"], 2);
+  $cashFormatted = number_format($cash, 2);
   $value = getFromUsers($conn, $_SESSION["UserID"])["cur_value"];
+  $valueFormatted = number_format($value, 2);
+  $profit = $value - 100000;
+  $profitFormatted = number_format($profit, 2);
   echo "<div style='clear: both' class = box3>";
   echo "<h4 style='float: left' id='ptext' >Total Cash (CAD): </h4>
-        <h3 style='float: right' id='moneyVal' >$$cash</h3>
+        <h5 style='float: right' id=moneyVal>$$cashFormatted</h5>
         <p> </p>
         <h5 style='float: left' id='ptext' >Current Value: </h5>
-        <h5 style='float: right' id = moneyVal>$$value</h5>
-        ";
-  //echo"<h4> Test :$value </h4>";
+        <h5 style='float: right' id=moneyVal>$$valueFormatted</h5>
+        <p></p>
+        <div style='clear: both'>
+        <h6 style='float: left' id='ptext' >Profit: </h6>
+        <h5 style='float: right' id =moneyVal>$ $profitFormatted</h5>
+        </div>";
   echo "<hr />";
   echo "</div>";
   ?>
@@ -188,38 +179,6 @@ include_once 'includes/connection.php';
     updateDatabasePortfolio($conn, $_SESSION["UserID"], $_SESSION["cash"]);
   }
   ?>
-
-
-  <!-- <form method="post">
-    <input type="submit" name="updatePostBtn" class="button" value="Get Current Price" />
-  </form> -->
-
-  <!--   <div class=box4>
-    <form method="post" action="includes/portfolioTable.inc.php">
-      <label style="color:whitesmoke;" for="watchlistTables">Select an option:</label>
-
-      <select name="buySell" id="buySell">
-        <option id="ptext" value="-1">Buy</option>
-        <option id="ptext" value="1">Sell</option>
-      </select>
-
-      <input type="search" id="query" name="query" placeholder="Ticker Symbol...">
-
-      <input name="quantity" id=quantity placeholder="Quantity" type=number min=1 max=100000>
-
-      <script>
-        function increment() {
-          document.getElementById('quantity').stepUp();
-        }
-
-        function decrement() {
-          document.getElementById('quantity').stepDown();
-        }
-      </script>
-      <script src='js/confirmPurchase.js'></script>
-      <input type="submit" name="submit" value="Submit">
-
-  </div> -->
 
   <script>
     function updateVal(val) {
@@ -345,8 +304,9 @@ include_once 'includes/connection.php';
         }
       </script>
       <script src='js/confirmPurchase.js'></script>
-      <p></p>
-      <input type="submit" name="submit" value="Place Order">
+      <!-- <input type="image" src="img/greencheck.png" id="orderBtn" name="submit" placeholder="Place Order"> -->
+      <input type="submit" id="orderBtn" name="submit" Value="">
+    </form>
 
   </div>
 

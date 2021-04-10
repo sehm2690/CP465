@@ -1,12 +1,12 @@
 <?php
 include_once 'header.php';
-// include_once 'pieChartHoldings.php';
+include_once 'includes/api.inc.php';
+include_once 'includes/connection.php';
 ?>
 
 <main>
-    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <!-- <link rel="stylesheet" href="css/titlePage.scss"> -->
 
-    <!-- <div style="background-image: url('stock_back.jpg');"> -->
     <style>
         body {
             background-image: url('img/stock_back.jpg');
@@ -18,7 +18,8 @@ include_once 'header.php';
         .row {
             /* Stocks tiles banner */
             float: top;
-            width: auto; /* Adds a slight more width to the page idk why */
+            width: auto;
+            /* Adds a slight more width to the page idk why */
             height: 30%;
             background-color: whitesmoke;
         }
@@ -91,6 +92,21 @@ include_once 'header.php';
             color: whitesmoke;
             text-align: center;
         }
+
+        .titlelogo {
+            width: 500%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 86px;
+            font-family: "Sans-Serif-bold";
+            padding: 80px 50px;
+            text-align: center;
+            text-transform: uppercase;
+            text-rendering: optimizeLegibility;
+        }
     </style>
 
     <!-- More inefficient code for prab -->
@@ -135,23 +151,26 @@ include_once 'header.php';
 
     <br></br>
 
+    <!-- <?php
+            include_once 'pieChartHoldings.php';
+            ?> -->
+
     <div class="container text-center">
         <div class="tpage">
             <div class="col-md-12">
-                <h6 id="tpage">Welcome To:</h6>
+                <h4 id="tpage">Welcome To:</h4>
                 <h1 id="tpage">Stock Simulator</h1>
                 <p id="tpage">We are Stock Simulator and we are here to help you practice trading without risking your hard earned money!</p>
                 <p id="tpage">By using this product, you will learn how to trade ion the stock market and get the real-time practice you need to become a successful investor!</p>
-                <!-- <button id="logout-btn" class="btn btn-light px-5 py-2">Get Started</button> -->
             </div>
         </div>
     </div>
-
 
 
 </main>
 
 
 <?php
-include_once 'footer.php'
+include_once 'footer.php';
+include_once 'pieChartHoldings.php';
 ?>

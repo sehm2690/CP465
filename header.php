@@ -6,6 +6,15 @@ session_start();
 <!DOCTYPE html>
 <html lang="en">
 
+<style>
+    img {
+        width: 1.3%;
+        height: 1%;
+        bottom: 0%;
+        vertical-align: middle
+    }
+</style>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,60 +43,57 @@ session_start();
 
 </head>
 
-
-
 <body data-spy="scroll" data-target="#navbarResponsive">
     <header>
         <div class="container-fluid p-0">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">Stock Simulator</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <div class=logo>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <img src=" img/barchartlogo.png" alt="">
+                    <a class="navbar-brand" href="index.php">Stock Simulator</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="portfolioTable.php">My Portfolio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="watchlist.php">Watchlists</a>
-                        </li>
-                        <!-- <li class="nav-item">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="portfolioTable.php">My Portfolio</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="watchlist.php">Watchlist</a>
+                            </li>
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="#">News</a>
                             </li> -->
-                        <?php
-                        if (isset($_SESSION["email"])) {
-                            $x = $_SESSION["email"];
-                            $uname = $_SESSION["fname"];
-                            $cash = $_SESSION["cash"];
+                            <?php
+                            if (isset($_SESSION["email"])) {
+                                $x = $_SESSION["email"];
+                                $uname = $_SESSION["fname"];
+                                $cash = $_SESSION["cash"];
 
 
-                            echo "<li class='nav-item dropdown'>";
-                            echo "<a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>";
-                            echo "$uname";
-                            echo "</a>";
-                            echo "<div class='dropdown-menu' aria-labelledby='navbarDropdown'>";
-                            echo "<a class='dropdown-item' href='profilePage.php'>Profile</a>";
-                            echo "<a class='dropdown-item' href='includes/logout.inc.php'>Sign Out</a>";
-                            echo "</div>";
-                            echo "</li>";
-                        } else {
-                            echo " ";
-                        }
-                        ?>
-                        </li>
+                                echo "<li class='nav-item dropdown'>";
+                                echo "<a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>";
+                                echo "$uname";
+                                echo "</a>";
+                                echo "<div class='dropdown-menu' aria-labelledby='navbarDropdown'>";
+                                echo "<a class='dropdown-item' href='profilePage.php'>Profile</a>";
+                                echo "<a class='dropdown-item' href='includes/logout.inc.php'>Sign Out</a>";
+                                echo "</div>";
+                                echo "</li>";
+                            } else {
+                                echo " ";
+                            }
+                            ?>
+                            </li>
 
 
-                    </ul>
-                    <form class="form-inline my-2 my-lg-0" method="post" action="header.inc.php">
-                        <input id="tickersearch" name="tickersearch" class="form-control mr-sm-2" type="search" placeholder="Search Ticker..." aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" name="ttickerSearch" type="submit">Search</button>
+                        </ul>
+                        <form class="form-inline my-2 my-lg-0" method="post" action="header.inc.php">
+                            <input id="tickersearch" name="tickersearch" class="form-control mr-sm-2" type="search" placeholder="Search Ticker..." aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" name="ttickerSearch" type="submit">Search</button>
 
-                        <!-- "<script> 
+                            <!-- "<script> 
                         
                             function getStockInfo() {
                                 var ticker = document.getElementByName("tickersearch")[0].value;
@@ -99,12 +105,10 @@ session_start();
                                 
                             }
                             </script> -->
-                    </form>
+                        </form>
 
-
-
-
-                </div>
+                    </div>
+            </div>
             </nav>
         </div>
     </header>

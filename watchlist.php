@@ -35,7 +35,8 @@ include_once 'includes/connection.php';
     }
 
     th {
-      background-color: #4CAF50;
+      background-color: blue;
+      opacity: 0.8;
       color: white;
     }
 
@@ -46,15 +47,18 @@ include_once 'includes/connection.php';
     #gcpbtn {
       position: absolute;
       right: 0%;
+      width: 1.5%;
+      height: 3%;
     }
 
     .box2 {
       /*Third*/
-      /*Portfolio */
+      /*watchlist table*/
       float: right;
       width: 80%;
       height: 80%;
       padding-left: 2%;
+      padding-bottom: 3%;
       /* background-color: blue; */
     }
 
@@ -80,6 +84,42 @@ include_once 'includes/connection.php';
       /* background-color: green; */
     }
 
+    #addBtn {
+      width: 9%;
+      height: 15%;
+      vertical-align: middle;
+      background: url('img/greencheck.png');
+      border: none;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+
+    #removeBtn {
+      width: 9%;
+      height: 15%;
+      vertical-align: middle;
+      background: url('img/redx.png');
+      border: none;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+
+    input[type=text]:focus {
+      background-color: lightblue;
+    }
+
+    input[type=text] {
+      margin: 8px 0;
+      width: 65%;
+      box-sizing: border-box;
+      border: 1px solid #555;
+      outline: none;
+    }
+
+    #txt {
+      color: whitesmoke;
+    }
+
     body {
       background-image: url('img/stock_back.jpg');
       background-repeat: no-repeat;
@@ -100,17 +140,17 @@ include_once 'includes/connection.php';
     </select>
     -->
 
-    <input type="submit" id="gcpbtn" name="updateBtn" class="button" value="Get Current Price" />
+    <input type="image" src="img/refreshbutton.png" id="gcpbtn" name="updatePostBtn" class="button" />
+
+    <div class=box4>
+      <p id="txt" >Add a stock to your watchlist:</p>
+      <input style="width:100%;" type="text" id="query" name="query" placeholder="Ticker to add...">
+      <p></p>
+      <input style="float:right;" type="submit" id="addBtn" name="submit1" value="">
+      <input type="submit" id="removeBtn" name="submit2" value="">
+    </div>
 
   </form>
-
-  <div class=box4>
-
-    <input style="width:100%;" type="search" id="query" name="query" placeholder="Search Symbol...">
-    <p></p>
-    <input type="submit" name="submit2" value="-">
-    <input style="float:right;" type="submit" name="submit1" value="+">
-  </div>
 
   <?php
   if (array_key_exists('updateBtn', $_POST)) {
@@ -126,7 +166,7 @@ include_once 'includes/connection.php';
   <!-- <h1>&darr; SCROLL &darr;</h1> -->
 
   <div class=box2>
-    <h2 style="color:whitesmoke;">My Watchlist</h2>
+    <h2 style="color:whitesmoke;">My Watchlist <i class="icon-minus"></i></h2>
     <table>
       <thead>
         <tr>
