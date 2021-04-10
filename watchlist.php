@@ -70,12 +70,13 @@ include_once 'includes/connection.php';
 
     .box4 {
       /*Second*/
-      /*Buy box*/
+      /*Add/Remove box*/
       float: left;
       left: 0%;
       width: 20%;
       height: 70%;
       position: relative;
+      padding: 2%;
       /* background-color: green; */
     }
 
@@ -105,10 +106,10 @@ include_once 'includes/connection.php';
 
   <div class=box4>
 
-    <input type="search" id="query" name="query" placeholder="Search Symbol...">
+    <input style="width:100%;" type="search" id="query" name="query" placeholder="Search Symbol...">
     <p></p>
-    <input type="submit" name="submit1" value="Add">
-    <input type="submit" name="submit2" value="Remove">
+    <input type="submit" name="submit2" value="-">
+    <input style="float:right;" type="submit" name="submit1" value="+">
   </div>
 
   <?php
