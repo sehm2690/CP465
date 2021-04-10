@@ -8,8 +8,8 @@
         require_once "functions.inc.php";
         echo "<p>pwd : $pwd</p>";
         echo "<p>email : $email</p>";
+    
         
-
         //error handling again
         if(emptyInputLogin($email,$pwd) != false) {
             //header("location: ../login.php?error=emptyinput");

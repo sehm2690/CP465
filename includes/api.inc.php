@@ -1,6 +1,6 @@
 <?php
 
-    function oneTicker($ticker){
+function oneTicker($ticker){
         $curl = curl_init();
 
     curl_setopt_array($curl, [
@@ -33,25 +33,116 @@
 
         }else{
             $parse = json_decode($response);
-            // var_dump($parse);
+            // 
             
-            $return_val = ["symbol" => $parse->quoteResponse->result[0]->symbol,"name" => $parse->quoteResponse->result[0]->longName, "price"=> $parse->quoteResponse->result[0]->regularMarketPrice, "price_change"=> $parse->quoteResponse->result[0]->regularMarketChange, "percent_change"=> $parse->quoteResponse->result[0]->regularMarketChangePercent   ];
+            $return_val = ["symbol" => $parse->quoteResponse->result[0]->symbol, "name" => $parse->quoteResponse->result[0]->longName, "price"=> $parse->quoteResponse->result[0]->regularMarketPrice, "price_change"=> $parse->quoteResponse->result[0]->regularMarketChange, "percent_change"=> $parse->quoteResponse->result[0]->regularMarketChangePercent, "dividendsPerShare"=> $parse->quoteResponse->result[0]->dividendsPerShare, "forwardPE" => $parse->quoteResponse->result[0]->forwardPE, "marketCap" => $parse->quoteResponse->result[0]->marketCap , "pegRatio" => $parse->quoteResponse->result[0]->pegRatio, "priceToSales"=> $parse->quoteResponse->result[0]->priceToSales, "revenue"=> $parse->quoteResponse->result[0]->pegRatio, "sharesOutstanding"=> $parse->quoteResponse->result[0]->sharesOutstanding, "trailingPE"=> $parse->quoteResponse->result[0]->trailingPE, "bookValue"=> $parse->quoteResponse->result[0]->bookValue, "ask"=> $parse->quoteResponse->result[0]->ask, "beta"=> $parse->quoteResponse->result[0]->beta, "bid"=> $parse->quoteResponse->result[0]->bid,  "current_price"=>$parse->quoteResponse->result[0]->regularMarketPrice, "regularMarketVolume"=>$parse->quoteResponse->result[0]->regularMarketVolume, "shortPercentFloat"=>$parse->quoteResponse->result[0]->shortPercentFloat];
+            
+            var_dump($return_val);
             return $return_val;
         }
     }
 
 }
 
-function addtoDatabase($conn,$UID,$type,$symbol,$name,$description, $price, $price_change, $percent_change){
-    $sql = "INSERT INTO watchlist (UID, type, symbol, name, description, price, price_change, percent_change) VALUES (?,?,?,?,?,?,?,?);";
-    $stmt = mysqli_stmt_init($conn);
 
+
+
+function addtoStock($conn, $info){
+    //$sql2 = "INSERT INTO stockdaily (ask, beta, bid, current_price, percent_change, regularMarketVolume, shortPercentFloat, symbol, todays_gain)";
+    // VALUES ($info['ask'],$info['beta'],$info['bid'],$info['current_price'],$info['percent_change'],$info['regularMarketVolume'],$info['shortPercentFloat'],$info['symbol'],$info['todays_gain']);"
+
+    $tableName = "stockinfo";
+    $isinstock = isSymbolinStock($conn, $tableName, $info['symbol']);
+    var_dump($isinstock);
+    if ($isinstock == false){    
+        $sql = "INSERT INTO stockdaily (ask, beta, bid, current_price, percent_change, regularMarketVolume, shortPercentFloat, symbol, todays_gain) VALUES (?,?,?,?,?,?,?,?,?);";
+    // sql2 = 9
+       
+        $stmt = mysqli_stmt_init($conn);
+
+        
+        // $sql1 = "INSERT INTO stockinfo (bookValue, dividendsPerShare, forwardPE, marketCap, name, pegRatio, priceToSales, revenue, sharesOutstanding, symbol, trailingPE) 11 
+        // VALUES ($info['bookValue'],$info['dividendsPerShare'],$info['forwardPE'],$info['marketCap'],$info['name'],$info['pegRatio'],$info['priceToSales'],$info['revenue'],$info['sharesOutstanding'],$info['symbol'],$info['trailingPE']);";
+        //$sql2 = "INSERT INTO stockdaily (ask, beta, bid, current_price, percent_change, regularMarketVolume, shortPercentFloat, symbol, todays_gain) VALUES ($info['ask'],$info['beta'],$info['bid'],$info['current_price'],$info['percent_change'],$info['regularMarketVolume'],$info['shortPercentFloat'],$info['symbol'],$info['todays_gain']);"
+        if(!mysqli_stmt_prepare($stmt,$sql)){
+            header("location: ../createacc.php?error=stmtfailed");
+            exit();
+        }
+        //WID	UID	type	symbol	name	description	price	price_change	percent_change
+        mysqli_stmt_bind_param($stmt,"sssssssss",$info['ask'],$info['beta'],$info['bid'],$info['current_price'],$info['percent_change'],$info['regularMarketVolume'],$info['shortPercentFloat'],$info['symbol'],$info['todays_gain']);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+
+        $sql = "INSERT INTO stockinfo (bookValue, dividendsPerShare, forwardPE, marketCap, name, pegRatio, priceToSales, revenue, sharesOutstanding, symbol, trailingPE) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+        // sql1 = 11
+
+        $stmt = mysqli_stmt_init($conn);
+
+            
+            // $sql1 = "INSERT INTO stockinfo (bookValue, dividendsPerShare, forwardPE, marketCap, name, pegRatio, priceToSales, revenue, sharesOutstanding, symbol, trailingPE) 11 
+            // VALUES ($info['bookValue'],$info['dividendsPerShare'],$info['forwardPE'],$info['marketCap'],$info['name'],$info['pegRatio'],$info['priceToSales'],$info['revenue'],$info['sharesOutstanding'],$info['symbol'],$info['trailingPE']);";
+            //$sql2 = "INSERT INTO stockdaily (ask, beta, bid, current_price, percent_change, regularMarketVolume, shortPercentFloat, symbol, todays_gain) VALUES ($info['ask'],$info['beta'],$info['bid'],$info['current_price'],$info['percent_change'],$info['regularMarketVolume'],$info['shortPercentFloat'],$info['symbol'],$info['todays_gain']);"
+        if(!mysqli_stmt_prepare($stmt,$sql)){
+            header("location: ../createacc.php?error=stmtfailed");
+            exit();
+        }
+        mysqli_stmt_bind_param($stmt,"sssssssssss", $info['bookValue'],$info['dividendsPerShare'],$info['forwardPE'],$info['marketCap'],$info['name'],$info['pegRatio'],$info['priceToSales'],$info['revenue'],$info['sharesOutstanding'],$info['symbol'],$info['trailingPE']);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    
+    } else {
+
+        $sql = "UPDATE stockdaily SET ask = ?, beta = ?, bid = ?, current_price = ?, percent_change = ?, regularMarketVolume = ?, shortPercentFloat = ?, todays_gain = ? WHERE symbol = ?;";
+    // sql2 = 9
+
+      
+        $stmt = mysqli_stmt_init($conn);
+
+        
+        // $sql1 = "INSERT INTO stockinfo (bookValue, dividendsPerShare, forwardPE, marketCap, name, pegRatio, priceToSales, revenue, sharesOutstanding, symbol, trailingPE) 11 
+        // VALUES ($info['bookValue'],$info['dividendsPerShare'],$info['forwardPE'],$info['marketCap'],$info['name'],$info['pegRatio'],$info['priceToSales'],$info['revenue'],$info['sharesOutstanding'],$info['symbol'],$info['trailingPE']);";
+        //$sql2 = "INSERT INTO stockdaily (ask, beta, bid, current_price, percent_change, regularMarketVolume, shortPercentFloat, symbol, todays_gain) VALUES ($info['ask'],$info['beta'],$info['bid'],$info['current_price'],$info['percent_change'],$info['regularMarketVolume'],$info['shortPercentFloat'],$info['symbol'],$info['todays_gain']);"
+        if(!mysqli_stmt_prepare($stmt,$sql)){
+            header("location: ../createacc.php?error=stmtfailed");
+            exit();
+        }
+        //WID	UID	type	symbol	name	description	price	price_change	percent_change
+        mysqli_stmt_bind_param($stmt,"sssssssss",$info['ask'],$info['beta'],$info['bid'],$info['current_price'],$info['percent_change'],$info['regularMarketVolume'],$info['shortPercentFloat'],$info['todays_gain'], $info['symbol']);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+
+        $sql = "UPDATE stockinfo SET bookValue = ?, dividendsPerShare = ?, forwardPE = ?, marketCap = ?, pegRatio = ?, priceToSales = ?, revenue = ?, sharesOutstanding = ?, trailingPE = ? WHERE symbol = ?;";
+
+        $stmt = mysqli_stmt_init($conn);
+
+            
+            // $sql1 = "INSERT INTO stockinfo (bookValue, dividendsPerShare, forwardPE, marketCap, name, pegRatio, priceToSales, revenue, sharesOutstanding, symbol, trailingPE) 11 
+            // VALUES ($info['bookValue'],$info['dividendsPerShare'],$info['forwardPE'],$info['marketCap'],$info['name'],$info['pegRatio'],$info['priceToSales'],$info['revenue'],$info['sharesOutstanding'],$info['symbol'],$info['trailingPE']);";
+            //$sql2 = "INSERT INTO stockdaily (ask, beta, bid, current_price, percent_change, regularMarketVolume, shortPercentFloat, symbol, todays_gain) VALUES ($info['ask'],$info['beta'],$info['bid'],$info['current_price'],$info['percent_change'],$info['regularMarketVolume'],$info['shortPercentFloat'],$info['symbol'],$info['todays_gain']);"
+        if(!mysqli_stmt_prepare($stmt,$sql)){
+            header("location: ../createacc.php?error=stmtfailed");
+            exit();
+        }
+        mysqli_stmt_bind_param($stmt,"ssssssssss", $info['bookValue'],$info['dividendsPerShare'],$info['forwardPE'],$info['marketCap'],$info['pegRatio'],$info['priceToSales'],$info['revenue'],$info['sharesOutstanding'],$info['trailingPE'],$info['symbol']);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        
+    }
+    return;
+}
+
+
+
+
+function addtoWatchlist($conn, $UID, $type, $symbol){
+    $sql = "INSERT INTO watchlist ($UID, type, symbol) VALUES (?,?,?);";
+    $stmt = mysqli_stmt_init($conn);
     if(!mysqli_stmt_prepare($stmt,$sql)){
         header("location: ../createacc.php?error=stmtfailed");
         exit();
     }
     //WID	UID	type	symbol	name	description	price	price_change	percent_change
-    mysqli_stmt_bind_param($stmt,"ssssssss",$UID,$type,$symbol, $name,$description, $price, $price_change, $percent_change);
+    mysqli_stmt_bind_param($stmt,"sss", $UID, $type, $symbol);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     //echo "works";
@@ -74,18 +165,21 @@ function deleteFromWatchlist($conn, $UID, $symbol){
 
 
 function getFromWatchlist($conn, $UID){
-    $query = $conn->query("SELECT symbol, name, price, price_change, percent_change FROM watchlist WHERE uid = $UID");
+    $query = $conn->query("SELECT w.UID, w.symbol, si.name, sd.current_price, sd.percent_change, sd.todays_gain FROM watchlist w INNER JOIN stockdaily sd on sd.symbol = w.symbol INNER JOIN stockinfo si on si.symbol = sd.symbol HAVING w.UID = $UID");
+    //$query = $conn->query("SELECT symbol, name, price, price_change, percent_change FROM watchlist WHERE uid = $UID");
     $tickers = Array();
     while($result = $query->fetch_assoc()){
         $tickers[] = $result;
+        
     }
+    var_dump($tickers);
     return $tickers;
 }
 
 
 function getFromPortfolioTable($conn, $UID){
-    $query = $conn->query("SELECT symbol, name, qty, avg_price, current_price, total_val, todays_gain, total_gain, percent FROM portfolio WHERE uid = $UID");
-
+    #$query = $conn->query("SELECT name, qty, avg_price, current_price, total_val, todays_gain, total_gain, percent FROM portfolio WHERE uid = $UID");
+    $query = $conn->query("SELECT p.UID, p.qty, p.avg_price, p.total_val, p.total_gain, p.percent, p.symbol, si.name, sd.current_price, sd.percent_change, sd.todays_gain FROM portfolio p INNER JOIN stockdaily sd on sd.symbol = w.symbol INNER JOIN stockinfo si on si.symbol = sd.symbol HAVING w.UID = $UID");
     $tickers = Array();
     while($result = $query->fetch_assoc()){
         $tickers[] = $result;
@@ -94,10 +188,9 @@ function getFromPortfolioTable($conn, $UID){
 }
 
 
+function isSymbolinStock($conn, $tableName, $symbol){
 
-function isInWatchlist($conn, $UID, $symbol){
-
-    $sql = "SELECT * FROM watchlist WHERE UID = ? AND symbol = ?;";
+    $sql = "SELECT * FROM $tableName WHERE symbol = ?;";
     $stmt = mysqli_stmt_init($conn);
 
     if(!mysqli_stmt_prepare($stmt,$sql)){
@@ -105,7 +198,33 @@ function isInWatchlist($conn, $UID, $symbol){
         exit();
 
     }
-    mysqli_stmt_bind_param($stmt,"ss", $UID, $symbol);
+    mysqli_stmt_bind_param($stmt,"s", $symbol);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    
+    if ( $row = mysqli_fetch_assoc($resultData)){
+        return $row;
+
+    } else {
+        $result = false;
+        return $result;
+    }
+    mysqli_stmt_close($stmt);   
+
+}
+
+function isSymbolInUser($conn, $tableName, $UID, $symbol){
+
+    $sql = "SELECT * FROM ? WHERE UID = ? AND symbol = ?;";
+    $stmt = mysqli_stmt_init($conn);
+
+    if(!mysqli_stmt_prepare($stmt,$sql)){
+        header("location: ../createacc.php?error=stmtfailed");
+        exit();
+
+    }
+    mysqli_stmt_bind_param($stmt,"sss", $tableName, $UID, $symbol);
     mysqli_stmt_execute($stmt);
 
     $resultData = mysqli_stmt_get_result($stmt);
@@ -122,7 +241,7 @@ function isInWatchlist($conn, $UID, $symbol){
 
 
 function updateDatabase($conn, $UID){
-    $query = $conn->query("SELECT symbol FROM watchlist WHERE uid = $UID");
+    $query = $conn->query("SELECT symbol FROM stockdaily");
     $tickers = Array();
     while($result = $query->fetch_assoc()){
         $tickers[] = $result['symbol'];
@@ -130,25 +249,28 @@ function updateDatabase($conn, $UID){
     $apiCall = apiCallfn($tickers);
     
     for ($i=0; $i <count($apiCall) ; $i++) {
-        $symbol = $apiCall[$i]['symbol'];
-        $price = $apiCall[$i]['price'];
-        $price_change = $apiCall[$i]["price_change"];
-        $percent_change = $apiCall[$i]["percent_change"];
 
-        
-        $sql = "UPDATE watchlist SET price = $price, price_change = $price_change, percent_change = $percent_change WHERE symbol = '$symbol' AND UID = '$UID'";
+        addtoStock($conn, $apiCall[$i]);
+        // $symbol = $apiCall[$i]['symbol'];
+        // $price = $apiCall[$i]['price'];
+        // $price_change = $apiCall[$i]["price_change"];
+        // $percent_change = $apiCall[$i]["percent_change"];
 
-        $stmt = mysqli_stmt_init($conn);
+        // #$query = $conn->query("SELECT w.UID, w.symbol, si.name, sd.current_price, sd.percent_change, sd.todays_gain FROM watchlist w INNER JOIN stockdaily sd on sd.symbol = w.symbol INNER JOIN stockinfo si on si.symbol = sd.symbol HAVING w.UID = $UID");
 
-        if(!mysqli_stmt_prepare($stmt,$sql)){
-            header("location: ../watchlist.php?error=stmtfailed");
-            exit();
-        }
-        //mysqli_stmt_bind_param($stmt,"ssssssss",$UID,$type,$symbol, $name,$description, $price, $price_change, $percent_change);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
+        // $sql = "UPDATE watchlist SET price = $price, price_change = $price_change, percent_change = $percent_change WHERE symbol = '$symbol' AND UID = '$UID'";
+
+        // $stmt = mysqli_stmt_init($conn);
+
+        // if(!mysqli_stmt_prepare($stmt,$sql)){
+        //     header("location: ../watchlist.php?error=stmtfailed");
+        //     exit();
+        // }
+        // //mysqli_stmt_bind_param($stmt,"ssssssss",$UID,$type,$symbol, $name,$description, $price, $price_change, $percent_change);
+        // mysqli_stmt_execute($stmt);
+        // mysqli_stmt_close($stmt);
     }
-    echo("<meta http-equiv='refresh' content='1'>");
+    /////////////////////////////////////////echo("<meta http-equiv='refresh' content='1'>"); <--- change back after
     //header("Refresh:0");
     //error_reporting(0);
 
@@ -176,7 +298,7 @@ function updateDatabasePortfolio($conn, $UID, $cash){
         $newTotal_val = $tickers[$i]["qty"]*$price;
         $SUMtotal_val +=$newTotal_val;
 
-        $sql = "UPDATE portfolio SET current_price = $price, total_val = $newTotal_val, todays_gain = $price_change, total_gain = $total_gain, percent = $percent WHERE symbol = '$symbol' AND UID = '$UID'";
+        $sql = "UPDATE portfolio SET total_val = $newTotal_val, total_gain = $total_gain, percent = $percent WHERE symbol = '$symbol' AND UID = '$UID'";
 
         $stmt = mysqli_stmt_init($conn);
 
@@ -208,7 +330,6 @@ function updateDatabasePortfolio($conn, $UID, $cash){
 }
 
 function getFromTransaction($conn ,$UID){
-
 
     $query = $conn->query("SELECT * FROM transactions WHERE uid = $UID");
     $tickers = Array();
@@ -275,17 +396,237 @@ function apiCallfn($tickers){
     } else {
         
         $parse = json_decode($response);
-        $returnVar = [];
-        for ($i=0; $i < count($tickers) ; $i++) { 
-            $returnVar[] = ["symbol"=>$parse->quoteResponse->result[$i]->symbol,"name"=>$parse->quoteResponse->result[$i]->longName, "price"=> $parse->quoteResponse->result[$i]->regularMarketPrice, "price_change"=> $parse->quoteResponse->result[$i]->regularMarketChange, "percent_change"=> $parse->quoteResponse->result[$i]->regularMarketChangePercent];
-
-        }
+        //var_dump($parse);
         
-        return $returnVar;
+        $returnVar = [];
 
+        for ($i=0; $i < count($tickers) ; $i++) { 
+            //$returnVar[] = ["symbol"=>$parse->quoteResponse->result[$i]->symbol,"name"=>$parse->quoteResponse->result[$i]->longName, "price"=> $parse->quoteResponse->result[$i]->regularMarketPrice, "price_change"=> $parse->quoteResponse->result[$i]->regularMarketChange, "percent_change"=> $parse->quoteResponse->result[$i]->regularMarketChangePercent];
+            //$return_val[] = ["symbol" => $parse->quoteResponse->result[$i]->symbol, "name" => $parse->quoteResponse->result[$i]->longName, "price"=> $parse->quoteResponse->result[$i]->regularMarketPrice, "price_change"=> $parse->quoteResponse->result[$i]->regularMarketChange, "percent_change"=> $parse->quoteResponse->result[$i]->regularMarketChangePercent, "dividendsPerShare"=> $parse->quoteResponse->result[$i]->dividendsPerShare, "forwardPE" => $parse->quoteResponse->result[$i]->forwardPE, "marketCap" => $parse->quoteResponse->result[$i]->marketCap , "pegRatio" => $parse->quoteResponse->result[$i]->pegRatio, "priceToSales"=> $parse->quoteResponse->result[$i]->priceToSales, "revenue"=> $parse->quoteResponse->result[$i]->revenue, "sharesOutstanding"=> $parse->quoteResponse->result[$i]->sharesOutstanding, "trailingPE"=> $parse->quoteResponse->result[$i]->trailingPE, "bookValue"=> $parse->quoteResponse->result[$i]->bookValue, "ask"=> $parse->quoteResponse->result[$i]->ask, "beta"=> $parse->quoteResponse->result[$i]->beta, "bid"=> $parse->quoteResponse->result[$i]->bid,  "current_price"=>$parse->quoteResponse->result[$i]->regularMarketPrice, "regularMarketVolume"=>$parse->quoteResponse->result[$i]->regularMarketVolume, "shortPercentFloat"=>$parse->quoteResponse->result[$i]->shortPercentFloat];
+            
+            $return_val[];
+            
+            $var1 = $parse->quoteResponse->result[$i]->symbol;
+            if(isset($var1)){
+                $return_val[$i] = "symbol" => $parse->quoteResponse->result[$i]->symbol;
+            }
+
+            else{
+                $return_val[$i] = "symbol" => 0;
+            }
+        
+            echo"<p>VARIABLE 1 $var1</p><br></br>";
+            $var2 = $parse->quoteResponse->result[$i]->longName;
+            if(isset($var1)){
+                $return_val[$i] = "name" => $parse->quoteResponse->result[$i]->longName;
+
+            }
+            else{
+                $return_val[$i] = "name" => 0;
+            }
+
+            echo"<p>VARIABLE 2 $var2</p><br></br>";
+            $var3 = $parse->quoteResponse->result[$i]->regularMarketPrice;
+            if(isset($var1)){
+                $return_val[$i] = "price"=> $parse->quoteResponse->result[$i]->regularMarketPrice;
+
+            }
+            else{
+                $return_val[$i] = "price" => 0;
+            }
+        
+
+            $var4 = $parse->quoteResponse->result[$i]->regularMarketChange;
+            echo"<p>VARIABLE 4 $var4</p><br></br>";
+            if(isset($var4)){
+                $return_val[$i] = "price_change"=> $parse->quoteResponse->result[$i]->regularMarketChange;
+            }
+            else{
+                $return_val[$i] = "price_change" => 0;
+            }
+        
+
+            $var5 = $parse->quoteResponse->result[$i]->regularMarketChangePercent;
+            echo"<p>VARIABLE 5 $var5</p><br></br>";
+            if(isset($var5)){
+                $return_val[$i] =  "percent_change"=> $parse->quoteResponse->result[$i]->regularMarketChangePercent;
+                
+            }
+            else{
+                $return_val[$i] = "percent_change" => 0;
+            }
+        
+
+            $var6 = $parse->quoteResponse->result[$i]->dividendsPerShare; 
+            echo"<p>VARIABLE 6 $var6</p><br></br>";
+            if(isset($var6)){
+                $return_val[$i] =  "dividendsPerShare"=> $parse->quoteResponse->result[$i]->dividendsPerShare;
+            }
+            else{
+                $return_val[$i] = "dividendsPerShare" => 0;
+            }
+        
+
+            $var7 = $parse->quoteResponse->result[$i]->forwardPE;
+            echo"<p>VARIABLE 7 $var7</p><br></br>";
+            if(isset($var7)){
+                $return_val[$i] = "forwardPE" => $parse->quoteResponse->result[$i]->forwardPE;
+            }
+            else{
+                $return_val[$i] = "forwardPE" => 0;
+            }
+        
+
+            $var8 = $parse->quoteResponse->result[$i]->marketCap;
+            echo"<p>VARIABLE 8 $var8</p><br></br>";
+            if(isset($var8)){
+                $return_val[$i] = "marketCap" => $parse->quoteResponse->result[$i]->marketCap;
+            }
+            else{
+                $return_val[$i] = "marketCap" => 0;
+            }
+        
+
+            $pegRatio = $parse->quoteResponse->result[$i]->pegRatio;
+            echo"<p>VARIABLE 9 $pegRatio</p><br></br>";
+            if(isset($pegRatio)){
+                $return_val[$i] = "pegRatio" => $parse->quoteResponse->result[$i]->pegRatio;
+                
+
+            }
+            else{
+                $return_val[$i] = "pegRatio" => 0;
+            }
+        
+
+            $priceToSales = $parse->quoteResponse->result[$i]->priceToSales; 
+            echo"<p>VARIABLE 10 $priceToSales</p><br></br>";
+            if(isset($priceToSales)){
+                $return_val[$i] = "priceToSales"=> $parse->quoteResponse->result[$i]->priceToSales;
+
+            }
+            else{
+                $return_val[$i] = "priceToSales" => 0;
+            }
+        
+
+            $revenue = $parse->quoteResponse->result[$i]->revenue; 
+            echo"<p>VARIABLE 11 $revenue</p><br></br>";
+            if(isset($revenue)){
+                $return_val[$i] = "revenue"=> $parse->quoteResponse->result[$i]->revenue;
+
+            }
+            else{
+                $return_val[$i] = "revenue" => 0;
+            }
+        
+
+            $sharesOutstanding = $parse->quoteResponse->result[$i]->sharesOutstanding;
+            echo"<p>VARIABLE 12 $sharesOutstanding</p><br></br>";
+            if(isset($sharesOutstanding)){
+                $return_val[$i] = "sharesOutstanding"=> $parse->quoteResponse->result[$i]->sharesOutstanding;
+
+            }
+            else{
+                $return_val[$i] = "sharesOutstanding" => 0;
+            }
+        
+
+
+            $trailingPE = $parse->quoteResponse->result[$i]->trailingPE;
+            echo"<p>VARIABLE 13 $trailingPE</p><br></br>";
+            if(isset($trailingPE)){
+                $return_val[$i] = "trailingPE"=> $parse->quoteResponse->result[$i]->trailingPE;
+
+            }
+            else{
+                $return_val[$i] = "trailingPE" => 0;
+            }
+        
+
+            $bookValue = $parse->quoteResponse->result[$i]->bookValue;
+            echo"<p>VARIABLE 14 $bookValue  </p><br></br>";
+            if(isset($bookValue)){
+                $return_val[$i] =  "bookValue"=> $parse->quoteResponse->result[$i]->bookValue;
+            }
+            else{
+                $return_val[$i] = "bookValue" => 0;
+            }
+        
+            $ask = $parse->quoteResponse->result[$i]->ask; 
+            echo"<p>VARIABLE 15 $ask </p><br></br>";
+            if(isset($ask)){
+                $return_val[$i] = "ask"=> $parse->quoteResponse->result[$i]->ask;
+            }
+            else{
+                $return_val[$i] = "ask" => 0;
+            }
+        
+
+            $beta = $parse->quoteResponse->result[$i]->beta;
+            echo"<p>VARIABLE 16 $beta </p><br></br>";
+            if(isset($beta)){
+                $return_val[$i] = "beta"=> $parse->quoteResponse->result[$i]->beta;
+            }
+
+            else{
+                $return_val[$i] = "beta" => 0;
+            }
+        
+        
+
+            $bid = $parse->quoteResponse->result[$i]->bid;
+            echo"<p>VARIABLE 17 $bid</p><br></br>";
+            if(isset($bid)){
+                $return_val[$i] = "bid"=> $parse->quoteResponse->result[$i]->bid;
+            }
+            else{
+                $return_val[$i] = "bid" => 0;
+            }
+        
+
+            $current_price = $parse->quoteResponse->result[$i]->regularMarketPrice; 
+            echo"<p> VARIABLE 18 $current_price</p><br></br>";
+            if(isset($current_price)){
+                $return_val[$i] =   "current_price"=>$parse->quoteResponse->result[$i]->regularMarketPrice;
+
+            }
+            else{
+                $return_val[$i] = "current_price" => 0;
+            }
+            
+            $regularMarketVolume = $parse->quoteResponse->result[$i]->regularMarketVolume; 
+            echo"<p>VARIABLE 19 $regularMarketVolume </p><br></br>";
+            if(isset($regularMarketVolume)){
+                $return_val[$i] =  "regularMarketVolume"=>$parse->quoteResponse->result[$i]->regularMarketVolume;
+            }
+            else{
+                $return_val[$i] = "regularMarketVolume" => 0;
+            }
+        
+
+            $shortPercentFloat = $parse->quoteResponse->result[$i]->shortPercentFloat;
+            if(isset($shortPercentFloat)){
+                $return_val[$i] =  "shortPercentFloat"=>$parse->quoteResponse->result[$i]->shortPercentFloat;
+                
+            }
+            else{
+                $return_val[$i] = "shortPercentFloat" => 0;
+            }
+
+            echo"<p>VARIABLE 20 $shortPercentFloat </p><br></br>";
+            
+        }
+        var_dump($return_val);
+
+        return $returnVar;
         
     }
 
+// 7: $parse->quoteResponse->result[$i]->forwardP, 9: $parse->quoteResponse->result[$i]->pegRatio , 
+//10: $parse->quoteResponse->result[$i]->priceToSales, 11: $parse->quoteResponse->result[$i]->revenue
+// 13: $parse->quoteResponse->result[$i]->trailingPE 14:  $parse->quoteResponse->result[$i]->bookValue
+// 16: $parse->quoteResponse->result[$i]->beta  20 $parse->quoteResponse->result[$i]->shortPercentFloat
 
 }
 
@@ -298,7 +639,7 @@ function calculateCurrentPrice($ticker, $qty){
 }
 
 
-
+//<-delet 
 function isInPortfolio($conn, $UID, $symbol){
 
     $sql = "SELECT * FROM portfolio WHERE UID = ? AND symbol = ?;";

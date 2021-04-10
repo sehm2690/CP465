@@ -57,6 +57,8 @@
     function decrement() {
       document.getElementById('quantity').stepDown();
     }
+
+    
   </script>
   <!-- <p id="test" name = "test"></p> -->
   <script src='js/confirmPurchase.js'></script>
