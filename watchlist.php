@@ -60,8 +60,8 @@
     for ($i=0; $i <count($watchlistData) ; $i++) {
       $symbol = $watchlistData[$i]["symbol"];
       $name = $watchlistData[$i]["name"];
-      $price = $watchlistData[$i]["price"];
-      $change = $watchlistData[$i]["price_change"];
+      $price = $watchlistData[$i]["current_price"];
+      $change = $watchlistData[$i]["todays_gain"];
       $perChange = $watchlistData[$i]["percent_change"];
 
       

@@ -53,6 +53,7 @@ function addtoStock($conn, $info){
 
     $tableName = "stockinfo";
     $isinstock = isSymbolinStock($conn, $tableName, $info['symbol']);
+    echo"<p>THIS IS THE ADD TO STOCK <br></b></p>";
     var_dump($isinstock);
     if ($isinstock == false){    
         $sql = "INSERT INTO stockdaily (ask, beta, bid, current_price, percent_change, regularMarketVolume, shortPercentFloat, symbol, todays_gain) VALUES (?,?,?,?,?,?,?,?,?);";
@@ -69,7 +70,7 @@ function addtoStock($conn, $info){
             exit();
         }
         //WID	UID	type	symbol	name	description	price	price_change	percent_change
-        mysqli_stmt_bind_param($stmt,"sssssssss",$info['ask'],$info['beta'],$info['bid'],$info['current_price'],$info['percent_change'],$info['regularMarketVolume'],$info['shortPercentFloat'],$info['symbol'],$info['todays_gain']);
+        mysqli_stmt_bind_param($stmt,"sssssssss",$info['ask'],$info['beta'],$info['bid'],$info['current_price'],$info['percent_change'],$info['regularMarketVolume'],$info['shortPercentFloat'],$info['symbol'],$info['price_change']);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
 
@@ -107,11 +108,11 @@ function addtoStock($conn, $info){
             exit();
         }
         //WID	UID	type	symbol	name	description	price	price_change	percent_change
-        mysqli_stmt_bind_param($stmt,"sssssssss",$info['ask'],$info['beta'],$info['bid'],$info['current_price'],$info['percent_change'],$info['regularMarketVolume'],$info['shortPercentFloat'],$info['todays_gain'], $info['symbol']);
+        mysqli_stmt_bind_param($stmt,"sssssssss",$info['ask'],$info['beta'],$info['bid'],$info['current_price'],$info['percent_change'],$info['regularMarketVolume'],$info['shortPercentFloat'],$info['price_change'], $info['symbol']);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
 
-        $sql = "UPDATE stockinfo SET bookValue = ?, dividendsPerShare = ?, forwardPE = ?, marketCap = ?, pegRatio = ?, priceToSales = ?, revenue = ?, sharesOutstanding = ?, trailingPE = ? WHERE symbol = ?;";
+        $sql = "UPDATE stockinfo SET name = ?, bookValue = ?, dividendsPerShare = ?, forwardPE = ?, marketCap = ?, pegRatio = ?, priceToSales = ?, revenue = ?, sharesOutstanding = ?, trailingPE = ? WHERE symbol = ?;";
 
         $stmt = mysqli_stmt_init($conn);
 
@@ -123,7 +124,7 @@ function addtoStock($conn, $info){
             header("location: ../createacc.php?error=stmtfailed");
             exit();
         }
-        mysqli_stmt_bind_param($stmt,"ssssssssss", $info['bookValue'],$info['dividendsPerShare'],$info['forwardPE'],$info['marketCap'],$info['pegRatio'],$info['priceToSales'],$info['revenue'],$info['sharesOutstanding'],$info['trailingPE'],$info['symbol']);
+        mysqli_stmt_bind_param($stmt,"sssssssssss", $info['name'],$info['bookValue'],$info['dividendsPerShare'],$info['forwardPE'],$info['marketCap'],$info['pegRatio'],$info['priceToSales'],$info['revenue'],$info['sharesOutstanding'],$info['trailingPE'],$info['symbol']);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
         
@@ -249,6 +250,9 @@ function updateDatabase($conn, $UID){
     $apiCall = apiCallfn($tickers);
     
     for ($i=0; $i <count($apiCall) ; $i++) {
+
+        echo"<p>THIS IS ABOUT TO ADD TO STOCK TABLES <br></b></p>";
+        var_dump($apiCall[$i]);
 
         addtoStock($conn, $apiCall[$i]);
         // $symbol = $apiCall[$i]['symbol'];
@@ -404,222 +408,171 @@ function apiCallfn($tickers){
             //$returnVar[] = ["symbol"=>$parse->quoteResponse->result[$i]->symbol,"name"=>$parse->quoteResponse->result[$i]->longName, "price"=> $parse->quoteResponse->result[$i]->regularMarketPrice, "price_change"=> $parse->quoteResponse->result[$i]->regularMarketChange, "percent_change"=> $parse->quoteResponse->result[$i]->regularMarketChangePercent];
             //$return_val[] = ["symbol" => $parse->quoteResponse->result[$i]->symbol, "name" => $parse->quoteResponse->result[$i]->longName, "price"=> $parse->quoteResponse->result[$i]->regularMarketPrice, "price_change"=> $parse->quoteResponse->result[$i]->regularMarketChange, "percent_change"=> $parse->quoteResponse->result[$i]->regularMarketChangePercent, "dividendsPerShare"=> $parse->quoteResponse->result[$i]->dividendsPerShare, "forwardPE" => $parse->quoteResponse->result[$i]->forwardPE, "marketCap" => $parse->quoteResponse->result[$i]->marketCap , "pegRatio" => $parse->quoteResponse->result[$i]->pegRatio, "priceToSales"=> $parse->quoteResponse->result[$i]->priceToSales, "revenue"=> $parse->quoteResponse->result[$i]->revenue, "sharesOutstanding"=> $parse->quoteResponse->result[$i]->sharesOutstanding, "trailingPE"=> $parse->quoteResponse->result[$i]->trailingPE, "bookValue"=> $parse->quoteResponse->result[$i]->bookValue, "ask"=> $parse->quoteResponse->result[$i]->ask, "beta"=> $parse->quoteResponse->result[$i]->beta, "bid"=> $parse->quoteResponse->result[$i]->bid,  "current_price"=>$parse->quoteResponse->result[$i]->regularMarketPrice, "regularMarketVolume"=>$parse->quoteResponse->result[$i]->regularMarketVolume, "shortPercentFloat"=>$parse->quoteResponse->result[$i]->shortPercentFloat];
             
-            $return_val[];
+            $return_val[] = [];
             
-            $var1 = $parse->quoteResponse->result[$i]->symbol;
-            if(isset($var1)){
-                $return_val[$i] = "symbol" => $parse->quoteResponse->result[$i]->symbol;
+            if(isset($parse->quoteResponse->result[$i]->symbol)){
+                $return_val[$i] ["symbol"] = $parse->quoteResponse->result[$i]->symbol;
             }
 
             else{
-                $return_val[$i] = "symbol" => 0;
+                $return_val[$i] ["symbol"] = 0;
             }
         
-            echo"<p>VARIABLE 1 $var1</p><br></br>";
-            $var2 = $parse->quoteResponse->result[$i]->longName;
-            if(isset($var1)){
-                $return_val[$i] = "name" => $parse->quoteResponse->result[$i]->longName;
+            if(isset($parse->quoteResponse->result[$i]->longName)){
+                $return_val[$i]["name"] = $parse->quoteResponse->result[$i]->longName;
 
             }
             else{
-                $return_val[$i] = "name" => 0;
+                $return_val[$i] ["name"] = 0;
             }
 
-            echo"<p>VARIABLE 2 $var2</p><br></br>";
-            $var3 = $parse->quoteResponse->result[$i]->regularMarketPrice;
-            if(isset($var1)){
-                $return_val[$i] = "price"=> $parse->quoteResponse->result[$i]->regularMarketPrice;
+            if(isset($parse->quoteResponse->result[$i]->regularMarketPrice)){
+                $return_val[$i] ["price"] = $parse->quoteResponse->result[$i]->regularMarketPrice;
 
             }
             else{
-                $return_val[$i] = "price" => 0;
+                $return_val[$i] ["price"]  = 0;
             }
         
 
-            $var4 = $parse->quoteResponse->result[$i]->regularMarketChange;
-            echo"<p>VARIABLE 4 $var4</p><br></br>";
-            if(isset($var4)){
-                $return_val[$i] = "price_change"=> $parse->quoteResponse->result[$i]->regularMarketChange;
+            if(isset($parse->quoteResponse->result[$i]->regularMarketChange)){
+                $return_val[$i] ["price_change"] = $parse->quoteResponse->result[$i]->regularMarketChange;
             }
             else{
-                $return_val[$i] = "price_change" => 0;
+                $return_val[$i] ["price_change"]  = 0;
             }
         
-
-            $var5 = $parse->quoteResponse->result[$i]->regularMarketChangePercent;
-            echo"<p>VARIABLE 5 $var5</p><br></br>";
-            if(isset($var5)){
-                $return_val[$i] =  "percent_change"=> $parse->quoteResponse->result[$i]->regularMarketChangePercent;
+            if(isset($parse->quoteResponse->result[$i]->regularMarketChangePercent)){
+                $return_val[$i]["percent_change"] = $parse->quoteResponse->result[$i]->regularMarketChangePercent;
                 
             }
             else{
-                $return_val[$i] = "percent_change" => 0;
+                $return_val[$i]["percent_change"]  = 0;
             }
         
 
-            $var6 = $parse->quoteResponse->result[$i]->dividendsPerShare; 
-            echo"<p>VARIABLE 6 $var6</p><br></br>";
-            if(isset($var6)){
-                $return_val[$i] =  "dividendsPerShare"=> $parse->quoteResponse->result[$i]->dividendsPerShare;
+            if(isset($parse->quoteResponse->result[$i]->dividendsPerShare)){
+                $return_val[$i] ["dividendsPerShare"] = $parse->quoteResponse->result[$i]->dividendsPerShare;
             }
             else{
-                $return_val[$i] = "dividendsPerShare" => 0;
+                $return_val[$i] ["dividendsPerShare"]  = 0;
             }
         
 
-            $var7 = $parse->quoteResponse->result[$i]->forwardPE;
-            echo"<p>VARIABLE 7 $var7</p><br></br>";
-            if(isset($var7)){
-                $return_val[$i] = "forwardPE" => $parse->quoteResponse->result[$i]->forwardPE;
+            if(isset($parse->quoteResponse->result[$i]->forwardPE)){
+                $return_val[$i] ["forwardPE"]  = $parse->quoteResponse->result[$i]->forwardPE;
             }
             else{
-                $return_val[$i] = "forwardPE" => 0;
+                $return_val[$i] ["forwardPE"]  = 0;
             }
         
-
-            $var8 = $parse->quoteResponse->result[$i]->marketCap;
-            echo"<p>VARIABLE 8 $var8</p><br></br>";
-            if(isset($var8)){
-                $return_val[$i] = "marketCap" => $parse->quoteResponse->result[$i]->marketCap;
+            if(isset($parse->quoteResponse->result[$i]->marketCap)){
+                $return_val[$i] ["marketCap"]  = $parse->quoteResponse->result[$i]->marketCap;
             }
             else{
-                $return_val[$i] = "marketCap" => 0;
+                $return_val[$i] ["marketCap"]  = 0;
             }
         
-
-            $pegRatio = $parse->quoteResponse->result[$i]->pegRatio;
-            echo"<p>VARIABLE 9 $pegRatio</p><br></br>";
-            if(isset($pegRatio)){
-                $return_val[$i] = "pegRatio" => $parse->quoteResponse->result[$i]->pegRatio;
-                
-
+            if(isset($parse->quoteResponse->result[$i]->pegRatio)){
+                $return_val[$i] ["pegRatio"]  = $parse->quoteResponse->result[$i]->pegRatio;
             }
             else{
-                $return_val[$i] = "pegRatio" => 0;
+                $return_val[$i] ["pegRatio"]  = 0;
+            }
+
+            if(isset($parse->quoteResponse->result[$i]->priceToSales)){
+                $return_val[$i] ["priceToSales"] = $parse->quoteResponse->result[$i]->priceToSales;
+            }
+            else{
+                $return_val[$i] ["priceToSales"]  = 0;
             }
         
-
-            $priceToSales = $parse->quoteResponse->result[$i]->priceToSales; 
-            echo"<p>VARIABLE 10 $priceToSales</p><br></br>";
-            if(isset($priceToSales)){
-                $return_val[$i] = "priceToSales"=> $parse->quoteResponse->result[$i]->priceToSales;
+            if(isset($parse->quoteResponse->result[$i]->revenue)){
+                $return_val[$i] ["revenue"] = $parse->quoteResponse->result[$i]->revenue;
 
             }
             else{
-                $return_val[$i] = "priceToSales" => 0;
+                $return_val[$i] ["revenue"]  = 0;
             }
         
-
-            $revenue = $parse->quoteResponse->result[$i]->revenue; 
-            echo"<p>VARIABLE 11 $revenue</p><br></br>";
-            if(isset($revenue)){
-                $return_val[$i] = "revenue"=> $parse->quoteResponse->result[$i]->revenue;
+            if(isset($parse->quoteResponse->result[$i]->sharesOutstanding)){
+                $return_val[$i] ["sharesOutstanding"] = $parse->quoteResponse->result[$i]->sharesOutstanding;
 
             }
             else{
-                $return_val[$i] = "revenue" => 0;
+                $return_val[$i] ["sharesOutstanding"]  = 0;
             }
         
 
-            $sharesOutstanding = $parse->quoteResponse->result[$i]->sharesOutstanding;
-            echo"<p>VARIABLE 12 $sharesOutstanding</p><br></br>";
-            if(isset($sharesOutstanding)){
-                $return_val[$i] = "sharesOutstanding"=> $parse->quoteResponse->result[$i]->sharesOutstanding;
+
+            if(isset($parse->quoteResponse->result[$i]->trailingPE)){
+                $return_val[$i] ["trailingPE"] = $parse->quoteResponse->result[$i]->trailingPE;
 
             }
             else{
-                $return_val[$i] = "sharesOutstanding" => 0;
+                $return_val[$i] ["trailingPE"]  = 0;
             }
         
-
-
-            $trailingPE = $parse->quoteResponse->result[$i]->trailingPE;
-            echo"<p>VARIABLE 13 $trailingPE</p><br></br>";
-            if(isset($trailingPE)){
-                $return_val[$i] = "trailingPE"=> $parse->quoteResponse->result[$i]->trailingPE;
-
+            if(isset($parse->quoteResponse->result[$i]->bookValue)){
+                $return_val[$i]  ["bookValue"] = $parse->quoteResponse->result[$i]->bookValue;
             }
             else{
-                $return_val[$i] = "trailingPE" => 0;
+                $return_val[$i] ["bookValue"]  = 0;
+            }
+        
+            if(isset($parse->quoteResponse->result[$i]->ask)){
+                $return_val[$i] ["ask"] = $parse->quoteResponse->result[$i]->ask;
+            }
+            else{
+                $return_val[$i] ["ask"]  = 0;
             }
         
 
-            $bookValue = $parse->quoteResponse->result[$i]->bookValue;
-            echo"<p>VARIABLE 14 $bookValue  </p><br></br>";
-            if(isset($bookValue)){
-                $return_val[$i] =  "bookValue"=> $parse->quoteResponse->result[$i]->bookValue;
-            }
-            else{
-                $return_val[$i] = "bookValue" => 0;
-            }
-        
-            $ask = $parse->quoteResponse->result[$i]->ask; 
-            echo"<p>VARIABLE 15 $ask </p><br></br>";
-            if(isset($ask)){
-                $return_val[$i] = "ask"=> $parse->quoteResponse->result[$i]->ask;
-            }
-            else{
-                $return_val[$i] = "ask" => 0;
-            }
-        
-
-            $beta = $parse->quoteResponse->result[$i]->beta;
-            echo"<p>VARIABLE 16 $beta </p><br></br>";
-            if(isset($beta)){
-                $return_val[$i] = "beta"=> $parse->quoteResponse->result[$i]->beta;
+            if(isset( $parse->quoteResponse->result[$i]->beta)){
+                $return_val[$i] ["beta"] = $parse->quoteResponse->result[$i]->beta;
             }
 
             else{
-                $return_val[$i] = "beta" => 0;
+                $return_val[$i] ["beta"]  = 0;
             }
         
         
 
-            $bid = $parse->quoteResponse->result[$i]->bid;
-            echo"<p>VARIABLE 17 $bid</p><br></br>";
-            if(isset($bid)){
-                $return_val[$i] = "bid"=> $parse->quoteResponse->result[$i]->bid;
+        
+            if(isset($parse->quoteResponse->result[$i]->bid)){
+                $return_val[$i] ["bid"] = $parse->quoteResponse->result[$i]->bid;
             }
             else{
-                $return_val[$i] = "bid" => 0;
+                $return_val[$i] ["bid"]  = 0;
             }
         
 
-            $current_price = $parse->quoteResponse->result[$i]->regularMarketPrice; 
-            echo"<p> VARIABLE 18 $current_price</p><br></br>";
-            if(isset($current_price)){
-                $return_val[$i] =   "current_price"=>$parse->quoteResponse->result[$i]->regularMarketPrice;
+            if(isset($parse->quoteResponse->result[$i]->regularMarketPrice)){
+                $return_val[$i]  ["current_price" ]= $parse->quoteResponse->result[$i]->regularMarketPrice;
 
             }
             else{
-                $return_val[$i] = "current_price" => 0;
+                $return_val[$i] ["current_price"]  = 0;
             }
             
-            $regularMarketVolume = $parse->quoteResponse->result[$i]->regularMarketVolume; 
-            echo"<p>VARIABLE 19 $regularMarketVolume </p><br></br>";
-            if(isset($regularMarketVolume)){
-                $return_val[$i] =  "regularMarketVolume"=>$parse->quoteResponse->result[$i]->regularMarketVolume;
+            if(isset($parse->quoteResponse->result[$i]->regularMarketVolume)){
+                $return_val[$i] ["regularMarketVolume"] =$parse->quoteResponse->result[$i]->regularMarketVolume;
             }
             else{
-                $return_val[$i] = "regularMarketVolume" => 0;
+                $return_val[$i] ["regularMarketVolume"]  = 0;
             }
         
 
-            $shortPercentFloat = $parse->quoteResponse->result[$i]->shortPercentFloat;
-            if(isset($shortPercentFloat)){
-                $return_val[$i] =  "shortPercentFloat"=>$parse->quoteResponse->result[$i]->shortPercentFloat;
-                
+            if(isset($parse->quoteResponse->result[$i]->shortPercentFloat)){
+                $return_val[$i] ["shortPercentFloat"] =$parse->quoteResponse->result[$i]->shortPercentFloat;
             }
             else{
-                $return_val[$i] = "shortPercentFloat" => 0;
+                $return_val[$i] ["shortPercentFloat"]  = 0;
             }
-
-            echo"<p>VARIABLE 20 $shortPercentFloat </p><br></br>";
             
         }
-        var_dump($return_val);
 
-        return $returnVar;
+        return $return_val;
         
     }
 
