@@ -1,5 +1,6 @@
 <?php
-include_once 'header.php'
+include_once 'header.php';
+// include_once 'pieChartHoldings.php';
 ?>
 
 <main>
@@ -19,7 +20,7 @@ include_once 'header.php'
             float: top;
             width: 100%;
             height: 30%;
-            /* background-color: purple; */
+            background-color: whitesmoke;
         }
 
         .card {
@@ -30,15 +31,18 @@ include_once 'header.php'
             height: 20%;
         }
 
-        /* On mouse-over, add a deeper shadow
-    .card:hover {
-      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    } */
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+        }
 
         /* Add some padding inside the card container */
         .container {
             padding: 2px 16px;
             text-align: left;
+        }
+
+        .tpage {
+            
         }
     </style>
 

@@ -34,7 +34,7 @@
 </head>
 
 <body>
-    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    <div id="chartContainer" style="height: 250px; width: 15%;"></div>
 </body>
 
 </html>
