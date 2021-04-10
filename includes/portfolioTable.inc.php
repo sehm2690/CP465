@@ -28,6 +28,7 @@
         if($buySell == -1){
             if($cash > $total){               
                 if($portResult == false){  
+                    #addtoStockInfo
                     addToPortfolio($conn,$UID, $price["symbol"],$price["name"],$qty, $price["price"],$price["price"], $price["total"], $price["price_change"], 0, 0);
                 }else{
                     $newQty = $qty + $portResult["qty"];
@@ -39,12 +40,13 @@
                     $total_gain = ($price['price'] - $avg_price) *$newQty;
                     $percent = (($price['price'] - $price['price'])/$avg_price) * 100;
 
+                    #updateStockInfro
                     updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol, $todays_change, $total_gain, $percent, $price["price"]);
                 }
-                
+
                 $amount = $price["total"] * -1;
-                
-                addtoTransac($conn, $UID, $buySell, $price["symbol"], $qty, $amount);
+                $date = date("Y-m-d H:i:s");  
+                addtoTransac($conn, $UID, $buySell, $price["symbol"], $qty, $amount, $date);
                 header('location: ../portfolioTable.php');
 
             }else{
