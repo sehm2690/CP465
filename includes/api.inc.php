@@ -50,8 +50,7 @@ function addtoStock($conn, $info){
 
     $tableName = "stockinfo";
     $isinstock = isSymbolinStock($conn, $tableName, $info['symbol']);
-    echo"<p>THIS IS THE ADD TO STOCK <br></b></p>";
-    var_dump($isinstock);
+   
     if ($isinstock == false){    
         $sql = "INSERT INTO stockdaily (ask, beta, bid, current_price, percent_change, regularMarketVolume, shortPercentFloat, symbol, todays_gain) VALUES (?,?,?,?,?,?,?,?,?);";
     // sql2 = 9
@@ -221,8 +220,8 @@ function isSymbolInUser($conn, $tableName, $UID, $symbol){
     if(!mysqli_stmt_prepare($stmt,$sql)){
         header("location: ../createacc.php?error=stmtfailed8");
         exit();
-
     }
+    
     mysqli_stmt_bind_param($stmt,"ss", $UID, $symbol);
     mysqli_stmt_execute($stmt);
 
@@ -245,48 +244,104 @@ function updateDatabase($conn, $UID){
     while($result = $query->fetch_assoc()){
         $tickers[] = $result['symbol'];
     }
+    
     $apiCall = apiCallfn($tickers);
     
     for ($i=0; $i <count($apiCall) ; $i++) {
 
-        echo"<p>THIS IS ABOUT TO ADD TO STOCK TABLES <br></b></p>";
-        var_dump($apiCall[$i]);
-
         addtoStock($conn, $apiCall[$i]);
-        // $symbol = $apiCall[$i]['symbol'];
-        // $price = $apiCall[$i]['price'];
-        // $price_change = $apiCall[$i]["price_change"];
-        // $percent_change = $apiCall[$i]["percent_change"];
-
-        // #$query = $conn->query("SELECT w.UID, w.symbol, si.name, sd.current_price, sd.percent_change, sd.todays_gain FROM watchlist w INNER JOIN stockdaily sd on sd.symbol = w.symbol INNER JOIN stockinfo si on si.symbol = sd.symbol HAVING w.UID = $UID");
-
-        // $sql = "UPDATE watchlist SET price = $price, price_change = $price_change, percent_change = $percent_change WHERE symbol = '$symbol' AND UID = '$UID'";
-
-        // $stmt = mysqli_stmt_init($conn);
-
-        // if(!mysqli_stmt_prepare($stmt,$sql)){
-        //     header("location: ../watchlist.php?error=stmtfailed");
-        //     exit();
-        // }
-        // //mysqli_stmt_bind_param($stmt,"ssssssss",$UID,$type,$symbol, $name,$description, $price, $price_change, $percent_change);
-        // mysqli_stmt_execute($stmt);
-        // mysqli_stmt_close($stmt);
+        
     }
-    /////////////////////////////////////////echo("<meta http-equiv='refresh' content='1'>"); <--- change back after
-    //header("Refresh:0");
-    //error_reporting(0);
+    echo("<meta http-equiv='refresh' content='1'>"); 
+  
 
     return "";
 }
+
+// function updatePortfolio1($conn, $UID, $cash){
+//     $query = $conn->query("SELECT symbol FROM stockdaily");
+//     $tickers = Array();
+//     while($result = $query->fetch_assoc()){
+//         $tickers[] = $result['symbol'];
+//     }
+    
+//     $apiCall = apiCallfn($tickers);
+    
+//     for ($i=0; $i <count($apiCall) ; $i++) {
+
+//         addtoStock($conn, $apiCall[$i]);
+        
+//     }
+
+//     $query = $conn->query("SELECT p.UID, p.symbol,p.qty, p.avg_price sd.current_price, sd.percent_change, sd.todays_gain FROM portfolio p INNER JOIN stockdaily sd on sd.symbol = p.symbol HAVING p.UID = $UID");
+//     if($query == false){
+//         echo("<meta http-equiv='refresh' content='1'>"); 
+
+//         exit();
+//     }
+    
+//     $tickers = Array();
+
+
+//     while($result = $query->fetch_assoc()){
+//         $tickers[] = $result;
+//     }
+
+//     for ($i=0; $i <count($tickers) ; $i++) {
+//         $symbol = $tickers[$i]['symbol'];
+//         $price = $tickers[$i]['price'];
+//         $price_change = $tickers[$i]["price_change"];
+//         $total_gain = ($price - $tickers[$i]["avg_price"]) *$tickers[$i]["qty"];
+//         $percent = (($price- $tickers[$i]["avg_price"])/$tickers[$i]["avg_price"]) * 100;
+//         $newTotal_val = $tickers[$i]["qty"]*$price;
+//         $SUMtotal_val +=$newTotal_val;
+
+//         $sql = "UPDATE portfolio SET total_val = $newTotal_val, total_gain = $total_gain, percent = $percent WHERE symbol = '$symbol' AND UID = '$UID'";
+
+//         $stmt = mysqli_stmt_init($conn);
+
+//         if(!mysqli_stmt_prepare($stmt,$sql)){
+//             header("location: ../watchlist.php?error=stmtfailed9");
+//             exit();
+//         }
+//         //mysqli_stmt_bind_param($stmt,"ssssssss",$UID,$type,$symbol, $name,$description, $price, $price_change, $percent_change);
+//         mysqli_stmt_execute($stmt);
+//         mysqli_stmt_close($stmt);
+//     }
+//     $value = $cash+ $SUMtotal_val;
+
+//     $sql = "UPDATE users SET cur_value = $value WHERE UID = $UID";
+//     $stmt = mysqli_stmt_init($conn);
+//     if(!mysqli_stmt_prepare($stmt,$sql)){
+//         header("location: ../portfolioTable.php?error=stmtfailed10");
+//         exit();
+//     }
+//     mysqli_stmt_execute($stmt);
+//     mysqli_stmt_close($stmt);
+
+    
+//     echo("<meta http-equiv='refresh' content='1'>");
+    
+// }
+
 
 function updateDatabasePortfolio($conn, $UID, $cash){
     $query = $conn->query("SELECT * FROM portfolio WHERE uid = $UID");
     $tickers = Array();
     $ticker =  Array();
+        if($query == false){
+        echo("<meta http-equiv='refresh' content='1'>"); 
+
+        exit();
+    }
     while($result = $query->fetch_assoc()){
         $tickers[] = ["avg_price"=>$result["avg_price"],"qty"=>$result['qty'],"symbol"=>$result['symbol']];
         $ticker[] =$result['symbol'];
     }
+    // if(!isset($ticker[0])){
+    //     header("location: ../portfolioTable.php?error=not");
+
+    // }
     // $apiCall = apiCallfn($tickers);
     $apiCall = apiCallfn($ticker);
     //var_dump( $apiCall) ;
@@ -354,7 +409,6 @@ function getFromUsers($conn ,$UID){
     return $value;
 }
 
-
 function apiCallfn($tickers){
     if(gettype($tickers)!="string"){
         
@@ -371,8 +425,6 @@ function apiCallfn($tickers){
         $apiCall = $tickers;
     }
     $curl = curl_init();
-
-    
      
     curl_setopt_array($curl, [
         CURLOPT_URL => "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes?region=US&symbols=$apiCall",
@@ -585,7 +637,13 @@ function apiCallfn($tickers){
             return $return_val;
         }
         else{
-            return $return_val[0];
+            if ($return_val[0]["name"]===0){
+                //throw new Exception('This ticker does not exist');
+                return false;
+            }else {
+                return $return_val[0];
+                
+            }
         }
         
     }
@@ -597,13 +655,14 @@ function apiCallfn($tickers){
 
 }
 
-function calculateCurrentPrice($ticker, $qty){
-    $apiReturn = apiCallfn($ticker);
-    var_dump($apiReturn);
-    //$price = ["symbol"=> $apiReturn["symbol"],"name"=>$apiReturn["name"],"price"=>$apiReturn["price"],"total"=>($qty * $apiReturn["price"]), "price_change"=>$apiReturn["price_change"]];
-    $apiReturn['total'] = ($qty * $apiReturn["price"]);
-    return $apiReturn;
-}
+// function calculateCurrentPrice($ticker, $qty){
+//     $apiReturn = apiCallfn($ticker);
+//     var_dump($apiReturn);
+//     //$price = ["symbol"=> $apiReturn["symbol"],"name"=>$apiReturn["name"],"price"=>$apiReturn["price"],"total"=>($qty * $apiReturn["price"]), "price_change"=>$apiReturn["price_change"]];
+//     $apiReturn['total'] = ($qty * $apiReturn["price"]);
+//     if
+//     return $apiReturn;
+// }
 
 
 //<-delet 
@@ -631,6 +690,7 @@ function isInPortfolio($conn, $UID, $symbol){
     }
     mysqli_stmt_close($stmt);   
 }
+
 
 function addToPortfolio($conn,$UID,$symbol,$qty, $avg_price, $total, $total_gain, $percent){
     $sql = "INSERT INTO portfolio (UID, symbol, qty, avg_price, total_val, total_gain, percent) VALUES (?,?,?,?,?,?,?);";
