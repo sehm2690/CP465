@@ -158,8 +158,8 @@ include_once 'includes/connection.php';
       <label id="ptext" for="watchlistTables">Select an option:</label>
 
       <select name="buySell" id="buySell">
-        <option id="ptext" value="-1">Buy</option>
-        <option id="ptext" value="1">Sell</option>
+        <option id="ptext" name="buy" value="-1">Buy</option>
+        <option id="ptext" name="sell" value="1">Sell</option>
       </select>
 
       <input type="text" id="query" name="query" placeholder="Ticker Symbol...">
@@ -179,6 +179,16 @@ include_once 'includes/connection.php';
       <!-- <input type="image" src="img/greencheck.png" id="orderBtn" name="submit" placeholder="Place Order"> -->
       <input type="submit" id="orderBtn" name="submit" Value="">
     </form>
+
+    <!-- <script>
+      if (document.getElementByName("buy").value == "-1") {
+        console.log("Yeet1");
+        document.getElementByName("sell").src = "img/greencheck.png"
+      } else if (document.getElementById("buySell").value == "1") {
+        console.log("Yeet2");
+        document.getElementById("orderBtn").src = "img/redx.png"
+      }
+    </script> -->
 
   </div>
 
