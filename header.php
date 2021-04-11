@@ -13,6 +13,46 @@ session_start();
         bottom: 0%;
         vertical-align: middle
     }
+
+
+    /* Makes font cooler when ucommented */
+    /* .navbar {
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: .9rem;
+        letter-spacing: .1rem;
+        padding: .8rem;
+        background: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    .navbar-brand img {
+        height: 3rem;
+    }
+
+    .navbar-brand {
+        font-size: medium;
+        /* font-family: 'Lato', sans-serif; */
+        font-family: 'Lato', sans-serif;
+    }
+
+    .navbar-nav li {
+        padding-right: .7rem;
+    }
+
+    .navbar-light .navbar-nav .nav-link {
+        color: black;
+        padding-top: .8rem;
+    }
+
+    .navbar-light .navbar-nav .nav-link.active,
+    .navbar-light .navbar-nav .nav-link:hover {
+        color: orange;
+        padding-top: .8rem;
+    }
+
+    .nav-link {
+        font-size: 1.1em !important;
+    } */
 </style>
 
 <head>
@@ -31,7 +71,6 @@ session_start();
     <script src="js/confirmPurchase.js"></script>
     <!--  -->
 
-    <!-- <link rel="stylesheet" href="css/style.css"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
@@ -112,3 +151,4 @@ session_start();
             </nav>
         </div>
     </header>
+</body>
