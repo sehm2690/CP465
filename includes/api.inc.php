@@ -44,9 +44,6 @@
 
 // }
 
-
-
-
 function addtoStock($conn, $info){
     //$sql2 = "INSERT INTO stockdaily (ask, beta, bid, current_price, percent_change, regularMarketVolume, shortPercentFloat, symbol, todays_gain)";
     // VALUES ($info['ask'],$info['beta'],$info['bid'],$info['current_price'],$info['percent_change'],$info['regularMarketVolume'],$info['shortPercentFloat'],$info['symbol'],$info['todays_gain']);"
@@ -173,15 +170,16 @@ function getFromWatchlist($conn, $UID){
         $tickers[] = $result;
         
     }
-    var_dump($tickers);
+
     return $tickers;
 }
 
 
 function getFromPortfolioTable($conn, $UID){
     #$query = $conn->query("SELECT name, qty, avg_price, current_price, total_val, todays_gain, total_gain, percent FROM portfolio WHERE uid = $UID");
-    $query = $conn->query("SELECT p.UID, p.qty, p.avg_price, p.total_val, p.total_gain, p.percent, p.symbol, si.name, sd.current_price, sd.percent_change, sd.todays_gain FROM portfolio p INNER JOIN stockdaily sd on sd.symbol = w.symbol INNER JOIN stockinfo si on si.symbol = sd.symbol HAVING w.UID = $UID");
+    $query = $conn->query("SELECT p.UID, p.qty, p.avg_price, p.total_val, p.total_gain, p.percent, p.symbol, si.name, sd.current_price, sd.percent_change, sd.todays_gain FROM portfolio p INNER JOIN stockdaily sd on sd.symbol = p.symbol INNER JOIN stockinfo si on si.symbol = sd.symbol HAVING p.UID = $UID;");
     $tickers = Array();
+
     while($result = $query->fetch_assoc()){
         $tickers[] = $result;
     }
@@ -600,11 +598,11 @@ function apiCallfn($tickers){
 }
 
 function calculateCurrentPrice($ticker, $qty){
-    $apiReturn = oneTicker($ticker);
+    $apiReturn = apiCallfn($ticker);
     var_dump($apiReturn);
-    $price = ["symbol"=> $apiReturn["symbol"],"name"=>$apiReturn["name"],"price"=>$apiReturn["price"],"total"=>($qty * $apiReturn["price"]), "price_change"=>$apiReturn["price_change"]];
-    
-    return $price;
+    //$price = ["symbol"=> $apiReturn["symbol"],"name"=>$apiReturn["name"],"price"=>$apiReturn["price"],"total"=>($qty * $apiReturn["price"]), "price_change"=>$apiReturn["price_change"]];
+    $apiReturn['total'] = ($qty * $apiReturn["price"]);
+    return $apiReturn;
 }
 
 
@@ -634,16 +632,18 @@ function isInPortfolio($conn, $UID, $symbol){
     mysqli_stmt_close($stmt);   
 }
 
-function addToPortfolio($conn,$UID,$symbol,$name,$qty, $avg_price, $cur_price, $total, $todays_gain, $total_gain, $percent){
-    $sql = "INSERT INTO portfolio (UID, symbol, name, qty, avg_price, current_price, total_val, todays_gain, total_gain, percent) VALUES (?,?,?,?,?,?,?,?,?,?);";
+function addToPortfolio($conn,$UID,$symbol,$qty, $avg_price, $total, $total_gain, $percent){
+    $sql = "INSERT INTO portfolio (UID, symbol, qty, avg_price, total_val, total_gain, percent) VALUES (?,?,?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
-
+    var_dump($sql); 
+    echo'<p>add to portfolio</p>';
+    var_dump($stmt); 
     if(!mysqli_stmt_prepare($stmt,$sql)){
         header("location: ../createacc.php?error=stmtfailed1421212121");
         exit();
     }
     //WID	UID	type	symbol	name	description	price	price_change	percent_change
-    mysqli_stmt_bind_param($stmt,"ssssssssss", $UID, $symbol, $name, $qty,$avg_price, $cur_price, $total, $todays_gain, $total_gain, $percent);
+    mysqli_stmt_bind_param($stmt,"sssssss",$UID,$symbol,$qty,$avg_price, $total, $total_gain, $percent);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     //echo "works";
@@ -656,12 +656,13 @@ function addToPortfolio($conn,$UID,$symbol,$name,$qty, $avg_price, $cur_price, $
 
 
 
-function updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol, $todays_change, $total_gain, $percent, $curr_price){
+function updatePortfolio($conn,$UID,$symbol,$newQty, $avg_price, $newTotal_val, $total_gain, $percent){
     if ($newQty == 0){
         $sql = "DELETE FROM portfolio WHERE symbol = '$symbol' AND UID = '$UID';";
     }else{
-        $sql = "UPDATE portfolio SET avg_price = $avg_price, qty = $newQty, total_val = $newTotal_val, todays_gain= $todays_change,current_price = $curr_price, total_gain = $total_gain,percent = $percent WHERE symbol = '$symbol' AND UID = '$UID';";
+        $sql = "UPDATE portfolio SET avg_price = $avg_price, qty = $newQty, total_val = $newTotal_val, total_gain = $total_gain,percent = $percent WHERE symbol = '$symbol' AND UID = '$UID';";
     }
+    
     $stmt = mysqli_stmt_init($conn);
     if(!mysqli_stmt_prepare($stmt,$sql)){
         header("location: ../portfolioTable.php?error=stmtfailed12");
