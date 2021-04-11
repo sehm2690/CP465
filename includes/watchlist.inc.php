@@ -12,25 +12,26 @@
     $UID = $_SESSION["UserID"];
     if (isset($_POST["submit1"])){
         if (isSymbolInUser($conn, $tableName, $UID, $query )== true){
-            echo "<script type='text/javascript'>alert('Already in watchlist');</script>";
+            //echo "<script type='text/javascript'>alert('Already in watchlist');</script>";
+            header("location: ../watchlist.php?error=AlreadyInWatchlist");
+            exit();
         }
         else{
             $toADD = apiCallfn($query);
+            if ($toADD == false){
+                header("location: ../watchlist.php?error=tickerDNE");
+                exit();
+            }
             addtoWatchlist($conn,$UID,$watchlist,$toADD["symbol"]);
             addtoStock($conn, $toADD);
+        
         }
 
-        echo"<p>IN the IF </p>";
         header('location: ../watchlist.php');
+        exit();
+
         
-        //error handling again
-        // if(emptyInputLogin($email,$pwd) != false) {
-        //     //header("location: ../login.php?error=emptyinput");
-        //     exit();
-        // }
         
-        // loginUser($conn,$email,$pwd);
-        // header("location: ../index.php");
     } 
 
     
@@ -40,22 +41,19 @@
             deleteFromWatchlist($conn, $UID, $query);
         }
         else{
-            echo "<script type='text/javascript'>alert('Not in watchlist');</script>";
+            header("location: ../watchlist.php?error=NotInWatchlist");
+            exit();
         }
 
-
-        echo"<p>IN the IF </p>";
         header('location: ../watchlist.php');
-    }
-    
-    else {
-        header('location: ../watchlist.php');
-        
-        echo "<p> ERROR </p>";
         exit();
+
+    }else {
+        header('location: ../watchlist.php?error=unknown');
+                exit();
     }
-    //header('Location: ../index.php');
-//    echo "<p> fuck </p>";
+
+    header('location: ../watchlist.php');
     exit();
 
 

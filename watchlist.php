@@ -30,6 +30,28 @@
   if(array_key_exists('updateBtn',$_POST)){
     updateDatabase($conn, $_SESSION["UserID"]);
   }
+
+  if (isset($_GET["error"])) {
+    if($_GET["error"] == "tickerDNE"){
+        echo "<script> alert('This ticker does not exist!');</script>";
+    }
+
+    elseif($_GET["error"]=="AlreadyInWatchlist"){
+      echo "<script> alert('This stock is already in your watchlist!');</script>";
+    }
+
+    elseif($_GET["error"]=="NotInWatchlist"){
+      echo "<script> alert('This stock is not in your watchlist!');</script>";
+
+    }
+
+    elseif($_GET["error"] == "unknown"){
+      echo "<script> alert('Unknown error occured!');</script>";
+
+    }
+  }
+
+
 ?>
 
 

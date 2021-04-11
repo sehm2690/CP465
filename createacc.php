@@ -70,7 +70,7 @@
             }
             else if($_GET["error"] == "none"){
                 echo "<p> Successful Sign-up </p>";
-                header("Location: http://localhost/CP465/login.php");
+                header("location: ../login.php");
             }
         }
         ?>
