@@ -31,7 +31,6 @@ session_start();
 
     .navbar-brand {
         font-size: medium;
-        /* font-family: 'Lato', sans-serif; */
         font-family: 'Lato', sans-serif;
     }
 
