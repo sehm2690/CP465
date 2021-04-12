@@ -167,7 +167,6 @@ function getFromWatchlist($conn, $UID){
     $tickers = Array();
     while($result = $query->fetch_assoc()){
         $tickers[] = $result;
-        
     }
 
     return $tickers;
@@ -326,7 +325,6 @@ function updatePortfolio1($conn, $UID, $cash){
    // echo("<meta http-equiv='refresh' content='1'>");<----------------------uncomment latter 
     
 }
-
 
 function updateDatabasePortfolio($conn, $UID, $cash){
     $query = $conn->query("SELECT * FROM portfolio WHERE uid = $UID");
