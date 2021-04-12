@@ -71,7 +71,9 @@
                 echo "<p> The email has been taken, please enter a new email </p>";
             } else if ($_GET["error"] == "none") {
                 echo "<p> Successful Sign-up </p>";
-                header("Location: https://localhost/CP465/login.php");
+                header("location: ../CP465/login.php");
+                //header("Location: https://localhost/CP465/login.php");
+
             }
         }
         ?>

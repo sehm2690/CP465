@@ -46,12 +46,74 @@ include_once 'includes/connection.php';
   if (array_key_exists('updateBtn', $_POST)) {
     updateDatabase($conn, $_SESSION["UserID"]);
   }
-  ?>
+
+  if (isset($_GET["error"])) {
+    if($_GET["error"] == "tickerDNE"){
+        echo "<script> alert('This ticker does not exist!');</script>";
+    }
+
+    elseif($_GET["error"]=="AlreadyInWatchlist"){
+      echo "<script> alert('This stock is already in your watchlist!');</script>";
+    }
+
+    elseif($_GET["error"]=="NotInWatchlist"){
+      echo "<script> alert('This stock is not in your watchlist!');</script>";
+
+    }
+
+    elseif($_GET["error"] == "unknown"){
+      echo "<script> alert('Unknown error occured!');</script>";
+
+    }
+  }
+
+
+?>
+
 
   <!-- <form method="post">
     <input type="submit" name="updateBtn" class="button" value="Get Current Price" />
   </form> -->
 
+<form method = "post">
+  <input type="submit"  name= "updateBtn" class = "button" value = "Get Current Price"/>
+</form>
+
+
+<!-- <h1>&darr; SCROLL &darr;</h1> -->
+<table class="blue">
+  <thead>
+    <tr>
+      
+      <th>Stock Ticker</th>
+      <th>Stock Name</th>
+      <th>Current Price</th>
+      <th>Price Change</th>
+      <th>Percent Change </th>
+
+      <!-- <th>% Change</th> -->
+
+    </tr>
+  </thead>
+  <tbody>
+  <?php 
+    $watchlistData = getFromWatchlist($conn, $_SESSION['UserID']);
+    // var_dump($watchlistData);
+    for ($i=0; $i <count($watchlistData) ; $i++) {
+      $symbol = $watchlistData[$i]["symbol"];
+      $name = $watchlistData[$i]["name"];
+      $price = $watchlistData[$i]["current_price"];
+      $change = $watchlistData[$i]["todays_gain"];
+      $perChange = $watchlistData[$i]["percent_change"];
+
+      
+      echo"<tr>";
+        echo"<td>$symbol</td>";
+        echo"<td>$name</td>";
+        echo"<td>$ $price</td>";
+        echo"<td>$ $change</td>";
+        echo"<td>$perChange%</td>";
+      echo"</tr>";
 
   <!-- <h1>&darr; SCROLL &darr;</h1> -->
 
@@ -96,6 +158,7 @@ include_once 'includes/connection.php';
 
   <br></br>
   <br></br>
+
 
 
   <!-- <h1 class="scrollMore">&darr; SCROLL MORE &darr;</h1> -->

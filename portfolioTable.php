@@ -13,6 +13,52 @@ include_once 'includes/connection.php';
     }
   </style>
 
+  
+    th, td {
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even){background-color: #f2f2f2}
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    </style>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+
+
+
+<form method="post" action="includes/portfolioTable.inc.php"> 
+  <label for="watchlistTables">Select an option:</label>
+
+  <select name="buySell" id="buySell">
+        <option value="-1">Buy</option> 
+        <option value="1">Sell</option>
+  </select>
+
+  <input type="search" id="query" name="query" placeholder="Ticker Symbol...">
+
+  <!-- <input type="search" id="quantity" name="quantity" placeholder="Quantity... "> -->
+  <input name="quantity" id=quantity placeholder="Quantity" type=number min=1 max=100000>
+  
+  
+ 
+  <script>
+    function increment() {
+      document.getElementById('quantity').stepUp();
+    }
+    function decrement() {
+      document.getElementById('quantity').stepDown();
+    }
+
+    
+  </script>
+  <!-- <p id="test" name = "test"></p> -->
+  <script src='js/confirmPurchase.js'></script>
+  <input type="submit" name = "submit" value="Submit">
+  
   <link rel='stylesheet' href='css/portfolioTable.scss' />
   <link rel='stylesheet' href='css/portfolio.css' />
 
@@ -21,6 +67,75 @@ include_once 'includes/connection.php';
   <form method="post">
     <input type="image" src="img/refreshbutton.png" id="gcpbtn" name="updatePostBtn" class="button" />
   </form>
+  
+</form>
+<?php
+  if(array_key_exists('updatePostBtn',$_POST)){
+    updateDatabasePortfolio($conn, $_SESSION["UserID"], $_SESSION["cash"]);//<--------------------------------------------------------should be stress tested 
+    //updatePortfolio1($conn, $_SESSION["UserID"], $_SESSION["cash"]);
+  }
+
+  // if (isset($_GET["error"])) {
+  //   echo "THE ERROR ";
+  //   var_dump($_GET["error"]);
+  //   if($_GET["error"] == "tickerDNE"){
+  //     echo "<script> alert('This ticker does not exist!');</script>";
+  //   }
+  //   if($_GET["error"] == "notEnoughCash"){
+  //     echo "<script> alert('You don't have enough Cash!');</script>";
+  //   }
+  //   if($_GET["error"]=="dontOwnstock"){
+  //     echo "<script> alert('You do not own this stock!');</script>";
+  //   }
+  //   if($_GET["error"]== "dontOwnEnoughstock"){
+  //     echo "<script> alert('You do not own enough shares!');</script>";
+  //   }
+  //   else{
+  //     echo "<script> alert('Unknown error occured!');</script>";
+  //   }
+  // }
+
+  
+
+  if (isset($_GET["error"])) {
+
+    $error = $_GET["error"];
+    if(strcmp($error , "tickerDNE") == 0 ){
+      echo "<script> alert('This ticker does not exist!');</script>";
+      // header('location: ../portfolioTable.php'); 
+
+     }
+    else if(strcmp($error,"notEnoughCash") == 0){
+      echo "<script> alert('You do not have enough cash!');</script>";
+      // header('location: ../portfolioTable.php'); 
+
+    }
+    else if(strcmp($error ,"dontOwnstock") == 0 ){
+      echo "<script> alert('You do not own this stock!');</script>";
+      // header('location: ../portfolioTable.php'); 
+
+    }
+    else if(strcmp($error , "dontOwnEnoughstock") == 0 ){
+      echo "<script> alert('You do not own enough shares!');</script>";
+      // header('location: ../portfolioTable.php'); 
+
+    }
+    else if(strcmp($error , "nothingToUpdate") == 0 ){
+      echo "<script> alert('There is nothing to update!');</script>";
+      // header('location: ../portfolioTable.php'); 
+
+    }else{
+      echo "<script> alert('Unknown error occured!');</script>";
+      // header('location: ../portfolioTable.php'); 
+
+    }
+    
+    
+  }
+?>
+<form method = "post">
+  <input type="submit"  name= "updatePostBtn" class = "button" value = "Get Current Price"/>
+</form>
 
 
   <?php

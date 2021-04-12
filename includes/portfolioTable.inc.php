@@ -8,60 +8,76 @@
         $buySell = $_POST["buySell"]; 
         $query = $_POST["query"];
         $qty = $_POST["quantity"];
-        // var_dump($qty);
-        // var_dump($buySell);
+        
+        
         require_once "connection.php";
         require_once "api.inc.php";
         
-        $price = calculateCurrentPrice($query, $qty);
-        
-        var_dump($price);
+        // try {
+        //     $price = calculateCurrentPrice($query, $qty);
+        // } catch (Exception $e) {
+        //     echo $e->getMessage();
+        // }
+        //$price = calculateCurrentPrice($query, $qty);
+        $price = apiCallfn($query);
+
+        if ($price == false){
+            header("location: ../portfolioTable.php?error=tickerDNE");
+            exit();
+        }
+        $tableName = 'portfolio';
+
         $UID = $_SESSION["UserID"];
-        $portResult =  isInPortfolio($conn, $UID, $price["symbol"]);
-        var_dump($portResult);
+        $portResult = isSymbolInUser($conn, $tableName, $UID, $price["symbol"]);
+
+
+
         $symbol = $price['symbol'];
         $name =  $price['name'];
         $cur_price = $price['price'];
-        $total = $price['total'];
-
+        $total = $qty*$price['price'];
         $cash = $_SESSION["cash"];
+
         if($buySell == -1){
-            if($cash > $total){               
-                if($portResult == false){  
-                    addToPortfolio($conn,$UID, $price["symbol"],$price["name"],$qty, $price["price"],$price["price"], $price["total"], $price["price_change"], 0, 0);
-                }else{
+            if($cash > $total){ //check if user has enough cash to purchase      
+                addtoStock($conn, $price);
+                if($portResult == false){// check if they already own thtis stock if they dont then add to their portfolio 
+                    addToPortfolio($conn,$UID, $price["symbol"],$qty, $price["price"],  $total , 0, 0.0);
+
+                }else{// update portfolio if the stock alredy exists 
                     $newQty = $qty + $portResult["qty"];
-                    #$avg_price =( $qty  * $price["price"]+$portResult["avg_price"]*$portResult["qty"])/($qty+$portResult["qty"]);
                     $avg_price = (($qty  * $price["price"]) + ($portResult["avg_price"] * $portResult["qty"]))/$newQty;
-                    #$newTotal_val = $qty * $price["price"] + $portResult["total_val"];
                     $newTotal_val = $newqty * $price["price"];
                     $todays_change =  $price["price_change"];
                     $total_gain = ($price['price'] - $avg_price) *$newQty;
                     $percent = (($price['price'] - $price['price'])/$avg_price) * 100;
 
-                    updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol, $todays_change, $total_gain, $percent, $price["price"]);
+                    updatePortfolio($conn,$UID,$symbol, $newQty, $avg_price, $newTotal_val, $total_gain, $percent);
+
                 }
-                
-                $amount = $price["total"] * -1;
-                
+
+                $amount = $total  * -1;
+                $date = date("Y-m-d H:i:s");  
                 addtoTransac($conn, $UID, $buySell, $price["symbol"], $qty, $amount);
-                header('location: ../portfolioTable.php');
+                header('location: ../portfolioTable.php'); 
+
 
             }else{
-                header('location: ../portfolioTable.php?contenoughcash');
 
+                header("location: ../portfolioTable.php?error=notEnoughCash");
+                exit();
+                        
             }
         }else{
-            //implement sell
 
             if($portResult == false){  
-                echo "Error can't sell";
-                header('location: ../portfolioTable.php?dontOwnthestock');
-
+                header("location: ../portfolioTable.php?error=dontOwnstock");
+                exit();
             }else{
                 if ($qty <= $portResult["qty"]){
+                    addtoStock($conn, $price);
                     if( $qty-$portResult["qty"]==0){
-                        updatePortfolio($conn, 0, 0, 0, $UID, $symbol, 0, 0,0,0);
+                        updatePortfolio($conn, $UID, $symbol, 0, 0,0,0,0);
 
                     }else{
                         $newQty =  $portResult["qty"] - $qty;
@@ -70,26 +86,25 @@
                         $todays_change =  $price["price_change"];
                         $total_gain = ($price['price'] - $avg_price) *$newQty;
                         $percent = (($price['price'] - $avg_price )/$avg_price) * 100;
-                        
-                        updatePortfolio($conn, $avg_price, $newQty, $newTotal_val, $UID, $symbol, $todays_change, $total_gain, $percent, $price["price"]);
-                    } 
-                
-                    $amount = $price["total"];
-                    addtoTransac($conn, $UID, $buySell, $price["symbol"], $qty, $amount);
-                    header('location: ../portfolioTable.php');
 
+                        updatePortfolio($conn, $UID, $symbol, $newQty, $avg_price, $newTotal_val, $total_gain, $percent);
+                    } 
+
+                    $amount = $total ;
+                    addtoTransac($conn, $UID, $buySell, $price["symbol"], $qty, $amount);
+                    header('location: ../portfolioTable.php'); 
                 }else{
-                    header('location: ../portfolioTable.php?Erroruselessqyt');
+                    header("location: ../portfolioTable.php?error=dontOwnEnoughstock");
+                    exit();
+
                 }
             }
-            
-            // $amount = $price["total"];
-            // addtoTransac($conn, $UID, $buySell, $price["symbol"], $qty, $amount);
+         
             
         }
 
     }else {   
-        echo "<p> ERROR </p>";
+        header("location: ../portfolioTable.php?error=unknown");
         exit();
     }
 
