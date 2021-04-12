@@ -1,295 +1,119 @@
 <?php
-    include_once'header.php'
+include_once 'header.php';
+include_once 'includes/api.inc.php';
+include_once 'includes/connection.php';
 ?>
 
 <main>
-<link rel='stylesheet' href='css/watchlist.scss' /> 
-<link rel='stylesheet' href='css/style.css' />
+  <link rel='stylesheet' href='css/watchlist.css' />
 
-<head>
-<!-- 
-<script src=
-;(function($) { 
-        $.fn.fixMe = function() {
-        return this.each(function() {
-            var $this = $(this),
-                $t_fixed;
-            function init() {
-                $this.wrap('<div class="container" />');
-                $t_fixed = $this.clone();
-                $t_fixed.find("tbody").remove().end().addClass("fixed").insertBefore($this);
-                resizeFixed();
-            }
-            function resizeFixed() {
-                $t_fixed.find("th").each(function(index) {
-                    $(this).css("width",$this.find("th").eq(index).outerWidth()+"px");
-                });
-            }
-            function scrollFixed() {
-                var offset = $(this).scrollTop(),
-                tableOffsetTop = $this.offset().top,
-                tableOffsetBottom = tableOffsetTop + $this.height() - $this.find("thead").height();
-                if(offset < tableOffsetTop || offset > tableOffsetBottom)
-                    $t_fixed.hide();
-                else if(offset >= tableOffsetTop && offset <= tableOffsetBottom && $t_fixed.is(":hidden"))
-                    $t_fixed.show();
-            }
-            $(window).resize(resizeFixed);
-            $(window).scroll(scrollFixed);
-            init();
-        });
-        };
-    })(jQuery);
-    
-    $(document).ready(function(){
-        $("table").fixMe();
-        $(".up").click(function() {
-        $('html, body').animate({
-        scrollTop: 0
-        }, 2000);
-    });
-    });
-></script> -->
+  <style>
+    body {
+      background-image: url('img/stock_back.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+  </style>
 
- 
-</head>
+  <br></br>
 
-    
-<!-- <h1>&darr; SCROLL &darr;</h1> -->
-<table class="blue">
-  <thead>
-    <tr>
-      <th>Stock Name</th>
-      <th>Last Price</th>
-      <th>Change</th>
-      <th>% Change</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
+  <form method="post" action="includes/watchlist.inc.php">
 
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
+   
 
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    <tr>
-      <td>DBX</td>
-      <td>27.06</td>
-      <td>1.61</td>
-      <td>6.33</td>
-    </tr>
-    
-  </tbody>
-</table>
 
-<!-- <h1 class="scrollMore">&darr; SCROLL MORE &darr;</h1> -->
-<table class="purple">
-  <thead>
-    <tr>
-      <th>Stock Name</th>
-      <th>Last Price</th>
-      <th>Change</th>
-      <th>% Change</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-    <tr>
-      <td>JWN</td>
-      <td>41.37</td>
-      <td>3.97</td>
-      <td>10.61</td>
-    </tr>
-  </tbody>
-</table>
+    <div class=box4>
+      <p id="txt" >Add a stock to your watchlist:</p>
+      <input style="width:100%;" type="text" id="query" name="query" placeholder="Ticker to add...">
+      <p></p>
+      <input style="float:right;" type="submit" id="addBtn" name="submit1" value="">
+      <input type="submit" id="removeBtn" name="submit2" value="">
+    </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://dannocket.com/sandbox/IvtpK.js"></script>
-<script src="js/watchlist.js"></script>
-       
+  </form>
+
+
+
+<form method = "post">
+  <input type="submit" id="gcpbtn" name= "updatePostBtn" class = "button" value=""/>
+</form>
+
+
+  <?php
+  if (array_key_exists('updatePostBtn', $_POST)) {
+    updateDatabase($conn, $_SESSION["UserID"]);
+  }
+
+  if (isset($_GET["error"])) {
+    if($_GET["error"] == "tickerDNE"){
+        echo "<script> alert('This ticker does not exist!');</script>";
+    }
+
+    elseif($_GET["error"]=="AlreadyInWatchlist"){
+      echo "<script> alert('This stock is already in your watchlist!');</script>";
+    }
+
+    elseif($_GET["error"]=="NotInWatchlist"){
+      echo "<script> alert('This stock is not in your watchlist!');</script>";
+
+    }
+
+    elseif($_GET["error"] == "unknown"){
+      echo "<script> alert('Unknown error occured!');</script>";
+
+    }
+  }
+
+
+?>
+
+
+
+  <div class=box2>
+    <h2 style="color:whitesmoke;">My Watchlist <i class="icon-minus"></i></h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Stock Ticker</th>
+          <th>Stock Name</th>
+          <th>Current Price</th>
+          <th>Price Change</th>
+          <th>Percent Change </th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        $watchlistData = getFromWatchlist($conn, $_SESSION['UserID']);
+        for ($i = 0; $i < count($watchlistData); $i++) {
+          $symbol = $watchlistData[$i]["symbol"];
+          $name = $watchlistData[$i]["name"];
+          $price = $watchlistData[$i]["current_price"];
+          $change = $watchlistData[$i]["todays_gain"];
+          $perChange = $watchlistData[$i]["percent_change"];
+
+
+          echo "<tr>";
+          echo "<td>$symbol</td>";
+          echo "<td>$name</td>";
+          echo "<td>$ $price</td>";
+          echo "<td>$ $change</td>";
+          echo "<td>$perChange%</td>";
+          echo "</tr>";
+        }
+
+        ?>
+
+      </tbody>
+    </table>
+  </div>
+
+
+  <br></br>
+  <br></br>
+
 </main>
 
 <?php
-    include_once'footer.php'
+include_once 'footer.php'
 ?>
