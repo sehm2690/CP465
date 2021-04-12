@@ -258,71 +258,71 @@ function updateDatabase($conn, $UID){
     return "";
 }
 
-// function updatePortfolio1($conn, $UID, $cash){
-//     $query = $conn->query("SELECT symbol FROM stockdaily");
-//     $tickers = Array();
-//     while($result = $query->fetch_assoc()){
-//         $tickers[] = $result['symbol'];
-//     }
+function updatePortfolio1($conn, $UID, $cash){
+    $query = $conn->query("SELECT symbol FROM stockdaily");
+    $tickers = Array();
+    while($result = $query->fetch_assoc()){
+        $tickers[] = $result['symbol'];
+    }
     
-//     $apiCall = apiCallfn($tickers);
+    $apiCall = apiCallfn($tickers);
     
-//     for ($i=0; $i <count($apiCall) ; $i++) {
+    for ($i=0; $i <count($apiCall) ; $i++) {
 
-//         addtoStock($conn, $apiCall[$i]);
+        addtoStock($conn, $apiCall[$i]);
         
-//     }
+    }
 
-//     $query = $conn->query("SELECT p.UID, p.symbol,p.qty, p.avg_price sd.current_price, sd.percent_change, sd.todays_gain FROM portfolio p INNER JOIN stockdaily sd on sd.symbol = p.symbol HAVING p.UID = $UID");
-//     if($query == false){
-//         echo("<meta http-equiv='refresh' content='1'>"); 
+    $query = $conn->query("SELECT p.UID, p.symbol,p.qty, p.avg_price sd.current_price, sd.percent_change, sd.todays_gain FROM portfolio p INNER JOIN stockdaily sd on sd.symbol = p.symbol HAVING p.UID = $UID");
+    if($query == false){
+        echo("<meta http-equiv='refresh' content='1'>"); 
 
-//         exit();
-//     }
+        exit();
+    }
     
-//     $tickers = Array();
+    $tickers = Array();
 
 
-//     while($result = $query->fetch_assoc()){
-//         $tickers[] = $result;
-//     }
+    while($result = $query->fetch_assoc()){
+        $tickers[] = $result;
+    }
 
-//     for ($i=0; $i <count($tickers) ; $i++) {
-//         $symbol = $tickers[$i]['symbol'];
-//         $price = $tickers[$i]['price'];
-//         $price_change = $tickers[$i]["price_change"];
-//         $total_gain = ($price - $tickers[$i]["avg_price"]) *$tickers[$i]["qty"];
-//         $percent = (($price- $tickers[$i]["avg_price"])/$tickers[$i]["avg_price"]) * 100;
-//         $newTotal_val = $tickers[$i]["qty"]*$price;
-//         $SUMtotal_val +=$newTotal_val;
+    for ($i=0; $i <count($tickers) ; $i++) {
+        $symbol = $tickers[$i]['symbol'];
+        $price = $tickers[$i]['price'];
+        $price_change = $tickers[$i]["price_change"];
+        $total_gain = ($price - $tickers[$i]["avg_price"]) *$tickers[$i]["qty"];
+        $percent = (($price- $tickers[$i]["avg_price"])/$tickers[$i]["avg_price"]) * 100;
+        $newTotal_val = $tickers[$i]["qty"]*$price;
+        $SUMtotal_val +=$newTotal_val;
 
-//         $sql = "UPDATE portfolio SET total_val = $newTotal_val, total_gain = $total_gain, percent = $percent WHERE symbol = '$symbol' AND UID = '$UID'";
+        $sql = "UPDATE portfolio SET total_val = $newTotal_val, total_gain = $total_gain, percent = $percent WHERE symbol = '$symbol' AND UID = '$UID'";
 
-//         $stmt = mysqli_stmt_init($conn);
+        $stmt = mysqli_stmt_init($conn);
 
-//         if(!mysqli_stmt_prepare($stmt,$sql)){
-//             header("location: ../watchlist.php?error=stmtfailed9");
-//             exit();
-//         }
-//         //mysqli_stmt_bind_param($stmt,"ssssssss",$UID,$type,$symbol, $name,$description, $price, $price_change, $percent_change);
-//         mysqli_stmt_execute($stmt);
-//         mysqli_stmt_close($stmt);
-//     }
-//     $value = $cash+ $SUMtotal_val;
+        if(!mysqli_stmt_prepare($stmt,$sql)){
+            header("location: ../watchlist.php?error=stmtfailed9");
+            exit();
+        }
+        //mysqli_stmt_bind_param($stmt,"ssssssss",$UID,$type,$symbol, $name,$description, $price, $price_change, $percent_change);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
+    $value = $cash+ $SUMtotal_val;
 
-//     $sql = "UPDATE users SET cur_value = $value WHERE UID = $UID";
-//     $stmt = mysqli_stmt_init($conn);
-//     if(!mysqli_stmt_prepare($stmt,$sql)){
-//         header("location: ../portfolioTable.php?error=stmtfailed10");
-//         exit();
-//     }
-//     mysqli_stmt_execute($stmt);
-//     mysqli_stmt_close($stmt);
+    $sql = "UPDATE users SET cur_value = $value WHERE UID = $UID";
+    $stmt = mysqli_stmt_init($conn);
+    if(!mysqli_stmt_prepare($stmt,$sql)){
+        header("location: ../portfolioTable.php?error=stmtfailed10");
+        exit();
+    }
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
 
     
-//     echo("<meta http-equiv='refresh' content='1'>");
+    echo("<meta http-equiv='refresh' content='1'>");
     
-// }
+}
 
 
 function updateDatabasePortfolio($conn, $UID, $cash){
@@ -338,15 +338,19 @@ function updateDatabasePortfolio($conn, $UID, $cash){
         $tickers[] = ["avg_price"=>$result["avg_price"],"qty"=>$result['qty'],"symbol"=>$result['symbol']];
         $ticker[] =$result['symbol'];
     }
-    // if(!isset($ticker[0])){
-    //     header("location: ../portfolioTable.php?error=not");
+    if(!isset($ticker[0])){
+        // header("location: ../portfolioTable.php?error=nothingToUpdate");
+        echo("<meta http-equiv='refresh' content='1'>");
 
-    // }
+        exit();
+    }
     // $apiCall = apiCallfn($tickers);
     $apiCall = apiCallfn($ticker);
     //var_dump( $apiCall) ;
     $SUMtotal_val = 0;
     for ($i=0; $i <count($apiCall) ; $i++) {
+        addtoStock($conn, $apiCall[$i]);
+  
         $symbol = $apiCall[$i]['symbol'];
         $price = $apiCall[$i]['price'];
         $price_change = $apiCall[$i]["price_change"];
@@ -437,8 +441,8 @@ function apiCallfn($tickers){
         CURLOPT_CUSTOMREQUEST => "GET",
         CURLOPT_HTTPHEADER => [
             "x-rapidapi-host: apidojo-yahoo-finance-v1.p.rapidapi.com",
-            "x-rapidapi-key: 1351fd3e73mshf9c79221e8acff1p127f35jsn6272bcbd7b09"
-            // "x-rapidapi-key: 7ffd8f2d08mshe7e8d337ccc22a7p19538cjsn5f66d598fcec"
+            //"x-rapidapi-key: 1351fd3e73mshf9c79221e8acff1p127f35jsn6272bcbd7b09"
+             "x-rapidapi-key: 7ffd8f2d08mshe7e8d337ccc22a7p19538cjsn5f66d598fcec"
 
             
         ],

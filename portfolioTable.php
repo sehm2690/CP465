@@ -72,8 +72,8 @@
 </form>
 <?php
   if(array_key_exists('updatePostBtn',$_POST)){
-    updateDatabasePortfolio($conn, $_SESSION["UserID"], $_SESSION["cash"]);
-    //updatePortfolio1($conn, $_SESSION["UserID"], $_SESSION["cash"]);
+    //updateDatabasePortfolio($conn, $_SESSION["UserID"], $_SESSION["cash"]);<--------------------------------------------------------should be stress tested 
+    updatePortfolio1($conn, $_SESSION["UserID"], $_SESSION["cash"]);
   }
 
   // if (isset($_GET["error"])) {
@@ -119,11 +119,18 @@
       echo "<script> alert('You do not own enough shares!');</script>";
       // header('location: ../portfolioTable.php'); 
 
-        }else{
+    }
+    else if(strcmp($error , "nothingToUpdate") == 0 ){
+      echo "<script> alert('There is nothing to update!');</script>";
+      // header('location: ../portfolioTable.php'); 
+
+    }else{
       echo "<script> alert('Unknown error occured!');</script>";
       // header('location: ../portfolioTable.php'); 
 
     }
+    
+    
   }
 ?>
 <form method = "post">
