@@ -106,9 +106,7 @@
 <br></br>
 <br></br>
 
-
 <!-- <h1 class="scrollMore">&darr; SCROLL MORE &darr;</h1> -->
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://dannocket.com/sandbox/IvtpK.js"></script>
@@ -119,3 +117,4 @@
 <?php
     include_once'footer.php'
 ?>
+
