@@ -1,45 +1,51 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .footer {
+            /* background-image: url(img/BlackMarble.png); */
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 100%;
+            width: 100%;
+            background-color: whitesmoke;
+            color: black;
+            text-align: center;
+        }
+
+        .wrapper {
+            /*  This is breaking the margins of the footer */
+            /* min-height: 20%; */
+            position: relative;
+        }
+
+        .content {
+            /* padding the footer adds 40 to footer height */
+            padding-bottom: 140px;
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+            background: whitesmoke;
+            width: 100%;
+            font-family: 'Open Sans', sans-serif;
+            color: #000000;
+            text-align: center;
+            /* padding: 20px; */
+        }
+    </style>
+</head>
+
+<body>
     <footer>
-    <div class="container-fluid padding">
-            <div class="row text-center padding">
-                <div class="col-12">
-                    <h2>Connect</h2>
-                    <hr class="light">
-                </div>
-                <div class="col-12 social padding">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href='#'><i class="fab fa-google-plus-g"></i></a>
-                    <a href="#"><i class="fab fa-reddit"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
+        <div class="wrapper">
+            <div id="footer">
+                <p>&copy; 2021 | Stock Simulator. All Rights Reserved.</p>
             </div>
         </div>
-        <div class="container-fluid padding">
-            <div class="row text-center">
-                <div class="col-md-4">
-<!--                     <hr class="light">
-                    <h5>Customer Service Hours</h5>
-                    <hr class="light">
-                    <p>Mon-Fri: 9am - 9pm</p>
-                    <p>Saturday: 9am - 7pm</p>
-                    <p>Sunday: 9am - 5pm</p> -->
-                </div>
-                <div class="col-md-4">
-                    <hr class="light">
-                    <p>000-000-0000</p>
-                    <p>stocks@gmail.com</p>
-                    <p>75 University Avenue</p>
-                </div>
-                <div class="col-12">
-                    <hr class="light">
-                    <h5>&copy; Stock Simulator 2021</h5>
-                </div>
-
-
-            </div>
-        </div>       
     </footer>
-    
-    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
 </body>
+
 </html>

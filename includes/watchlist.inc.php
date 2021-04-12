@@ -54,6 +54,8 @@
     }
 
     header('location: ../watchlist.php');
+
+    //header('Location: ../index.php');
     exit();
 
 
