@@ -273,9 +273,10 @@ function updatePortfolio1($conn, $UID, $cash){
         
     }
 
-    $query = $conn->query("SELECT p.UID, p.symbol,p.qty, p.avg_price sd.current_price, sd.percent_change, sd.todays_gain FROM portfolio p INNER JOIN stockdaily sd on sd.symbol = p.symbol HAVING p.UID = $UID");
+    $query = $conn->query("SELECT p.UID, p.symbol,p.qty, p.avg_price, sd.current_price, sd.percent_change, sd.todays_gain FROM portfolio p INNER JOIN stockdaily sd on sd.symbol = p.symbol HAVING p.UID = $UID");
     if($query == false){
         echo("<meta http-equiv='refresh' content='1'>"); 
+        //echo"FALSE";
 
         exit();
     }
@@ -286,6 +287,8 @@ function updatePortfolio1($conn, $UID, $cash){
     while($result = $query->fetch_assoc()){
         $tickers[] = $result;
     }
+
+    var_dump($tickers);
 
     for ($i=0; $i <count($tickers) ; $i++) {
         $symbol = $tickers[$i]['symbol'];
@@ -320,7 +323,7 @@ function updatePortfolio1($conn, $UID, $cash){
     mysqli_stmt_close($stmt);
 
     
-    echo("<meta http-equiv='refresh' content='1'>");
+   // echo("<meta http-equiv='refresh' content='1'>");<----------------------uncomment latter 
     
 }
 
@@ -425,6 +428,7 @@ function apiCallfn($tickers){
 
             }
         }
+
     }else{
         $apiCall = $tickers;
     }

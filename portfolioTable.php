@@ -72,8 +72,8 @@
 </form>
 <?php
   if(array_key_exists('updatePostBtn',$_POST)){
-    //updateDatabasePortfolio($conn, $_SESSION["UserID"], $_SESSION["cash"]);<--------------------------------------------------------should be stress tested 
-    updatePortfolio1($conn, $_SESSION["UserID"], $_SESSION["cash"]);
+    updateDatabasePortfolio($conn, $_SESSION["UserID"], $_SESSION["cash"]);//<--------------------------------------------------------should be stress tested 
+    //updatePortfolio1($conn, $_SESSION["UserID"], $_SESSION["cash"]);
   }
 
   // if (isset($_GET["error"])) {
@@ -99,7 +99,8 @@
   
 
   if (isset($_GET["error"])) {
-    
+
+    $error = $_GET["error"];
     if(strcmp($error , "tickerDNE") == 0 ){
       echo "<script> alert('This ticker does not exist!');</script>";
       // header('location: ../portfolioTable.php'); 

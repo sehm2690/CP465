@@ -66,8 +66,7 @@
 
                 header("location: ../portfolioTable.php?error=notEnoughCash");
                 exit();
-
-
+                        
             }
         }else{
 
