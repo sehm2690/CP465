@@ -44,6 +44,15 @@
 
 // }
 
+function getTop12($conn){
+    $query = $conn->query("SELECT sd.symbol, sd.ask, sd.current_price, sd.percent_change, sd.todays_gain, sd.bid, si.name, si.marketCap FROM stockdaily sd INNER JOIN stockinfo si on sd.symbol = si.symbol ORDER BY si.marketCap DESC LIMIT 15");
+    $tickers = Array();
+    while($result = $query->fetch_assoc()){
+        $tickers[] = $result;
+    }
+    return $tickers;
+}
+
 function addtoStock($conn, $info){
     //$sql2 = "INSERT INTO stockdaily (ask, beta, bid, current_price, percent_change, regularMarketVolume, shortPercentFloat, symbol, todays_gain)";
     // VALUES ($info['ask'],$info['beta'],$info['bid'],$info['current_price'],$info['percent_change'],$info['regularMarketVolume'],$info['shortPercentFloat'],$info['symbol'],$info['todays_gain']);"
