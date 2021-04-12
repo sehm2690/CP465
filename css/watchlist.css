@@ -33,10 +33,14 @@
     }
     
     #gcpbtn {
+        background: url('../img/refreshbutton.png');
         position: absolute;
-        right: 0%;
+        right: 1%;
         width: 1.5%;
         height: 3%;
+        border: none;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
     }
     
     .box2 {

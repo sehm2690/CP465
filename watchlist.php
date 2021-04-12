@@ -30,7 +30,6 @@ include_once 'includes/connection.php';
     </select>
     -->
 
-    <input type="image" src="img/refreshbutton.png" id="gcpbtn" name="updatePostBtn" class="button" />
 
     <div class=box4>
       <p id="txt" >Add a stock to your watchlist:</p>
@@ -42,8 +41,19 @@ include_once 'includes/connection.php';
 
   </form>
 
+
+<!-- 
+<form method = "post">
+<input type="image" src="img/refreshbutton.png" id="gcpbtn" name="updatePostBtn" class="button" />
+
+</form> -->
+<form method = "post">
+  <input type="submit" id="gcpbtn" name= "updatePostBtn" class = "button" value=""/>
+</form>
+
+
   <?php
-  if (array_key_exists('updateBtn', $_POST)) {
+  if (array_key_exists('updatePostBtn', $_POST)) {
     updateDatabase($conn, $_SESSION["UserID"]);
   }
 
@@ -74,13 +84,13 @@ include_once 'includes/connection.php';
   <!-- <form method="post">
     <input type="submit" name="updateBtn" class="button" value="Get Current Price" />
   </form> -->
-
+<!-- 
 <form method = "post">
   <input type="submit"  name= "updateBtn" class = "button" value = "Get Current Price"/>
 </form>
+ -->
 
-
-<!-- <h1>&darr; SCROLL &darr;</h1> -->
+<!-- <h1>&darr; SCROLL &darr;</h1>
 <table class="blue">
   <thead>
     <tr>
@@ -91,12 +101,12 @@ include_once 'includes/connection.php';
       <th>Price Change</th>
       <th>Percent Change </th>
 
-      <!-- <th>% Change</th> -->
+       <th>% Change</th> 
 
     </tr>
   </thead>
-  <tbody>
-  <?php 
+  <tbody> -->
+<!--  
     $watchlistData = getFromWatchlist($conn, $_SESSION['UserID']);
     // var_dump($watchlistData);
     for ($i=0; $i <count($watchlistData) ; $i++) {
@@ -113,9 +123,8 @@ include_once 'includes/connection.php';
         echo"<td>$ $price</td>";
         echo"<td>$ $change</td>";
         echo"<td>$perChange%</td>";
-      echo"</tr>";
+      echo"</tr>"; -->
 
-  <!-- <h1>&darr; SCROLL &darr;</h1> -->
 
   <div class=box2>
     <h2 style="color:whitesmoke;">My Watchlist <i class="icon-minus"></i></h2>
@@ -135,8 +144,8 @@ include_once 'includes/connection.php';
         for ($i = 0; $i < count($watchlistData); $i++) {
           $symbol = $watchlistData[$i]["symbol"];
           $name = $watchlistData[$i]["name"];
-          $price = $watchlistData[$i]["price"];
-          $change = $watchlistData[$i]["price_change"];
+          $price = $watchlistData[$i]["current_price"];
+          $change = $watchlistData[$i]["todays_gain"];
           $perChange = $watchlistData[$i]["percent_change"];
 
 

@@ -66,7 +66,7 @@
 
                 header("location: ../portfolioTable.php?error=notEnoughCash");
                 exit();
-                        
+
             }
         }else{
 
@@ -82,7 +82,8 @@
                     }else{
                         $newQty =  $portResult["qty"] - $qty;
                         $avg_price = (($portResult["avg_price"]*$portResult["qty"])-($qty  * $price["price"]))/$newQty;
-                        $newTotal_val = $newqty * $price["price"];
+                        $newTotal_val = $newQty * $price["price"];
+                        
                         $todays_change =  $price["price_change"];
                         $total_gain = ($price['price'] - $avg_price) *$newQty;
                         $percent = (($price['price'] - $avg_price )/$avg_price) * 100;
@@ -92,7 +93,7 @@
 
                     $amount = $total ;
                     addtoTransac($conn, $UID, $buySell, $price["symbol"], $qty, $amount);
-                    header('location: ../portfolioTable.php'); 
+                   header('location: ../portfolioTable.php'); 
                 }else{
                     header("location: ../portfolioTable.php?error=dontOwnEnoughstock");
                     exit();

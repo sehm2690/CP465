@@ -13,22 +13,22 @@ include_once 'includes/connection.php';
     }
   </style>
 
-  
-    th, td {
-      text-align: left;
-      padding: 8px;
-    }
+<link rel='stylesheet' href='css/portfolioTable.scss' />
+<link rel='stylesheet' href='css/portfolio.css' />
 
-    tr:nth-child(even){background-color: #f2f2f2}
+<br></br>
 
-    th {
-      background-color: #4CAF50;
-      color: white;
-    }
-    </style>
+<!-- <form method="post">
+  <input type="image" src="img/refreshbutton.png" id="gcpbtn" name="updatePostBtn" class="button" />
+</form> -->
+
+<form method = "post">
+  <input type="submit" id="yessir" name= "updatePostBtn" class = "button" value=""/>
+</form>
+
     <!-- <link rel="stylesheet" href="style.css"> -->
 
-
+<!-- 
 
 <form method="post" action="includes/portfolioTable.inc.php"> 
   <label for="watchlistTables">Select an option:</label>
@@ -40,7 +40,6 @@ include_once 'includes/connection.php';
 
   <input type="search" id="query" name="query" placeholder="Ticker Symbol...">
 
-  <!-- <input type="search" id="quantity" name="quantity" placeholder="Quantity... "> -->
   <input name="quantity" id=quantity placeholder="Quantity" type=number min=1 max=100000>
   
   
@@ -55,7 +54,6 @@ include_once 'includes/connection.php';
 
     
   </script>
-  <!-- <p id="test" name = "test"></p> -->
   <script src='js/confirmPurchase.js'></script>
   <input type="submit" name = "submit" value="Submit">
   
@@ -68,34 +66,12 @@ include_once 'includes/connection.php';
     <input type="image" src="img/refreshbutton.png" id="gcpbtn" name="updatePostBtn" class="button" />
   </form>
   
-</form>
+</form> -->
 <?php
   if(array_key_exists('updatePostBtn',$_POST)){
     updateDatabasePortfolio($conn, $_SESSION["UserID"], $_SESSION["cash"]);//<--------------------------------------------------------should be stress tested 
     //updatePortfolio1($conn, $_SESSION["UserID"], $_SESSION["cash"]);
   }
-
-  // if (isset($_GET["error"])) {
-  //   echo "THE ERROR ";
-  //   var_dump($_GET["error"]);
-  //   if($_GET["error"] == "tickerDNE"){
-  //     echo "<script> alert('This ticker does not exist!');</script>";
-  //   }
-  //   if($_GET["error"] == "notEnoughCash"){
-  //     echo "<script> alert('You don't have enough Cash!');</script>";
-  //   }
-  //   if($_GET["error"]=="dontOwnstock"){
-  //     echo "<script> alert('You do not own this stock!');</script>";
-  //   }
-  //   if($_GET["error"]== "dontOwnEnoughstock"){
-  //     echo "<script> alert('You do not own enough shares!');</script>";
-  //   }
-  //   else{
-  //     echo "<script> alert('Unknown error occured!');</script>";
-  //   }
-  // }
-
-  
 
   if (isset($_GET["error"])) {
 
@@ -133,9 +109,7 @@ include_once 'includes/connection.php';
     
   }
 ?>
-<form method = "post">
-  <input type="submit"  name= "updatePostBtn" class = "button" value = "Get Current Price"/>
-</form>
+
 
 
   <?php
@@ -161,11 +135,11 @@ include_once 'includes/connection.php';
   echo "</div>";
   ?>
 
-  <?php
-  if (array_key_exists('updatePostBtn', $_POST)) {
-    updateDatabasePortfolio($conn, $_SESSION["UserID"], $_SESSION["cash"]);
-  }
-  ?>
+<!--   
+  // if (array_key_exists('updatePostBtn', $_POST)) {
+  //   updateDatabasePortfolio($conn, $_SESSION["UserID"], $_SESSION["cash"]);
+  // }
+   -->
 
   <script>
     function updateVal(val) {

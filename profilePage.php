@@ -11,7 +11,7 @@ include_once 'includes/connection.php';
     <link rel="stylesheet" href="css/profilePage.css">
 
     <style type="text/css">
-/**      
+    
         body{
     background: -webkit-linear-gradient(left, #3931af, #00c6ff);
 }
@@ -100,23 +100,23 @@ include_once 'includes/connection.php';
 }
 .profile-work ul{
     list-style: none;
-} */ /*
+} */ 
 .profile-tab label{
     font-weight: 600;
 }
 .profile-tab p{
     font-weight: 600;
     color: #0062cc;
-} **/
+} 
       
 
-        body {
-            background-image: url('img/stock_back.jpg');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-        }
-    </style>
+body {
+    background-image: url('img/stock_back.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+</style>
 
 </head>
 

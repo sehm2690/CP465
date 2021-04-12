@@ -25,35 +25,83 @@ include_once 'includes/connection.php';
                 <p style="font-size: small; color:green;">+31.26(3.01%)</p>
             </div>
         </div>
-        <div class=card2>
+        <div class=card>
             <div class="container">
                 <h5><b>AAPL</b></h5>
                 <p>$127.4</p>
                 <p style="font-size: small; color:green;">+31.26(3.01%)</p>
             </div>
         </div>
-        <div class=card3>
+        <div class=card>
             <div class="container">
                 <h5><b>AAPL</b></h5>
                 <p>$127.4</p>
                 <p style="font-size: small; color:green;">+31.26(3.01%)</p>
             </div>
         </div>
-        <div class=card4>
+        <div class=card>
             <div class="container">
                 <h5><b>AAPL</b></h5>
                 <p>$127.4</p>
                 <p style="font-size: small; color:green;">+31.26(3.01%)</p>
             </div>
         </div>
-        <div class=card5>
+        <div class=card>
             <div class="container">
                 <h5><b>AAPL</b></h5>
                 <p>$127.4</p>
                 <p style="font-size: small; color:green;">+31.26(3.01%)</p>
             </div>
         </div>
-
+                <div class=card>
+            <div class="container">
+                <h5><b>AAPL</b></h5>
+                <p>$127.4</p>
+                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
+            </div>
+        </div>
+        <div class=card>
+            <div class="container">
+                <h5><b>AAPL</b></h5>
+                <p>$127.4</p>
+                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
+            </div>
+        </div>
+        <div class=card>
+            <div class="container">
+                <h5><b>AAPL</b></h5>
+                <p>$127.4</p>
+                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
+            </div>
+        </div>
+        <div class=card>
+            <div class="container">
+                <h5><b>AAPL</b></h5>
+                <p>$127.4</p>
+                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
+            </div>
+        </div>
+        <div class=card>
+            <div class="container">
+                <h5><b>AAPL</b></h5>
+                <p>$127.4</p>
+                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
+            </div>
+        </div>
+        <div class=card>
+            <div class="container">
+                <h5><b>AAPL</b></h5>
+                <p>$127.4</p>
+                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
+            </div>
+        </div>
+        <div class=card>
+            <div class="container">
+                <h5><b>AAPL</b></h5>
+                <p>$127.4</p>
+                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
+            </div>
+        </div>
     </div>
 
     <br></br>
