@@ -54,7 +54,6 @@
             <p>Re-enter Password:</p>
             <input type="password" name="pwdrepeat" placeholder="Re-enter New Password">
             <p></p>
-            <!--<button id="btn-login" onclick = "createacc()">Create Account</button><br><br> -->
             <p></p>
             <input type="submit" name="submit" value="Create Account">
 
@@ -72,7 +71,6 @@
             } else if ($_GET["error"] == "none") {
                 echo "<p> Successful Sign-up </p>";
                 header("location: ../CP465/login.php");
-                //header("Location: https://localhost/CP465/login.php");
 
             }
         }
@@ -84,46 +82,5 @@
 
     </div>
 
-
-    <!-- <script src="auth.js"></script>
-    <script src="index.js"></script> -->
-    <!--<script src="createacc.js"></script> -->
 </body>
 
-
-<!-- <script>
-    function sendRequest() {
-        var oForm = document.forms[0];
-        var sBody = getRequestBody(oForm);
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("post", oForm.action, true);
-        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhttp.onreadystatechange = function () {
-            if (xhttp.readyState == 4) {
-                if (xhttp.status == 200) {
-                    saveResult(xhttp.responseText);
-                } else {
-                    saveResult("An error occurred: " + xhttp.statusText);
-                }
-            }
-        };
-    xhttp.send(sBody);
-    }
-
-    function getRequestBody(oForm) {
-        var aParams = new Array();
-        for (var i = 0; i < oForm.elements.length; i++) {
-            var sParam = encodeURIComponent(oForm.elements[i].name);
-            sParam += "=";
-            sParam += encodeURIComponent(oForm.elements[i].value);
-            aParams.push(sParam);
-        }
-        return aParams.join("&");
-    }
-
-    function saveResult(sMessage) {
-        var divStatus = document.getElementById("divStatus");
-        divStatus.innerHTML = "Request completed: " + sMessage;
-    }
-
-</script> -->

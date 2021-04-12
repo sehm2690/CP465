@@ -12,13 +12,7 @@
         
         require_once "connection.php";
         require_once "api.inc.php";
-        
-        // try {
-        //     $price = calculateCurrentPrice($query, $qty);
-        // } catch (Exception $e) {
-        //     echo $e->getMessage();
-        // }
-        //$price = calculateCurrentPrice($query, $qty);
+
         $price = apiCallfn($query);
 
         if ($price == false){

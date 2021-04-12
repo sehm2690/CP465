@@ -14,44 +14,6 @@ session_start();
         vertical-align: middle
     }
 
-
-    /* Makes font cooler when ucommented */
-    /* .navbar {
-        text-transform: uppercase;
-        font-weight: 700;
-        font-size: .9rem;
-        letter-spacing: .1rem;
-        padding: .8rem;
-        background: rgba(255, 255, 255, 0.9) !important;
-    }
-
-    .navbar-brand img {
-        height: 3rem;
-    }
-
-    .navbar-brand {
-        font-size: medium;
-        font-family: 'Lato', sans-serif;
-    }
-
-    .navbar-nav li {
-        padding-right: .7rem;
-    }
-
-    .navbar-light .navbar-nav .nav-link {
-        color: black;
-        padding-top: .8rem;
-    }
-
-    .navbar-light .navbar-nav .nav-link.active,
-    .navbar-light .navbar-nav .nav-link:hover {
-        color: orange;
-        padding-top: .8rem;
-    }
-
-    .nav-link {
-        font-size: 1.1em !important;
-    } */
 </style>
 
 <head>
@@ -60,7 +22,6 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Stonks Trader</title>
 
-    <!-- Don't ask -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -68,13 +29,11 @@ session_start();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <script src="js/confirmPurchase.js"></script>
-    <!--  -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
         body {
-            /* background: -webkit-linear-gradient(left, #3931af, #00c6ff); */
             font-family: 'Lato', sans-serif;
         }
     </style>
@@ -100,9 +59,6 @@ session_start();
                             <li class="nav-item">
                                 <a class="nav-link" href="watchlist.php">Watchlist</a>
                             </li>
-                            <!-- <li class="nav-item">
-                                <a class="nav-link" href="#">News</a>
-                            </li> -->
                             <?php
                             if (isset($_SESSION["email"])) {
                                 $x = $_SESSION["email"];
@@ -131,18 +87,7 @@ session_start();
                             <input id="tickersearch" name="tickersearch" class="form-control mr-sm-2" type="search" placeholder="Search Ticker..." aria-label="Search">
                             <button class="btn btn-outline-success my-2 my-sm-0" name="ttickerSearch" type="submit">Search</button>
 
-                            <!-- "<script> 
-                        
-                            function getStockInfo() {
-                                var ticker = document.getElementByName("tickersearch")[0].value;
-                                console.log(ticker);
-
-                                var url = 'https://finance.yahoo.com/quote/' + ticker;
-
-                                window.open(url, '_blank');
-                                
-                            }
-                            </script> -->
+                           
                         </form>
 
                     </div>

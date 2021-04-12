@@ -2,12 +2,10 @@
 include_once 'header.php';
 include_once 'includes/api.inc.php';
 include_once 'includes/connection.php';
-//session_start();
 ?>
 
 <main>
   <link rel='stylesheet' href='css/watchlist.css' />
-  <!-- <link rel='stylesheet' href='css/style.css' /> -->
 
   <style>
     body {
@@ -22,13 +20,7 @@ include_once 'includes/connection.php';
 
   <form method="post" action="includes/watchlist.inc.php">
 
-    <!--  <label for="watchlistTables">Choose a Watchlist:</label>
-
-    <select name="watchlists" id="watchlists">
-      <option value="0">First Watchlist</option>
-      <option value="1">Second Watchlist</option>
-    </select>
-    -->
+   
 
 
     <div class=box4>
@@ -42,11 +34,7 @@ include_once 'includes/connection.php';
   </form>
 
 
-<!-- 
-<form method = "post">
-<input type="image" src="img/refreshbutton.png" id="gcpbtn" name="updatePostBtn" class="button" />
 
-</form> -->
 <form method = "post">
   <input type="submit" id="gcpbtn" name= "updatePostBtn" class = "button" value=""/>
 </form>
@@ -80,50 +68,6 @@ include_once 'includes/connection.php';
 
 ?>
 
-
-  <!-- <form method="post">
-    <input type="submit" name="updateBtn" class="button" value="Get Current Price" />
-  </form> -->
-<!-- 
-<form method = "post">
-  <input type="submit"  name= "updateBtn" class = "button" value = "Get Current Price"/>
-</form>
- -->
-
-<!-- <h1>&darr; SCROLL &darr;</h1>
-<table class="blue">
-  <thead>
-    <tr>
-      
-      <th>Stock Ticker</th>
-      <th>Stock Name</th>
-      <th>Current Price</th>
-      <th>Price Change</th>
-      <th>Percent Change </th>
-
-       <th>% Change</th> 
-
-    </tr>
-  </thead>
-  <tbody> -->
-<!--  
-    $watchlistData = getFromWatchlist($conn, $_SESSION['UserID']);
-    // var_dump($watchlistData);
-    for ($i=0; $i <count($watchlistData) ; $i++) {
-      $symbol = $watchlistData[$i]["symbol"];
-      $name = $watchlistData[$i]["name"];
-      $price = $watchlistData[$i]["current_price"];
-      $change = $watchlistData[$i]["todays_gain"];
-      $perChange = $watchlistData[$i]["percent_change"];
-
-      
-      echo"<tr>";
-        echo"<td>$symbol</td>";
-        echo"<td>$name</td>";
-        echo"<td>$ $price</td>";
-        echo"<td>$ $change</td>";
-        echo"<td>$perChange%</td>";
-      echo"</tr>"; -->
 
 
   <div class=box2>
@@ -167,15 +111,6 @@ include_once 'includes/connection.php';
 
   <br></br>
   <br></br>
-
-
-
-  <!-- <h1 class="scrollMore">&darr; SCROLL MORE &darr;</h1> -->
-
-
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://dannocket.com/sandbox/IvtpK.js"></script> -->
-  <!-- <script src="js/watchlist.js"></script> -->
 
 </main>
 

@@ -32,18 +32,6 @@
         return $result;
 
     }
-    
-    // function invalidUid($conn, $email){
-    //     $result;
-    //     if ($ !== $passwordRepeat){
-    //         $result = true;
-    //     } else {
-    //         $result = false;
-    //     }
-    //     return $result;
-
-    // }
-
 
     function emailExists($conn, $email){
         $sql = "SELECT * FROM users WHERE email = ?;";
@@ -68,12 +56,7 @@
         }
         mysqli_stmt_close($stmt);
     }
-    //Returns the result row
-    // while ($row = mysqli_fetch_assoc($result)) {
-    //     printf("%s (%s)\n", $row["Name"], $row["CountryCode"]);
-    // }
     
-
     //creating the user
     function createUser($conn,$Firstname,$Lastname,$email,$password1){
         $sql = "INSERT INTO users (firstname,lastname,email,password) VALUES (?,?,?,?);";

@@ -37,97 +37,12 @@ include_once 'includes/connection.php';
     }
     
     ?>
-        <!-- <div class=card>
-            <div class="container">
-                <h5><b>AAPL</b></h5>
-                <p>$127.4</p>
-                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
-            </div>
-        </div>
-        <div class=card>
-            <div class="container">
-                <h5><b>AAPL</b></h5>
-                <p>$127.4</p>
-                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
-            </div>
-        </div>
-        <div class=card>
-            <div class="container">
-                <h5><b>AAPL</b></h5>
-                <p>$127.4</p>
-                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
-            </div>
-        </div>
-        <div class=card>
-            <div class="container">
-                <h5><b>AAPL</b></h5>
-                <p>$127.4</p>
-                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
-            </div>
-        </div>
-        <div class=card>
-            <div class="container">
-                <h5><b>AAPL</b></h5>
-                <p>$127.4</p>
-                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
-            </div>
-        </div>
-                <div class=card>
-            <div class="container">
-                <h5><b>AAPL</b></h5>
-                <p>$127.4</p>
-                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
-            </div>
-        </div>
-        <div class=card>
-            <div class="container">
-                <h5><b>AAPL</b></h5>
-                <p>$127.4</p>
-                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
-            </div>
-        </div>
-        <div class=card>
-            <div class="container">
-                <h5><b>AAPL</b></h5>
-                <p>$127.4</p>
-                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
-            </div>
-        </div>
-        <div class=card>
-            <div class="container">
-                <h5><b>AAPL</b></h5>
-                <p>$127.4</p>
-                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
-            </div>
-        </div>
-        <div class=card>
-            <div class="container">
-                <h5><b>AAPL</b></h5>
-                <p>$127.4</p>
-                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
-            </div>
-        </div>
-        <div class=card>
-            <div class="container">
-                <h5><b>AAPL</b></h5>
-                <p>$127.4</p>
-                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
-            </div>
-        </div>
-        <div class=card>
-            <div class="container">
-                <h5><b>AAPL</b></h5>
-                <p>$127.4</p>
-                <p style="font-size: small; color:green;">+31.26(3.01%)</p>
-            </div>
-        </div> -->
+    
     </div>
 
     <br></br>
 
-    <!-- <?php
-            include_once 'pieChartHoldings.php';
-            ?> -->
+   
 
     <div class="container text-center">
         <div class="tpage">
@@ -146,5 +61,4 @@ include_once 'includes/connection.php';
 
 <?php
 include_once 'footer.php';
-include_once 'pieChartHoldings.php';
 ?>

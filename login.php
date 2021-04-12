@@ -64,9 +64,7 @@
 
     </div>
 
-    <!-- <script src="auth.js"></script>
-    <script src="index.js"></script> -->
-    <!--<script src="createacc.js"></script> -->
+
 
 </body>
 

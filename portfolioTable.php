@@ -18,59 +18,13 @@ include_once 'includes/connection.php';
 
 <br></br>
 
-<!-- <form method="post">
-  <input type="image" src="img/refreshbutton.png" id="gcpbtn" name="updatePostBtn" class="button" />
-</form> -->
-
 <form method = "post">
   <input type="submit" id="yessir" name= "updatePostBtn" class = "button" value=""/>
 </form>
 
-    <!-- <link rel="stylesheet" href="style.css"> -->
-
-<!-- 
-
-<form method="post" action="includes/portfolioTable.inc.php"> 
-  <label for="watchlistTables">Select an option:</label>
-
-  <select name="buySell" id="buySell">
-        <option value="-1">Buy</option> 
-        <option value="1">Sell</option>
-  </select>
-
-  <input type="search" id="query" name="query" placeholder="Ticker Symbol...">
-
-  <input name="quantity" id=quantity placeholder="Quantity" type=number min=1 max=100000>
-  
-  
- 
-  <script>
-    function increment() {
-      document.getElementById('quantity').stepUp();
-    }
-    function decrement() {
-      document.getElementById('quantity').stepDown();
-    }
-
-    
-  </script>
-  <script src='js/confirmPurchase.js'></script>
-  <input type="submit" name = "submit" value="Submit">
-  
-  <link rel='stylesheet' href='css/portfolioTable.scss' />
-  <link rel='stylesheet' href='css/portfolio.css' />
-
-  <br></br>
-
-  <form method="post">
-    <input type="image" src="img/refreshbutton.png" id="gcpbtn" name="updatePostBtn" class="button" />
-  </form>
-  
-</form> -->
 <?php
   if(array_key_exists('updatePostBtn',$_POST)){
     updateDatabasePortfolio($conn, $_SESSION["UserID"], $_SESSION["cash"]);//<--------------------------------------------------------should be stress tested 
-    //updatePortfolio1($conn, $_SESSION["UserID"], $_SESSION["cash"]);
   }
 
   if (isset($_GET["error"])) {
@@ -78,31 +32,25 @@ include_once 'includes/connection.php';
     $error = $_GET["error"];
     if(strcmp($error , "tickerDNE") == 0 ){
       echo "<script> alert('This ticker does not exist!');</script>";
-      // header('location: ../portfolioTable.php'); 
 
      }
     else if(strcmp($error,"notEnoughCash") == 0){
       echo "<script> alert('You do not have enough cash!');</script>";
-      // header('location: ../portfolioTable.php'); 
 
     }
     else if(strcmp($error ,"dontOwnstock") == 0 ){
       echo "<script> alert('You do not own this stock!');</script>";
-      // header('location: ../portfolioTable.php'); 
 
     }
     else if(strcmp($error , "dontOwnEnoughstock") == 0 ){
       echo "<script> alert('You do not own enough shares!');</script>";
-      // header('location: ../portfolioTable.php'); 
 
     }
     else if(strcmp($error , "nothingToUpdate") == 0 ){
       echo "<script> alert('There is nothing to update!');</script>";
-      // header('location: ../portfolioTable.php'); 
 
     }else{
       echo "<script> alert('Unknown error occured!');</script>";
-      // header('location: ../portfolioTable.php'); 
 
     }
     
@@ -135,12 +83,6 @@ include_once 'includes/connection.php';
   echo "</div>";
   ?>
 
-<!--   
-  // if (array_key_exists('updatePostBtn', $_POST)) {
-  //   updateDatabasePortfolio($conn, $_SESSION["UserID"], $_SESSION["cash"]);
-  // }
-   -->
-
   <script>
     function updateVal(val) {
       var s = document.getElementByID("value2");
@@ -170,7 +112,6 @@ include_once 'includes/connection.php';
 
 
         $PortfolioData = getFromPortfolioTable($conn, $_SESSION['UserID']);
-        // var_dump($watchlistData);
         $summary_total_value = 0.0;
         $summary_todays_gain = 0.0;
         $summary_total_gain = 0.0;
@@ -203,23 +144,13 @@ include_once 'includes/connection.php';
           echo "<td class='percent'>$percent %</td>";
           echo "</tr>";
         }
-        // //getElementsByTagName("h4").innerHTML;
         $value = getFromUsers($conn, $_SESSION["UserID"])["cur_value"];
 
         if ($summary_total_value != 0) {
-          // $summary_percent_cacl = ((($summary_total_value + $_SESSION["cash"]) - 100000)/100000) * 100;
           $summary_percent_cacl = (($value - 100000) / 100000) * 100;
 
           $summary_percent = round($summary_percent_cacl, 2);
         }
-        // $value = $summary_total_value + $_SESSION["cash"];
-
-        // //var_dump($value);
-
-        // echo"<h5>Current Value: $$value </h5>";
-
-        // updateCurrentValue($conn, $_SESSION['UserID'], $value);
-
 
         echo '<script type="text/javascript"> updateVal($value); </script>';
 
@@ -265,19 +196,8 @@ include_once 'includes/connection.php';
         }
       </script>
       <script src='js/confirmPurchase.js'></script>
-      <!-- <input type="image" src="img/greencheck.png" id="orderBtn" name="submit" placeholder="Place Order"> -->
       <input type="submit" id="orderBtn" name="submit" Value="">
     </form>
-
-    <!-- <script>
-      if (document.getElementByName("buy").value == "-1") {
-        console.log("Yeet1");
-        document.getElementByName("sell").src = "img/greencheck.png"
-      } else if (document.getElementById("buySell").value == "1") {
-        console.log("Yeet2");
-        document.getElementById("orderBtn").src = "img/redx.png"
-      }
-    </script> -->
 
   </div>
 

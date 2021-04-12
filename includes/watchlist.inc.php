@@ -12,7 +12,6 @@
     $UID = $_SESSION["UserID"];
     if (isset($_POST["submit1"])){
         if (isSymbolInUser($conn, $tableName, $UID, $query )== true){
-            //echo "<script type='text/javascript'>alert('Already in watchlist');</script>";
             header("location: ../watchlist.php?error=AlreadyInWatchlist");
             exit();
         }
@@ -55,9 +54,6 @@
 
     header('location: ../watchlist.php');
 
-    //header('Location: ../index.php');
     exit();
-
-
     
 ?>
